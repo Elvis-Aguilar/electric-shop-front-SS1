@@ -1,6 +1,6 @@
 <header class="flex items-center h-20 border-b gap-4 px-4 lg:px-6 shadow-md fixed top-0 left-0 w-full bg-white z-10">
   <nav class="hidden lg:flex items-center gap-4 shrink-0 text-sm font-medium">
-    <a class="font-semibold text-2xl text-[#03045E]" href="#">
+    <a class="font-semibold text-2xl text-[#03045E]" [routerLink]="['']">
       ECOVOLUN-APP
     </a>
   </nav>
@@ -12,7 +12,7 @@
     </div>
   </form>
   <button type="button" class="btn btn-info">Iniciar Sesion</button>
-  <button type="button" class="regis btn btn-info">Registrarse</button>
+  <button type="button" class="regis btn btn-info" (click)="goResigster()">Registrarse</button>
   <a href="">
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle"
       viewBox="0 0 16 16">

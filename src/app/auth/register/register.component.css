@@ -1,0 +1,18 @@
+/*.border {
+    background: radial-gradient(178.94% 106.41% at 26.42% 106.41%, #00B4D8 0%, rgb(202, 240, 248) 71.88%)
+        , #FFFFFF;
+    border-radius: 23px;
+}
+*/
+
+.btn {
+    color: black;
+}
+
+label {
+    color: #03045E;
+}
+
+input {
+    color: black;
+}
