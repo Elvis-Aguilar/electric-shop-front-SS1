@@ -10,8 +10,13 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class NavBarComponent {
   constructor(private router: Router) { }
+
   goResigster() {
     this.router.navigate(['auth/register']);
+  }
+
+  goLogin(){
+    this.router.navigate(['auth/login']);
   }
 
 }

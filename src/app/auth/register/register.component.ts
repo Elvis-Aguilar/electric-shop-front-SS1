@@ -36,7 +36,7 @@ export class RegisterComponent {
   }
 
   register() {
-    this.registerForm.value.foto = this.formData
+    //this.registerForm.value.foto = this.formData
     this.registerForm.value.password = CryptoJS.SHA256(this.registerForm.value.password).toString();
     console.log(this.registerForm.value);
 
