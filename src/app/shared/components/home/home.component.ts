@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,4 +10,11 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  private readonly router = inject(Router);
+
+  constructor(){}
+
+  goProductos(){
+    this.router.navigate(['area-productos/home'])
+  }
 }

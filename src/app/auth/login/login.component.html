@@ -5,9 +5,7 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                                alt="login image" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" /> -->
-                            <img src="./../../../assets/logo.png" alt="login image" class="img-fluid"
+                            <img src="./../../../assets/image_login.webp" alt="login image" class="img-fluid"
                                 style="border-radius: 1rem 0 0 1rem;" />
                         </div>
 
@@ -23,18 +21,20 @@
                                     </h5>
                                     <div class="form-outline mb-4">
                                         <input type="email" id="form2Example17" class="form-control form-control-lg"
-                                            type="text" class="form-control" placeholder="username" formControlName="username"/>
+                                            type="text" class="form-control" placeholder="username"
+                                            formControlName="username" />
                                         <label class="form-label" for="form2Example17">ingrese con su Username</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <input type="password" id="form2Example27" class="form-control form-control-lg"
-                                            type="password" class="form-control" formControlName="password"/>
+                                            type="password" class="form-control" formControlName="password" />
                                         <label class="form-label" for="form2Example27">Contaseña</label>
                                     </div>
 
                                     <div class="pt-1 mb-4 d-flex justify-content-center align-items-center">
-                                        <button class="btn btn-info" type="submit"  [disabled]="loginForm.invalid">Login</button>
+                                        <button class="btn btn-info" type="submit"
+                                            [disabled]="loginForm.invalid">Login</button>
                                     </div>
                                     <br>
                                     <button class="btn btn-link" (click)="goResigster()">

@@ -12,21 +12,21 @@
             <div class="col-md-6">
                 <label for="inputAddress" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="inputAddress" 
-                    placeholder="Nombre Completo" formControlName="nombre">
+                    placeholder="Nombre Completo" formControlName="nombre_completo">
             </div>
             <div class="col-md-6">
                 <label for="inputAddress" class="form-label">Username</label>
                 <input type="text" class="form-control" id="inputAddress" 
-                    placeholder="Nombre de Usuario" formControlName="username">
+                    placeholder="Nombre de Usuario" formControlName="nombre_usuario">
             </div>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" formControlName="password">
+                <input type="password" class="form-control" id="inputPassword4" formControlName="contrasenia">
             </div>
             <div class="col-md-6">
                 <label for="inputAddress" class="form-label">Foto de Perfil</label>
                 <input type="file" accept="image/*" class="form-control" id="inputAddress"
-                    placeholder="Nombre de Usuario" formControlName="foto" (change)="onFileSelected($event)">
+                    placeholder="Nombre de Usuario" formControlName="url_foto" (change)="onFileSelected($event)">
             </div>
             <br>
             <span class="text-center text-xl">Informacion de Contacto</span>

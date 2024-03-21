@@ -1,0 +1,140 @@
+import { Component, Inject, inject } from '@angular/core';
+import { ProductoService } from '../../core/services/producto.service';
+import { Categoria } from '../../core/models/categoria';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../core/services/auth.service';
+
+@Component({
+  selector: 'app-form-public-producto',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  templateUrl: './form-public-producto.component.html',
+  styleUrl: './form-public-producto.component.css'
+})
+export class FormPublicProductoComponent {
+
+
+  categorias: Categoria[] = []
+  registerForm!: FormGroup;
+  file!: File
+  formData!: FormData
+
+  private readonly productoService = inject(ProductoService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+
+  constructor(private formBuilder: FormBuilder) {
+    this.getCategorias();
+    this.initRegisterFrom()
+  }
+
+  initRegisterFrom() {
+    this.registerForm = this.formBuilder.group({
+      nombre: [null, Validators.required],
+      descripcion: [null, Validators.required],
+      especificaciones: [null, Validators.required],
+      cantidad_exit: [null, Validators.required],
+      url_foto: [null, Validators.required],
+      permite_trueque: 0,
+      usuario_vendedor: '',
+      fecha_reg_actuli: false,
+      moneda_local: 0,
+      moneda_sistema: 0,
+      categoria: 'Todos'
+    })
+  }
+
+  register() {
+    if (this.validarInfo()) {
+      this.productoService.saveImgProducto(this.formData).subscribe(
+        (result) => {
+          this.registerForm.value.url_foto = result.url_foto
+          this.registrarInfoProducto();
+        },
+        (error) => {
+          this.msgError()
+        }
+      )
+    }
+  }
+
+  registrarInfoProducto() {
+    this.productoService.saveProducto(this.registerForm.value).subscribe(
+      (result) => {
+        console.log(result)
+        this.msgSucces();
+      },
+      (error) => {
+        this.msgError()
+      }
+    );
+  }
+
+  validarInfo(): boolean {
+    if (this.registerForm.value.cantidad_exit <= 0) {
+      Swal.fire(
+        'Datos Incorrectos!',
+        'La cantidad existente debe ser mayor a 0',
+        'info'
+      );
+      return false
+    }
+    if (this.registerForm.value.moneda_local <= 0 || this.registerForm.value.moneda_sistema <= 0) {
+      Swal.fire(
+        'Datos Incorrectos!',
+        'El precio debe ser mayor a 0',
+        'info'
+      );
+      return false
+    }
+    if (this.registerForm.value.categoria === 'Todos') {
+      this.registerForm.value.categoria = this.categorias.find(cate => cate.alias === this.registerForm.value.categoria)?.categoria_id
+    } else {
+      const id: number = parseInt(this.registerForm.value.categoria);
+      this.registerForm.value.categoria = this.categorias.find(cate => cate.categoria_id === id)?.categoria_id
+    }
+    this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.usuario_id
+    if (this.registerForm.value.permite_trueque) {
+      this.registerForm.value.permite_trueque = 1
+      return true;
+    }
+    this.registerForm.value.permite_trueque = 0
+    return true
+  }
+
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
+      this.file = inputElement.files[0];
+      this.formData = new FormData();
+      this.formData.append('imagen', this.file, this.file.name);
+    }
+  }
+
+  getCategorias() {
+    this.productoService.getCategories().subscribe(
+      (result) => {
+        this.categorias = result
+      }
+    );
+  }
+
+  msgError() {
+    Swal.fire(
+      'Ups!!',
+      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'error'
+    );
+  }
+
+  msgSucces() {
+    Swal.fire(
+      'Registro Exitoso',
+      'Su registro al sistema ha sido exitoso, Debe esperar que el Administrador autorize su Publicacion',
+      'success'
+    );
+  }
+}

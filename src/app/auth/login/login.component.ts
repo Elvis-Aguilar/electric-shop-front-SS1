@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
+import { AuthService } from '../../core/services/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,6 +16,8 @@ import * as CryptoJS from 'crypto-js';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+
+  private readonly authService = inject(AuthService);
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.initLoginFrom()
@@ -31,9 +35,61 @@ export class LoginComponent {
     this.router.navigate(['auth/register']);
   }
 
-  logger(){
+  logger() {
     //@dminP4ss/*-
     this.loginForm.value.password = CryptoJS.SHA256(this.loginForm.value.password).toString();
-    console.log(this.loginForm.value)
+    this.authService.UserLogin(this.loginForm.value).subscribe(
+      (result) => {
+        console.log(result);
+        if (result.nombre_usuario) {
+          this.authService.saveSesionNavigate(result)
+          this.msgValid();
+          this.navegarRol();
+        } else {
+          this.msgInvalid();
+        }
+        this.initLoginFrom()
+      },
+      (errr) => {
+        this.msgError()
+      }
+    )
   }
+
+  navegarRol() {
+    //this.location.back();
+    const usuario = this.authService.getUsuarioSesion()
+    if (usuario?.rol === 1) {
+      this.router.navigate(['area-admin/home-admin'])
+    } else {
+      this.router.navigate([''])
+
+    }
+  }
+
+  msgValid() {
+    Swal.fire(
+      'Inicio de Sesion Exitoso',
+      'Bien los datos ingresados son correcto :)',
+      'success'
+    );
+  }
+
+  msgInvalid() {
+    Swal.fire(
+      'Credenciales invalidas',
+      'Los datos ingresados son invalidos :(',
+      'info'
+    );
+  }
+
+  msgError() {
+    Swal.fire(
+      'Ups!!',
+      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'error'
+    );
+  }
+
+
 }

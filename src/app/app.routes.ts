@@ -10,7 +10,19 @@ export const routes: Routes = [
     {
         path: 'auth',
         loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
+    },
+    {
+        path: 'area-admin',
+        loadChildren: () => import('./admin/admin.routes').then(m => m.AUTH_ROUTES)
         //canActivate: [loggedGuard]
+    },
+    {
+        path: 'area-productos',
+        loadChildren: () => import('./general/area-producto/producto.routes').then(m => m.AUTH_ROUTES)
+    },
+    {
+        path: 'personal',
+        loadChildren: () => import('./user-comun/user-comun.routes').then(m => m.AUTH_ROUTES)
     },
     {
         path: '**',
