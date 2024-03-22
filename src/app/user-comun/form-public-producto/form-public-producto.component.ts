@@ -41,6 +41,7 @@ export class FormPublicProductoComponent {
       permite_trueque: 0,
       usuario_vendedor: '',
       fecha_reg_actuli: false,
+      permite_contactar:0,
       moneda_local: 0,
       moneda_sistema: 0,
       categoria: 'Todos'
@@ -64,8 +65,9 @@ export class FormPublicProductoComponent {
   registrarInfoProducto() {
     this.productoService.saveProducto(this.registerForm.value).subscribe(
       (result) => {
-        console.log(result)
+        //console.log(result)
         this.msgSucces();
+        this.router.navigate(['personal/productos-registrados'])
       },
       (error) => {
         this.msgError()
@@ -99,10 +101,15 @@ export class FormPublicProductoComponent {
     this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.usuario_id
     if (this.registerForm.value.permite_trueque) {
       this.registerForm.value.permite_trueque = 1
+    }else{
+      this.registerForm.value.permite_trueque = 0
+    }
+    if (this.registerForm.value.permite_contactar) {
+      this.registerForm.value.permite_contactar = 1
       return true;
     }
-    this.registerForm.value.permite_trueque = 0
-    return true
+    this.registerForm.value.permite_contactar = 0;
+    return true;
   }
 
   onFileSelected(event: Event) {

@@ -8,6 +8,7 @@ export interface Producto {
     cantidad_exit:number;
     url_foto:string;
     permite_trueque:number;
+    permite_contactar:number;
     moneda_local:number;
     moneda_sistema:number;
 }

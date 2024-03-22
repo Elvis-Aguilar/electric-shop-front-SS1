@@ -1,3 +1,9 @@
 .flex {
     background-color: #ffffff;
 }
+
+.ml-60 {
+    margin-left: 14rem
+        /* 240px */
+    ;
+}

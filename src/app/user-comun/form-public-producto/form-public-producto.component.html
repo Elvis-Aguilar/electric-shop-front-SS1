@@ -45,11 +45,11 @@
                 <label for="inputAddress" class="form-label">Selecciona una categoria</label>
                 <select class="form-select" aria-label="Default select example" formControlName="categoria">
                     @for (categoria of categorias; track $index) {
-                        @if (categoria.categoria_id===11) {
-                        <option selected>{{categoria.alias}}</option>
-                        }@else {
-                        <option value={{categoria.categoria_id}}>{{categoria.alias}}</option>
-                        }
+                    @if (categoria.categoria_id===11) {
+                    <option selected>{{categoria.alias}}</option>
+                    }@else {
+                    <option value={{categoria.categoria_id}}>{{categoria.alias}}</option>
+                    }
                     }
                 </select>
             </div>
@@ -69,6 +69,13 @@
                         formControlName="permite_trueque">
                     <label class="form-check-label" for="flexSwitchCheckDefault">
                         Por Intercambio
+                    </label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        formControlName="permite_contactar">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">
+                        Mostrar informacion de contacto
                     </label>
                 </div>
             </div>

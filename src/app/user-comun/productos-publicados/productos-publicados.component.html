@@ -1,1 +1,18 @@
-<p>productos-publicados works!</p>
+<section style="background-color: #ffffff">
+    <div class="container-fluid py-1">
+        <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+            Productos Registrados
+        </h3>
+        <div class="row  py-4 g-3">
+            @for (producto of productos; track $index) {
+            <div class="col-md-4">
+                <app-card-product-public [producto]="producto"></app-card-product-public>
+            </div>
+            }@empty {
+            <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+                Aun no hay productos publicados
+            </h3>
+            }
+        </div>
+    </div>
+</section>
