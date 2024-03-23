@@ -5,13 +5,16 @@
             Filtrar por categoria
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            @for (categoria of categorias; track $index) {
+            @if (categoria.alias === 'Todos') {
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
+            <li><a class="dropdown-item" (click)="filtrar(categoria)">{{categoria.alias}}</a></li>
+            }@else {
+            <li><a class="dropdown-item" (click)="filtrar(categoria)">{{categoria.alias}}</a></li>
+            }
+            }
         </ul>
     </div>
     <div class="btn-group">
@@ -20,17 +23,66 @@
             Filtrar por Forma de pago
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Moneda del Sistema</a></li>
+            <li><a class="dropdown-item" href="#">Moneda Local (Q)</a></li>
+            <li><a class="dropdown-item" href="#">Trueque</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Separated link</a></li>
+            <li><a class="dropdown-item" href="#">Todos</a></li>
         </ul>
     </div>
-    <button class="px-4 py-2 border text-black rounded-lg mr-2"  (click)="goFormPublicar()">
-        Publicar
+    <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goFormPublicar()">
+        Publicar Producto
     </button>
+    <div class="btn-group">
+        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Busquedas
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Publicar una busqueda</a></li>
+            <li><a class="dropdown-item" href="#">Ver las Busuedas</a></li>
+        </ul>
+    </div>
 </div>
 <!-- apartado para los cards del producto-->
+<h4 class="card-title text-[#03045E] text-lg font-semibold py-2 px-4">{{filter}}</h4>
+<p class="card-text text-sm px-4">{{descripcion}}</p>
+<section style="background-color: #ffffff">
+    <div class="container-fluid py-1">
+        <div class="row  py-4 g-3">
+            @for (producto of productos; track $index) {
+            <div class="col-md-4">
+                <app-card-producto [producto]="producto"></app-card-producto>
+            </div>
+            }@empty {
+            <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+                Aun no hay productos publicados
+            </h3>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="flex justify-center">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary text-[#03045E]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-skip-backward-fill" viewBox="0 0 16 16">
+                <path
+                    d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5" />
+            </svg>
+        </button>
+        <button type="button" class="btn btn-primary text-[#03045E]">0</button>
+        <button type="button" class="btn btn-primary text-[#03045E]">1</button>
+        <button type="button" class="btn btn-primary text-[#03045E]">2</button>
+        <button type="button" class="btn btn-primary text-[#03045E]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+                <path
+                    d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
+            </svg>
+        </button>
+    </div>
+</div>
