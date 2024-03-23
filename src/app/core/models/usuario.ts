@@ -1,4 +1,5 @@
 export interface Usuario {
+    id:number;
     usuario_id:number;
     nombre_completo:string,
     contrasenia:string,

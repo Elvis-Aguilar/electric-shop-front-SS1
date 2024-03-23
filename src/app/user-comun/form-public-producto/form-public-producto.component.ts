@@ -41,7 +41,7 @@ export class FormPublicProductoComponent {
       permite_trueque: 0,
       usuario_vendedor: '',
       fecha_reg_actuli: false,
-      permite_contactar:0,
+      permite_contactar: 0,
       moneda_local: 0,
       moneda_sistema: 0,
       categoria: 'Todos'
@@ -57,6 +57,7 @@ export class FormPublicProductoComponent {
         },
         (error) => {
           this.msgError()
+          console.log(error)
         }
       )
     }
@@ -95,13 +96,16 @@ export class FormPublicProductoComponent {
     if (this.registerForm.value.categoria === 'Todos') {
       this.registerForm.value.categoria = this.categorias.find(cate => cate.alias === this.registerForm.value.categoria)?.categoria_id
     } else {
-      const id: number = parseInt(this.registerForm.value.categoria);
-      this.registerForm.value.categoria = this.categorias.find(cate => cate.categoria_id === id)?.categoria_id
+      this.registerForm.value.categoria = parseInt(this.registerForm.value.categoria)
     }
-    this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.usuario_id
+    if (this.authService.getUsuarioSesion()?.id) {
+      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.id
+    } else {
+      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.usuario_id
+    }
     if (this.registerForm.value.permite_trueque) {
       this.registerForm.value.permite_trueque = 1
-    }else{
+    } else {
       this.registerForm.value.permite_trueque = 0
     }
     if (this.registerForm.value.permite_contactar) {

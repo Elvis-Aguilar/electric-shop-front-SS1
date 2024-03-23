@@ -31,7 +31,7 @@ export class ProductoComponent {
   }
 
   ngOnInit(): void {
-    const param = this.productoId.charAt(0)
+    const param = this.productoId.split('-')[0]
     const id = parseInt(param, 10)
     this.productoService.getProdcutoId(id).subscribe(
       (result) => {
