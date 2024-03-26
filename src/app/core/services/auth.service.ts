@@ -36,6 +36,10 @@ export class AuthService {
     localStorage.setItem('sesion_actual', JSON.stringify(us))
   }
 
+  public getImage(filename: string): Observable<Blob> {
+    return this._http.get(this.API_URL + 'user-img/' + filename, { responseType: 'blob' });
+  }
+
   public getUsuarioSesion(): Usuario | undefined {
     if (!this.usuarioSesion) {
       this.usuarioSesion = JSON.parse(localStorage.getItem('sesion_actual')!) || undefined;

@@ -3,6 +3,7 @@ import { FormPublicProductoComponent } from "./form-public-producto/form-public-
 import { HomePerfilComponent } from "./home-perfil/home-perfil.component";
 import { ProductosPublicadosComponent } from "./productos-publicados/productos-publicados.component";
 import { FormPublicEventoComponent } from "./form-public-evento/form-public-evento.component";
+import { PerfilComponent } from "./perfil/perfil.component";
 
 
 
@@ -11,7 +12,9 @@ export const AUTH_ROUTES: Routes = [
     { path: 'home', component: HomePerfilComponent },
     { path: 'formulario-producto', component: FormPublicProductoComponent },
     { path: 'productos-registrados', component: ProductosPublicadosComponent },
-    { path: 'formularioc-evento', component: FormPublicEventoComponent }
+    { path: 'formulario-evento', component: FormPublicEventoComponent },
+    { path: 'perfil', component: PerfilComponent }
+
 
 
 ];

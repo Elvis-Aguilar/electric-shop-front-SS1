@@ -10,6 +10,7 @@ img {
 
 .img-product {
     min-height: 320px;
+    max-height: 400px;
 }
 
 .div-contact {

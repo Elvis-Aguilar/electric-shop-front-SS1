@@ -1,0 +1,41 @@
+.ima {
+    min-height: 200px;
+    max-height: 300px;
+}
+
+.btn-info {
+    background-color: #0077B6;
+}
+
+.btn-primary {
+    background-color: #00B4D8;
+}
+
+
+
+.productos {
+
+    .bt1:hover {
+        background-color: #03045E;
+        color: white;
+    }
+
+    .bt2:hover {
+        background-color: #0077B6;
+        color: white;
+    }
+
+    .bt3:hover {
+        background-color: #00B4D8;
+        color: white;
+    }
+
+    h3 {
+        color: #03045E;
+    }
+
+}
+
+a:hover {
+    cursor: pointer;
+}

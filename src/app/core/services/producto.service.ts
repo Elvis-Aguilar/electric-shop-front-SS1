@@ -26,7 +26,7 @@ export class ProductoService {
     return this._http.post<Producto>(this.API_URL + 'producto-save-image', formData);
   }
 
-  public getProductos():Observable<Producto[]> {
+  public getProductos(): Observable<Producto[]> {
     return this._http.get<Producto[]>(this.API_URL + 'get-productos');
   }
 
@@ -38,8 +38,12 @@ export class ProductoService {
     return this._http.get(this.API_URL + 'productos-img/' + filename, { responseType: 'blob' });
   }
 
-  public getProdcutoId(id:number):Observable<Producto>{
+  public getProdcutoId(id: number): Observable<Producto> {
     return this._http.get<Producto>(`${this.API_URL}get-procuto/${id}`);
+  }
+
+  public registrarCategoria() {
+
   }
 
 }

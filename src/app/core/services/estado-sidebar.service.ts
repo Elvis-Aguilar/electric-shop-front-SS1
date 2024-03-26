@@ -12,7 +12,7 @@ export class EstadoSidebarService {
 
   public cambiarEstado(estado: boolean) {
     this.ocultar = estado
-    this.clasComponen = this.ocultar ? 'flex-grow p-3 mt-20' : 'flex-grow ml-60 p-3 mt-20'
+    this.clasComponen = this.ocultar ? 'flex-grow mx-36 p-3 mt-20' : 'flex-grow ml-60 p-3 mt-20'
   }
 
 

@@ -27,7 +27,7 @@ export class CardProductPublicComponent {
           this.createImageFromBlob(result)
         },
         (error) => {
-          console.error(error)
+          this.imagen = ''
         }
       )
     } else {
