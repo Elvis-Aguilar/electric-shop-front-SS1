@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './shared/components/home/home.component';
 import { PageErrorComponent } from './shared/components/page-error/page-error.component';
-import { authGuard } from './core/guard/auth.guard';
+import { regLogGuard, userComunGuard } from './core/guard/auth.guard';
 
 export const routes: Routes = [
     {
@@ -10,21 +10,25 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
+        loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES),
+        canActivate: [regLogGuard]
     },
     {
         path: 'area-admin',
         loadChildren: () => import('./admin/admin.routes').then(m => m.AUTH_ROUTES)
-        //canActivate: [loggedGuard]
     },
     {
         path: 'area-productos',
         loadChildren: () => import('./general/area-producto/producto.routes').then(m => m.AUTH_ROUTES)
     },
     {
+        path: 'area-servicios',
+        loadChildren: () => import('./general/area-servicio/area-servicio.routes').then(m => m.AUTH_ROUTES)
+    },
+    {
         path: 'personal',
         loadChildren: () => import('./user-comun/user-comun.routes').then(m => m.AUTH_ROUTES),
-        canActivate: [authGuard]
+        canActivate: [userComunGuard]
     },
     {
         path: '**',

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
+import { EstadoSidebarService } from '../../core/services/estado-sidebar.service';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class LoginComponent {
   loginForm!: FormGroup;
 
   private readonly authService = inject(AuthService);
+  private readonly sideBar = inject(EstadoSidebarService)
+
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.initLoginFrom()
@@ -45,6 +48,8 @@ export class LoginComponent {
           this.authService.saveSesionNavigate(result)
           this.msgValid();
           this.navegarRol();
+          this.sideBar.cambiarEstado(false)
+
         } else {
           this.msgInvalid();
         }

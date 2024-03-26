@@ -1,0 +1,88 @@
+<div class="flex justify-between  p-3 border rounded-lg">
+    <div class="btn-group">
+        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filtrar por Tipo
+        </button>
+
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filtrar por Forma de Remuneración
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Moneda del Sistema</a></li>
+            <li><a class="dropdown-item" href="#">Moneda Local (Q)</a></li>
+            <li><a class="dropdown-item" href="#">Trueque</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Todos</a></li>
+        </ul>
+    </div>
+    <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goPublicar()">
+        Publicar un Evento
+    </button>
+</div>
+
+<div class="container">
+    <div class="page-header py-4 font-semibold text-[#03045E] text-2xl">
+        <h1 id="timeline" class="text-center">Eventos Publicados segun el Timpo</h1>
+    </div>
+    <ul class="timeline">
+        <li>
+            <!-- representa la bolita-->
+            <div class="timeline-badge primary"></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading hed py-4 mb-3">
+                    <h4 class="">Titulo del Evento</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-4  img-product">
+                        <img class="w-full h-full" src="./.././../../../assets/Productos.png" alt="imagen-card">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="timeline-body">
+                            <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois
+                                divoltis
+                                porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros
+                                vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois
+                                paga.
+                                Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso
+                                pudia
+                                ce
+                                receita de bolis, mais bolis eu num gostis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="timeline-inverted">
+            <div class="timeline-badge secundary"></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading hed py-4 mb-3">
+                    <h4 class="">Titulo del Evento</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-4  img-product">
+                        <img class="w-full h-full" src="./.././../../../assets/Productos.png" alt="imagen-card">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="timeline-body">
+                            <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois
+                                divoltis
+                                porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros
+                                vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois
+                                paga.
+                                Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso
+                                pudia
+                                ce
+                                receita de bolis, mais bolis eu num gostis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

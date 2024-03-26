@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="flex flex-col space-y-1.5 p-6 text-center">
+        <h3 class="font-semibold text-[#03045E]  text-2xl">
+            Formulario de registro y publicacion de Evento
+        </h3>
+        <p class="text-sm text-muted">
+            Ingresa los datos de tu producto que deseas publicar, llena todos los campos requeridos
+        </p>
+    </div>
+    <div class="border px-4 py-4 rounded-xl">
+        <form class="row g-3">
+            <span class="text-center text-xl">Informacion del Producto</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos Obligatorios</span>
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Nombre del Evento</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Salvemos al Bosque"
+                    formControlName="nombre">
+            </div>
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Lugar de Realizacion</label>
+                <input type="text" class="form-control" id="inputAddress"
+                    placeholder="ciudad, departamento, municipio, comunidad..." formControlName="nombre">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Fecha de Realizacion (formato: 24hrs)</label>
+                <input type="datetime-local" class="form-control" id="inputAddress" formControlName="nombre">
+            </div>
+            <div class="col-md-12">
+                <label for="inputAddress" class="form-label">Descripcion</label>
+                <textarea class="form-control" aria-label="With textarea"
+                    placeholder="ingrese una descripcion del Evento, detalles, advertencias..."
+                    formControlName="descripcion"></textarea>
+            </div>
+        </form>
+    </div>
+</div>

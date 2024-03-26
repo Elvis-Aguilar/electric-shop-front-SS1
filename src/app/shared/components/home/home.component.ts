@@ -17,4 +17,8 @@ export class HomeComponent {
   goProductos(){
     this.router.navigate(['area-productos/home'])
   }
+
+  goServicios(){
+    this.router.navigate(['area-servicios/home'])
+  }
 }

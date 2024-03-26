@@ -3,16 +3,30 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const userComunGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
-  const sesion: boolean = authService.getUsuarioSesion() ? true : false;
-  if (sesion) {
+  const user = authService.getUsuarioSesion()
+  if (user && user?.rol === 2) {
     return true;
   }
   Swal.fire(
     'Upss!!',
     'Debes Iniciar Sesion o Registrarte en el sistema :)',
-    'success'
+    'info'
   );
   return false;
+};
+
+export const regLogGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  if (authService.getUsuarioSesion()) {
+    Swal.fire(
+      'Upss!!',
+      'Tiene una sesion abierta',
+      'info'
+    );
+    return false;
+  }
+  
+  return true;
 };

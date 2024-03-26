@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Usuario } from '../../../core/models/usuario';
 import { AuthService } from '../../../core/services/auth.service';
 import Swal from 'sweetalert2';
+import { EstadoSidebarService } from '../../../core/services/estado-sidebar.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,16 +16,29 @@ export class NavBarComponent {
 
   public readonly authService = inject(AuthService);
 
+  readonly sideBar = inject(EstadoSidebarService)
+
+
   constructor(private router: Router) {
     this.authService.getUsuarioSesion();
   }
 
   goResigster() {
+    this.oculatar()
     this.router.navigate(['auth/register']);
   }
 
   goLogin() {
+    this.oculatar()
     this.router.navigate(['auth/login']);
+  }
+
+  oculatar() {
+    this.sideBar.cambiarEstado(true)
+  }
+
+  mostrar() {
+    this.sideBar.cambiarEstado(false)
   }
 
   closeSesion() {

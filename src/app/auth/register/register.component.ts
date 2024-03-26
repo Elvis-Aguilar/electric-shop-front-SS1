@@ -4,6 +4,7 @@ import * as CryptoJS from 'crypto-js';
 import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { EstadoSidebarService } from '../../core/services/estado-sidebar.service';
 //import { Location } from '@angular/common';
 
 @Component({
@@ -21,6 +22,7 @@ export class RegisterComponent {
 
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly sideBar = inject(EstadoSidebarService)
   //private readonly location = inject(Location);
 
   constructor(private formBuilder: FormBuilder) {
@@ -65,6 +67,7 @@ export class RegisterComponent {
         this.msgSucces()
         this.initRegisterFrom()
         this.navegarRol()
+        this.sideBar.cambiarEstado(false)
       },
       (error) => {
         this.msgError()

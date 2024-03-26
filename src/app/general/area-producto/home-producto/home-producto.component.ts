@@ -42,7 +42,7 @@ export class HomeProductoComponent {
   }
 
   goFormPublicar() {
-    this.router.navigate(['personal/formulario']);
+    this.router.navigate(['personal/formulario-producto']);
   }
 
   getCategorias() {
