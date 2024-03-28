@@ -53,12 +53,20 @@ export class ProductoService {
     return this._http.get<ProductoPendiente[]>(`${this.API_URL}productos-pendientes`);
   }
 
-  public rechazarProducto(rechazado:RechazoProducto):Observable<string>{
-    return this._http.post<string>(`${this.API_URL}rechazo-producto`,rechazado)
+  public rechazarProducto(rechazado: RechazoProducto): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}rechazo-producto`, rechazado)
   }
 
-  public aceptarProducto(acept:AceptProducto):Observable<string>{
-    return this._http.put<string>(`${this.API_URL}acept-producto`,acept)
+  public aceptarProducto(acept: AceptProducto): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}acept-producto`, acept)
+  }
+
+  public getCategoriasPendientes(): Observable<Categoria[]> {
+    return this._http.get<Categoria[]>(`${this.API_URL}categories-pendientes`)
+  }
+
+  public updateCategoria(cate:Categoria):Observable<string>{
+    return this._http.put<string>(`${this.API_URL}update-categoria/${cate.categoria_id}`,cate)
   }
 
 

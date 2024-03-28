@@ -6,6 +6,7 @@ import { Usuario } from '../../core/models/usuario';
 import { AuthService } from '../../core/services/auth.service';
 import { RechazoProducto } from '../../core/models/rechazo-producto';
 import { AceptProducto } from '../../core/models/acept-producto';
+import { Categoria } from '../../core/models/categoria';
 
 @Component({
   selector: 'app-area-productos',
@@ -18,6 +19,7 @@ export class AreaProductosComponent {
 
 
   productosPendientes: ProductoPendiente[] = []
+  categoriasPendientes: Categoria[] = []
   texto = ''
   imagen!: string;
 
@@ -28,12 +30,24 @@ export class AreaProductosComponent {
 
   ngOnInit(): void {
     this.getProductosPendientes()
+    this.getCategoriasPendientes()
   }
 
   getProductosPendientes() {
     this.productoService.getProdcutosPendientes().subscribe(
       (result) => {
         this.productosPendientes = result
+      },
+      (error) => {
+
+      }
+    )
+  }
+
+  getCategoriasPendientes() {
+    this.productoService.getCategoriasPendientes().subscribe(
+      (result) => {
+        this.categoriasPendientes = result
       },
       (error) => {
 
@@ -175,6 +189,33 @@ export class AreaProductosComponent {
     }
   }
 
+  mostrarModalCategoria(catego: Categoria) {
+    Swal.fire({
+      title: '<strong><u>' + catego.alias + '</u></strong>',
+      html: `
+        <p class="text-xl"> ->  ${catego.descripcion}</p> <hr>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
+  }
+
+  updateCategoria(categ: Categoria, estado: number) {
+    categ.estado = estado;
+    this.productoService.updateCategoria(categ).subscribe(
+      (result) => {
+        this.msgUpdateCategoriaOK(estado);
+        const index = this.categoriasPendientes.findIndex(categoria => categoria.categoria_id === categ.categoria_id)
+        if(index !== -1){
+          this.categoriasPendientes.splice(index,1)
+        }
+      },
+      (error) => {
+        this.msgError();
+      }
+    )
+  }
+
   msgError() {
     Swal.fire(
       'Ups!!',
@@ -197,6 +238,23 @@ export class AreaProductosComponent {
       'El producto fue Aceptado con exito, el producto ya podra ser comercializado en el sistema',
       'success'
     );
+  }
+
+  msgUpdateCategoriaOK(estado: number) {
+    if (estado === 2) {
+      Swal.fire(
+        'Aceptado con exito',
+        'La categoria fue Aceptado con exito,  ya podra ser utilizado en el sistema',
+        'success'
+      );
+    } else {
+      Swal.fire(
+        'Rechazada con exito',
+        'La categoria fue Rechazada, esta categoria no aparecera en el sistema',
+        'info'
+      );
+    }
+
   }
 
 }
