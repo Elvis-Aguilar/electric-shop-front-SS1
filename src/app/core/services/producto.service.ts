@@ -3,6 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { Categoria } from '../models/categoria';
 import { Observable } from 'rxjs';
 import { Producto } from '../models/producto';
+import { ProductoPendiente } from '../models/producto-pendiente';
+import { RechazoProducto } from '../models/rechazo-producto';
+import { AceptProducto } from '../models/acept-producto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +45,22 @@ export class ProductoService {
     return this._http.get<Producto>(`${this.API_URL}get-procuto/${id}`);
   }
 
-  public registrarCategoria() {
-
+  public registrarCategoria(cate: Categoria): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}categoria-save`, cate);
   }
+
+  public getProdcutosPendientes(): Observable<ProductoPendiente[]> {
+    return this._http.get<ProductoPendiente[]>(`${this.API_URL}productos-pendientes`);
+  }
+
+  public rechazarProducto(rechazado:RechazoProducto):Observable<string>{
+    return this._http.post<string>(`${this.API_URL}rechazo-producto`,rechazado)
+  }
+
+  public aceptarProducto(acept:AceptProducto):Observable<string>{
+    return this._http.put<string>(`${this.API_URL}acept-producto`,acept)
+  }
+
+
 
 }

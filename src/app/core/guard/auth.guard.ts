@@ -27,6 +27,20 @@ export const regLogGuard: CanActivateFn = (route, state) => {
     );
     return false;
   }
-  
+
   return true;
+};
+
+export const adminGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const user = authService.getUsuarioSesion()
+  if (user && user?.rol === 1) {
+    return true;
+  }
+  Swal.fire(
+    'Upss!!',
+    'Pagina no encontrada',
+    'info'
+  );
+  return false;
 };

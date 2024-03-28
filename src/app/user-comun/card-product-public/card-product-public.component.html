@@ -15,11 +15,17 @@
     </p>
     <p class="card-text text-sm">
       {{producto.especificaciones}}</p>
-    <p class="card-text"><small class="text-muted">Estado de publicacion: APROBADO</small></p>
+    <p class="card-text"><small class="text-muted">Estado de publicacion: {{estado}}</small></p>
     <div class="row">
+      @if (producto.estado === 3) {
+      <a type="button" class="text-ms text-[#03045E] col-md-4" (click)="editar()">
+        Ver Motivo de Rechazo
+      </a>
+      }@else {
       <a type="button" class="text-ms text-[#03045E] col-md-4" (click)="editar()">
         editar
       </a>
+      }
     </div>
   </div>
 </div>

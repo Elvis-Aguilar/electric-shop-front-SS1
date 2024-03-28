@@ -43,7 +43,6 @@ export class LoginComponent {
     this.loginForm.value.password = CryptoJS.SHA256(this.loginForm.value.password).toString();
     this.authService.UserLogin(this.loginForm.value).subscribe(
       (result) => {
-        console.log(result);
         if (result.nombre_usuario) {
           this.authService.saveSesionNavigate(result)
           this.msgValid();
@@ -62,7 +61,6 @@ export class LoginComponent {
   }
 
   navegarRol() {
-    //this.location.back();
     const usuario = this.authService.getUsuarioSesion()
     if (usuario?.rol === 1) {
       this.router.navigate(['area-admin/home-admin'])

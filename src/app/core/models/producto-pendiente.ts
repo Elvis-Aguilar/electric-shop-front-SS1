@@ -1,4 +1,6 @@
-export interface Producto {
+import { Usuario } from "./usuario";
+
+export interface ProductoPendiente {
     producto_id:number;
     estado:number;
     nombre:string;
@@ -12,4 +14,6 @@ export interface Producto {
     permite_contactar:number;
     moneda_local:number;
     moneda_sistema:number;
+    usuario:Usuario;
+
 }

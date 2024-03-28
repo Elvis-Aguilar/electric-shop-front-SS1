@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './shared/components/home/home.component';
 import { PageErrorComponent } from './shared/components/page-error/page-error.component';
-import { regLogGuard, userComunGuard } from './core/guard/auth.guard';
+import { adminGuard, regLogGuard, userComunGuard } from './core/guard/auth.guard';
 
 export const routes: Routes = [
     {
@@ -15,7 +15,8 @@ export const routes: Routes = [
     },
     {
         path: 'area-admin',
-        loadChildren: () => import('./admin/admin.routes').then(m => m.AUTH_ROUTES)
+        loadChildren: () => import('./admin/admin.routes').then(m => m.AUTH_ROUTES),
+        canActivate: [adminGuard]
     },
     {
         path: 'area-productos',

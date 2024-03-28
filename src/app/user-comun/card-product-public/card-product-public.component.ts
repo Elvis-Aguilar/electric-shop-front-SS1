@@ -13,6 +13,7 @@ export class CardProductPublicComponent {
 
   @Input() producto!: Producto;
   imagen!: string;
+  estado = ''
 
   private readonly productService = inject(ProductoService)
 
@@ -32,6 +33,18 @@ export class CardProductPublicComponent {
       )
     } else {
       this.imagen = ''
+    }
+
+    switch (this.producto.estado) {
+      case 1:
+        this.estado = 'PENDIENTE'
+        break;
+      case 2:
+        this.estado = 'APROBADO'
+        break;
+      default:
+        this.estado = 'RECHAZADO'
+        break;
     }
   }
 

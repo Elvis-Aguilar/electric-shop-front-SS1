@@ -1,5 +1,6 @@
 export interface Categoria {
-    categoria_id:number;    
-    alias:string;
-    descripcion:string;
+    alias: string;
+    descripcion: string;
+    estado?:number;
+    categoria_id?: number;
 }

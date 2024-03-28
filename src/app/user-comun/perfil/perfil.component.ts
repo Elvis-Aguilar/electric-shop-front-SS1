@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { Usuario } from '../../core/models/usuario';
 import Swal from 'sweetalert2';
+import { Categoria } from '../../core/models/categoria';
+import { ProductoService } from '../../core/services/producto.service';
 
 @Component({
   selector: 'app-perfil',
@@ -15,6 +17,7 @@ export class PerfilComponent {
 
   private readonly router = inject(Router)
   private readonly authService = inject(AuthService)
+  private readonly productoService = inject(ProductoService)
 
   imagen!: string;
   usuario: Usuario | undefined = this.authService.getUsuarioSesion()
@@ -57,7 +60,7 @@ export class PerfilComponent {
         const alias = (<HTMLInputElement>document.getElementById('swal-input1')).value;
         const descripcion = (<HTMLTextAreaElement>document.getElementById('swal-input2')).value;
         if (alias !== '' && descripcion !== '') {
-
+          this.registerCategoria(alias,descripcion)
         } else {
           this.msgCamposIncompletos()
         }
@@ -66,15 +69,33 @@ export class PerfilComponent {
 
   }
 
-  registerCategoria(){
-    
-  }
+  registerCategoria(alias:string, descripcion:string){
+    const cate:Categoria = {alias, descripcion};
+    this.productoService.registrarCategoria(cate).subscribe(
+      (result) =>{
+        this.msgRegistroCategoriaOK()
+      },
+      (error)=>{
+        console.log(error);
+        
+        this.msgError()
+      }
+    );    
+  } 
 
   msgCamposIncompletos() {
     Swal.fire(
       'Ups!!',
       'Debes llenar los campos',
       'question'
+    );
+  }
+
+  msgRegistroCategoriaOK() {
+    Swal.fire(
+      'Registrado con exito',
+      'La categoria sera revisada y aprovada por el administrador',
+      'success'
     );
   }
 
@@ -96,4 +117,13 @@ export class PerfilComponent {
       reader.readAsDataURL(image);
     }
   }
+
+  msgError() {
+    Swal.fire(
+      'Ups!!',
+      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'error'
+    );
+  }
+
 }

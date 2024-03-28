@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -9,5 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
+
+  readonly authService = inject(AuthService)
+  
 
 }
