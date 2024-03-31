@@ -69,6 +69,22 @@ export class ProductoService {
     return this._http.put<string>(`${this.API_URL}update-categoria/${cate.categoria_id}`,cate)
   }
 
+  public getCategoriaProducto(id:number):Observable<Categoria[]>{
+    return this._http.get<Categoria[]>(`${this.API_URL}categoria-producto/${id}`)
+  }
+
+  public deletCategoriaProdcuto(id:number):Observable<Categoria[]>{
+    return this._http.delete<Categoria[]>(`${this.API_URL}delete-categoria-producto/${id}`) 
+  }
+
+  public asociarCategoriaProducto(cate:Categoria):Observable<Categoria[]>{
+    return this._http.post<Categoria[]>(`${this.API_URL}asociar-categoria-producto/${cate.estado}`,cate) 
+  }
+
+  public updateProducto(prod:Producto, id:number): Observable<string>{
+    return this._http.put<string>(`${this.API_URL}update-producto/${id}`,prod)
+  }
+
 
 
 }

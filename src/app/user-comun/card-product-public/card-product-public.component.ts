@@ -1,6 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { Producto } from '../../core/models/producto';
 import { ProductoService } from '../../core/services/producto.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-product-public',
@@ -16,6 +17,7 @@ export class CardProductPublicComponent {
   estado = ''
 
   private readonly productService = inject(ProductoService)
+  private readonly router = inject(Router)
 
   constructor() {
   }
@@ -59,6 +61,6 @@ export class CardProductPublicComponent {
   }
 
   editar() {
-    console.log(this.producto)
+    this.router.navigate(['personal/edit-producto/', `${this.producto.producto_id}-${this.producto.nombre}`])
   }
 }
