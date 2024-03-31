@@ -2,6 +2,8 @@ import { Component, Input, inject } from '@angular/core';
 import { Producto } from '../../core/models/producto';
 import { ProductoService } from '../../core/services/producto.service';
 import { Router } from '@angular/router';
+import { RechazoProducto } from '../../core/models/rechazo-producto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-card-product-public',
@@ -15,6 +17,7 @@ export class CardProductPublicComponent {
   @Input() producto!: Producto;
   imagen!: string;
   estado = ''
+  rechazoActual!: RechazoProducto
 
   private readonly productService = inject(ProductoService)
   private readonly router = inject(Router)
@@ -63,4 +66,28 @@ export class CardProductPublicComponent {
   editar() {
     this.router.navigate(['personal/edit-producto/', `${this.producto.producto_id}-${this.producto.nombre}`])
   }
+
+  verMotivoRechazo() {
+    this.productService.getMotivoRechazo(this.producto.producto_id).subscribe(
+      (result) => {
+        this.rechazoActual = result
+        this.msgRechazo()
+      },
+      (error) => {
+      }
+    )
+  }
+
+  msgRechazo() {
+    Swal.fire({
+      title: '<strong><u>' + this.rechazoActual.alis_estado + '</u></strong>',
+      html: `
+        <p class="text-xl"> ->  ${this.rechazoActual.descripcion}</p> <hr>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
+  }
+
+
 }

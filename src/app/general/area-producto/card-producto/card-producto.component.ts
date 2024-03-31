@@ -19,21 +19,21 @@ export class CardProductoComponent {
   private readonly router = inject(Router)
 
   constructor() {
+    this.imagen = ''
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     if (this.producto) {
+      this.imagen = '';
       const filename: string = this.producto.url_foto.split('/').pop() || '';
       this.productService.getImage(filename).subscribe(
         (result) => {
-          this.createImageFromBlob(result)
+          this.createImageFromBlob(result);
         },
         (error) => {
-          this.imagen = ''
+          console.error('Error al cargar la imagen:', error);
         }
-      )
-    } else {
-      this.imagen = ''
+      );
     }
   }
 

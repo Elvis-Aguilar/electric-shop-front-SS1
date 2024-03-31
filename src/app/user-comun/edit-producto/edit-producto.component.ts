@@ -37,7 +37,6 @@ export class EditProductoComponent {
     const result = await this.productoService.getProdcutoId(id).toPromise()
     if (result) {
       this.producto = result
-      console.log(this.producto);
 
       this.getCategoriaProducto()
       this.initRegisterFrom()
@@ -63,15 +62,12 @@ export class EditProductoComponent {
     if (!this.validInfo()) {
       return
     }
-    console.log(this.myGroup.value);
     this.productoService.updateProducto(this.myGroup.value, this.producto.producto_id).subscribe(
       (result) => {
         this.msgProductoActualizado()
       },
       (error) => {
-        console.log(error);
         this.msgError()
-
       }
     )
 
@@ -129,7 +125,6 @@ export class EditProductoComponent {
         this.categoriasProducto = result;
       },
       (error) => {
-        console.log(error);
       }
     )
   }
@@ -156,7 +151,6 @@ export class EditProductoComponent {
         this.msgCategoriaEliminada()
       },
       (error) => {
-        console.log(error);
         this.msgError()
       }
     )
@@ -178,7 +172,6 @@ export class EditProductoComponent {
         this.msgCategoriaAsociada()
       },
       (error) => {
-        console.log(error);
 
         this.msgError();
       })

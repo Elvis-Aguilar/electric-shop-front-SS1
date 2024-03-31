@@ -10,9 +10,9 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" (click)="filtrar(categoria)">{{categoria.alias}}</a></li>
+            <li><a class="dropdown-item" (click)="getProductoTodos()">{{categoria.alias}}</a></li>
             }@else {
-            <li><a class="dropdown-item" (click)="filtrar(categoria)">{{categoria.alias}}</a></li>
+            <li><a class="dropdown-item" (click)="filtrarCategoria(categoria)">{{categoria.alias}}</a></li>
             }
             }
         </ul>
@@ -23,13 +23,13 @@
             Filtrar por Forma de pago
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Moneda del Sistema</a></li>
-            <li><a class="dropdown-item" href="#">Moneda Local (Q)</a></li>
-            <li><a class="dropdown-item" href="#">Trueque</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(1)">Moneda del Sistema</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(2)">Moneda Local (Q)</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(3)">Trueque</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Todos</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(4)">Todos</a></li>
         </ul>
     </div>
     <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goFormPublicar()">

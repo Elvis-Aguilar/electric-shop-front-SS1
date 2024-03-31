@@ -65,26 +65,35 @@ export class ProductoService {
     return this._http.get<Categoria[]>(`${this.API_URL}categories-pendientes`)
   }
 
-  public updateCategoria(cate:Categoria):Observable<string>{
-    return this._http.put<string>(`${this.API_URL}update-categoria/${cate.categoria_id}`,cate)
+  public updateCategoria(cate: Categoria): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-categoria/${cate.categoria_id}`, cate)
   }
 
-  public getCategoriaProducto(id:number):Observable<Categoria[]>{
+  public getCategoriaProducto(id: number): Observable<Categoria[]> {
     return this._http.get<Categoria[]>(`${this.API_URL}categoria-producto/${id}`)
   }
 
-  public deletCategoriaProdcuto(id:number):Observable<Categoria[]>{
-    return this._http.delete<Categoria[]>(`${this.API_URL}delete-categoria-producto/${id}`) 
+  public deletCategoriaProdcuto(id: number): Observable<Categoria[]> {
+    return this._http.delete<Categoria[]>(`${this.API_URL}delete-categoria-producto/${id}`)
   }
 
-  public asociarCategoriaProducto(cate:Categoria):Observable<Categoria[]>{
-    return this._http.post<Categoria[]>(`${this.API_URL}asociar-categoria-producto/${cate.estado}`,cate) 
+  public asociarCategoriaProducto(cate: Categoria): Observable<Categoria[]> {
+    return this._http.post<Categoria[]>(`${this.API_URL}asociar-categoria-producto/${cate.estado}`, cate)
   }
 
-  public updateProducto(prod:Producto, id:number): Observable<string>{
-    return this._http.put<string>(`${this.API_URL}update-producto/${id}`,prod)
+  public updateProducto(prod: Producto, id: number): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-producto/${id}`, prod)
   }
 
+  public getMotivoRechazo(id: number): Observable<RechazoProducto> {
+    return this._http.get<RechazoProducto>(`${this.API_URL}get-rechazo/${id}`)
+  }
 
+  public getProdcutosFilterCategorias(idCategoria:number): Observable<Producto[]> {
+    return this._http.get<Producto[]>(`${this.API_URL}get-productos-filter-categoria/${idCategoria}`);
+  }
 
+  public getProductosFilterFormPago(op:number): Observable<Producto[]> {
+    return this._http.get<Producto[]>(`${this.API_URL}get-productos-filter-form-pago/${op}`);
+  }
 }

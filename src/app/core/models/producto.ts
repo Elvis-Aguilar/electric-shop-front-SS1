@@ -12,4 +12,5 @@ export interface Producto {
     permite_contactar:number;
     moneda_local:number;
     moneda_sistema:number;
+    producto?:Producto;
 }

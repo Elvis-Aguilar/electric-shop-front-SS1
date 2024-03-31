@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Producto } from '../../../core/models/producto';
 import { CardProductoComponent } from '../card-producto/card-producto.component';
 import { Categoria } from '../../../core/models/categoria';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home-producto',
@@ -29,6 +30,12 @@ export class HomeProductoComponent {
   }
 
   ngOnInit(): void {
+    this.getProductoTodos()
+  }
+
+  getProductoTodos() {
+    this.filter ='Todos'
+    this.descripcion = ''
     this.productoService.getProductos().subscribe(
       (result) => {
         if (result) {
@@ -36,8 +43,6 @@ export class HomeProductoComponent {
         }
       },
       (error) => {
-        console.error(error);
-
       });
   }
 
@@ -53,10 +58,52 @@ export class HomeProductoComponent {
     );
   }
 
-  filtrar(categ: Categoria) {
+  filtrarCategoria(categ: Categoria) {
     this.filter = categ.alias
     this.descripcion = categ.descripcion
+    this.productoService.getProdcutosFilterCategorias(categ.categoria_id || 1).subscribe(
+      (result) => {
+        this.limpearProductos(result);
+      },
+      (error) => {
+        this.msgError();
+      }
+    )
   }
 
+  filtrarFormaPago(index:number){
+    if (index >= 4) {
+      this.getProductoTodos()
+      return
+    }
+    this.productoService.getProductosFilterFormPago(index).subscribe(
+      (result) =>{
+        this.productos = result;
+      },
+      (error) =>{
+        this.msgError();
+      }
+    )
+  }
+
+
+
+  private limpearProductos(result: Producto[]) {
+    const productos: Producto[] = []
+    result.forEach(produ => {
+      if (produ.producto) {
+        productos.push(produ.producto)
+      }
+    })
+    this.productos = productos;
+  }
+
+  msgError() {
+    Swal.fire(
+      'Ups!!',
+      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'error'
+    );
+  }
 
 }
