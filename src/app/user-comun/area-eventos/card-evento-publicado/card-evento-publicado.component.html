@@ -1,0 +1,30 @@
+<div class="flex justify-between shadow p-3 border rounded-lg mx-1">
+    <div class="row">
+        <div class="col-md-4 img-product">
+            <img class="w-full h-full" [src]="imagen" alt="Card image cap">
+        </div>
+        <div class="col-md-8 px-1">
+            <h1 class="font-semibold py-1 text-xl text-[#03045E]">
+                {{evento.nombre}}
+            </h1>
+            <p class="py-1 card-text text-base text-[#0077B6] font-mono">
+                lugar y fecha del evento
+            </p>
+            <p class="small text-muted font-mono">
+                {{evento.lugar_realizacion}} <br>
+                {{evento.fecha_realizacion}}
+            </p>
+            <hr class="my-2">
+            <p class="py-1 card-text text-sm text-[#90E0EF] font-mono">
+                Estado de la publicacion
+            </p>
+            <p class="text-xs  text-muted font-mono">
+                {{estado}}
+            </p>
+            <div class="row mt-3">
+                <button type="button" class="btn btn-link col-md-4">Editar</button>
+                <button type="button" class="btn btn-link col-md-8">ver motivo rechazo</button>
+            </div>
+        </div>
+    </div>
+</div>

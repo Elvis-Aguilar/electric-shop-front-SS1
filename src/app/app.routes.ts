@@ -27,6 +27,10 @@ export const routes: Routes = [
         loadChildren: () => import('./general/area-servicio/area-servicio.routes').then(m => m.AUTH_ROUTES)
     },
     {
+        path: 'area-eventos',
+        loadChildren: () => import('./general/area-eventos/area-evento.routes').then(m => m.AUTH_ROUTES)
+    },
+    {
         path: 'personal',
         loadChildren: () => import('./user-comun/user-comun.routes').then(m => m.AUTH_ROUTES),
         canActivate: [userComunGuard]

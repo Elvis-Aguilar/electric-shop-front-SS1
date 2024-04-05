@@ -1,0 +1,120 @@
+<div class="container">
+    <div class="flex flex-col space-y-1.5 p-6 text-center">
+        <h3 class="font-semibold text-[#03045E]  text-2xl">
+            Formulario de registro y publicacion de Evento
+        </h3>
+        <p class="text-sm text-muted">
+            Ingresa los datos de tu producto que deseas publicar, llena todos los campos requeridos
+        </p>
+    </div>
+    <div class="border px-4 py-4 rounded-xl">
+        <form [formGroup]="registerForm" (submit)="register()" class="row g-3">
+            <span class="text-center text-xl">Informacion del Evento (Voluntariado)</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos Obligatorios</span>
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Nombre del Evento</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Salvemos al Bosque"
+                    formControlName="nombre">
+            </div>
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Lugar de Realizacion</label>
+                <input type="text" class="form-control" id="inputAddress"
+                    placeholder="ciudad, departamento, municipio, comunidad..." formControlName="lugar_realizacion">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Fecha de Realizacion (formato: 24hrs)</label>
+                <input type="datetime-local" class="form-control" id="inputAddress" formControlName="fecha_realizacion">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Imagen Para la publicacion</label>
+                <input type="file" accept="image/*" class="form-control" id="inputAddress"
+                    placeholder="Nombre de Usuario" formControlName="url_foto" (change)="onFileSelected($event)">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Selecciona una categoria</label>
+                <select class="form-select" aria-label="Default select example" formControlName="tipo_evento">
+                    @for (evento of tipoEventos; track $index) {
+                    @if (evento.alias === 'Todos') {
+                    <option selected>{{evento.alias}}</option>
+                    }@else {
+                    <option value={{evento.tipo_even_id}}>{{evento.alias}}</option>
+                    }
+                    }
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label for="inputAddress" class="form-label">Descripcion</label>
+                <textarea class="form-control" aria-label="With textarea"
+                    placeholder="ingrese una descripcion del Evento, detalles, advertencias..."
+                    formControlName="descripcion"></textarea>
+            </div>
+            <span class="text-center text-xl">Informacion Sobre Remuneracion</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos para Especificar si el evento va ser 100%
+                Voluntariado o no</span>
+            <div class="col-md-4 mt-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        formControlName="es_voluntariado">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">
+                        Voluntariado
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Precio unitario con moneda del sistema</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cash" viewBox="0 0 16 16">
+                            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                            <path
+                                d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z" />
+                        </svg>
+                    </span>
+                    <input type="number" class="form-control" id="inputCity" placeholder="0"
+                        formControlName="remunerar_moneda_sitema" [readOnly]="registerForm.value.es_voluntariado">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Precio unitario en Quetzales</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                        Q
+                    </span>
+                    <input type="number" class="form-control" id="inputCity" placeholder="0"
+                        formControlName="remunerar_moneda_local" [readOnly]="registerForm.value.es_voluntariado">
+                </div>
+            </div>
+            <span class="text-center text-xl">Informacion de complemento</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos de complemento no obligatorios</span>
+            <div class="col-md-4 mt-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        formControlName="permite_contactar">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">
+                        Mostrar informacion de contacto
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Maximo de participantes (0 para sin limites)</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-list-ol" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5" />
+                            <path
+                                d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635z" />
+                        </svg>
+                    </span>
+                    <input type="number" class="form-control" id="inputCity" placeholder="0"
+                        formControlName="max_participantes">
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>

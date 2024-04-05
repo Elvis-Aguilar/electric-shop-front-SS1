@@ -1,0 +1,36 @@
+<div class="flex justify-between  p-3 border rounded-lg">
+    <div class="btn-group">
+        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filtrar por Tipo
+        </button>
+
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filtrar por Forma de Remuneración
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Moneda del Sistema</a></li>
+            <li><a class="dropdown-item" href="#">Moneda Local (Q)</a></li>
+            <li><a class="dropdown-item" href="#">Trueque</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Todos</a></li>
+        </ul>
+    </div>
+    <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goPublicar()">
+        Publicar un Evento
+    </button>
+</div>
+
+<div class="container">
+    <div class="page-header py-4 font-semibold text-[#03045E] text-2xl">
+        <h1 id="timeline" class="text-center">Eventos Publicados</h1>
+    </div>
+    <ul class="timeline">
+        
+    </ul>
+</div>

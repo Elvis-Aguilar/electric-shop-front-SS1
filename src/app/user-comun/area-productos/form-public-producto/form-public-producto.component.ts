@@ -1,10 +1,10 @@
 import { Component, Inject, inject } from '@angular/core';
-import { ProductoService } from '../../core/services/producto.service';
-import { Categoria } from '../../core/models/categoria';
+import { ProductoService } from '../../../core/services/productos/producto.service';
+import { Categoria } from '../../../core/models/producto/categoria';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-form-public-producto',

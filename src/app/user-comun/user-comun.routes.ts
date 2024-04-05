@@ -1,9 +1,10 @@
 import { Routes } from "@angular/router";
-import { FormPublicProductoComponent } from "./form-public-producto/form-public-producto.component";
-import { ProductosPublicadosComponent } from "./productos-publicados/productos-publicados.component";
-import { FormPublicEventoComponent } from "./form-public-evento/form-public-evento.component";
+import { FormPublicProductoComponent } from "./area-productos/form-public-producto/form-public-producto.component";
+import { FormPublicEventoComponent } from "./area-eventos/form-public-evento/form-public-evento.component";
 import { PerfilComponent } from "./perfil/perfil.component";
-import { EditProductoComponent } from "./edit-producto/edit-producto.component";
+import { ProductosPublicadosComponent } from "./area-productos/productos-publicados/productos-publicados.component";
+import { EditProductoComponent } from "./area-productos/edit-producto/edit-producto.component";
+import { EventosPublicadosComponent } from "./area-eventos/eventos-publicados/eventos-publicados.component";
 
 
 
@@ -13,6 +14,8 @@ export const AUTH_ROUTES: Routes = [
     { path: 'productos-registrados', component: ProductosPublicadosComponent },
     { path: 'formulario-evento', component: FormPublicEventoComponent },
     { path: 'perfil', component: PerfilComponent },
-    { path: 'edit-producto/:id', component: EditProductoComponent }
+    { path: 'edit-producto/:id', component: EditProductoComponent },
+    { path: 'eventos-registrados', component: EventosPublicadosComponent }
+
 
 ];

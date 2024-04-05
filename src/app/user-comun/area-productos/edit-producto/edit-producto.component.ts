@@ -1,9 +1,9 @@
 import { Component, Input, inject } from '@angular/core';
-import { ProductoService } from '../../core/services/producto.service';
-import { Producto } from '../../core/models/producto';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Categoria } from '../../core/models/categoria';
 import Swal from 'sweetalert2';
+import { Producto } from '../../../core/models/producto/producto';
+import { Categoria } from '../../../core/models/producto/categoria';
+import { ProductoService } from '../../../core/services/productos/producto.service';
 
 
 @Component({

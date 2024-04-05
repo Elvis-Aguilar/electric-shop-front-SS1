@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductoService } from '../../../core/services/producto.service';
+import { ProductoService } from '../../../core/services/productos/producto.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Producto } from '../../../core/models/producto';
+import { Producto } from '../../../core/models/producto/producto';
 import { CardProductoComponent } from '../card-producto/card-producto.component';
-import { Categoria } from '../../../core/models/categoria';
+import { Categoria } from '../../../core/models/producto/categoria';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -34,7 +34,7 @@ export class HomeProductoComponent {
   }
 
   getProductoTodos() {
-    this.filter ='Todos'
+    this.filter = 'Todos'
     this.descripcion = ''
     this.productoService.getProductos().subscribe(
       (result) => {
@@ -71,16 +71,16 @@ export class HomeProductoComponent {
     )
   }
 
-  filtrarFormaPago(index:number){
+  filtrarFormaPago(index: number) {
     if (index >= 4) {
       this.getProductoTodos()
       return
     }
     this.productoService.getProductosFilterFormPago(index).subscribe(
-      (result) =>{
+      (result) => {
         this.productos = result;
       },
-      (error) =>{
+      (error) => {
         this.msgError();
       }
     )

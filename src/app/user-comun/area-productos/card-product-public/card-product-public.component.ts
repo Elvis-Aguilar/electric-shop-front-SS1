@@ -1,8 +1,8 @@
 import { Component, Input, inject } from '@angular/core';
-import { Producto } from '../../core/models/producto';
-import { ProductoService } from '../../core/services/producto.service';
+import { Producto } from '../../../core/models/producto/producto';
+import { ProductoService } from '../../../core/services/productos/producto.service';
 import { Router } from '@angular/router';
-import { RechazoProducto } from '../../core/models/rechazo-producto';
+import { RechazoProducto } from '../../../core/models/producto/rechazo-producto';
 import Swal from 'sweetalert2';
 
 @Component({

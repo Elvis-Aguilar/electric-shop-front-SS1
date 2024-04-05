@@ -17,5 +17,9 @@ export class HomeAdminComponent {
     this.router.navigate(['area-admin/area-productos'])
   }
 
+  goAreaEventos(){
+    this.router.navigate(['area-admin/area-eventos'])
+  }
+
 
 }

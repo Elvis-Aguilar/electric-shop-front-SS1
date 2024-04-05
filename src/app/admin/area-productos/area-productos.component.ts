@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ProductoService } from '../../core/services/producto.service';
-import { ProductoPendiente } from '../../core/models/producto-pendiente';
+import { ProductoService } from '../../core/services/productos/producto.service';
+import { ProductoPendiente } from '../../core/models/producto/producto-pendiente';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../core/models/usuario';
 import { AuthService } from '../../core/services/auth.service';
-import { RechazoProducto } from '../../core/models/rechazo-producto';
-import { AceptProducto } from '../../core/models/acept-producto';
-import { Categoria } from '../../core/models/categoria';
+import { RechazoProducto } from '../../core/models/producto/rechazo-producto';
+import { AceptProducto } from '../../core/models/producto/acept-producto';
+import { Categoria } from '../../core/models/producto/categoria';
 
 @Component({
   selector: 'app-area-productos',
@@ -206,8 +206,8 @@ export class AreaProductosComponent {
       (result) => {
         this.msgUpdateCategoriaOK(estado);
         const index = this.categoriasPendientes.findIndex(categoria => categoria.categoria_id === categ.categoria_id)
-        if(index !== -1){
-          this.categoriasPendientes.splice(index,1)
+        if (index !== -1) {
+          this.categoriasPendientes.splice(index, 1)
         }
       },
       (error) => {

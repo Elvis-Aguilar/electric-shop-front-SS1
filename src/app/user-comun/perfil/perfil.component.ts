@@ -3,8 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { Usuario } from '../../core/models/usuario';
 import Swal from 'sweetalert2';
-import { Categoria } from '../../core/models/categoria';
-import { ProductoService } from '../../core/services/producto.service';
+import { Categoria } from '../../core/models/producto/categoria';
+import { ProductoService } from '../../core/services/productos/producto.service';
 
 @Component({
   selector: 'app-perfil',
@@ -60,7 +60,7 @@ export class PerfilComponent {
         const alias = (<HTMLInputElement>document.getElementById('swal-input1')).value;
         const descripcion = (<HTMLTextAreaElement>document.getElementById('swal-input2')).value;
         if (alias !== '' && descripcion !== '') {
-          this.registerCategoria(alias,descripcion)
+          this.registerCategoria(alias, descripcion)
         } else {
           this.msgCamposIncompletos()
         }
@@ -69,19 +69,19 @@ export class PerfilComponent {
 
   }
 
-  registerCategoria(alias:string, descripcion:string){
-    const cate:Categoria = {alias, descripcion};
+  registerCategoria(alias: string, descripcion: string) {
+    const cate: Categoria = { alias, descripcion };
     this.productoService.registrarCategoria(cate).subscribe(
-      (result) =>{
+      (result) => {
         this.msgRegistroCategoriaOK()
       },
-      (error)=>{
+      (error) => {
         console.log(error);
-        
+
         this.msgError()
       }
-    );    
-  } 
+    );
+  }
 
   msgCamposIncompletos() {
     Swal.fire(

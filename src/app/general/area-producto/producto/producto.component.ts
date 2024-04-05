@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
-import { ProductoService } from '../../../core/services/producto.service';
-import { Producto } from '../../../core/models/producto';
+import { ProductoService } from '../../../core/services/productos/producto.service';
+import { Producto } from '../../../core/models/producto/producto';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -27,7 +27,7 @@ export class ProductoComponent {
   private readonly authService = inject(AuthService)
 
   constructor() {
-    this.statusSesion =  this.authService.getUsuarioSesion()? true: false;
+    this.statusSesion = this.authService.getUsuarioSesion() ? true : false;
   }
 
   ngOnInit(): void {

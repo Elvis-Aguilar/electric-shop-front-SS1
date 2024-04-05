@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Categoria } from '../models/categoria';
+import { Categoria } from '../../models/producto/categoria';
 import { Observable } from 'rxjs';
-import { Producto } from '../models/producto';
-import { ProductoPendiente } from '../models/producto-pendiente';
-import { RechazoProducto } from '../models/rechazo-producto';
-import { AceptProducto } from '../models/acept-producto';
+import { Producto } from '../../models/producto/producto';
+import { ProductoPendiente } from '../../models/producto/producto-pendiente';
+import { RechazoProducto } from '../../models/producto/rechazo-producto';
+import { AceptProducto } from '../../models/producto/acept-producto';
 
 @Injectable({
   providedIn: 'root'
@@ -89,11 +89,11 @@ export class ProductoService {
     return this._http.get<RechazoProducto>(`${this.API_URL}get-rechazo/${id}`)
   }
 
-  public getProdcutosFilterCategorias(idCategoria:number): Observable<Producto[]> {
+  public getProdcutosFilterCategorias(idCategoria: number): Observable<Producto[]> {
     return this._http.get<Producto[]>(`${this.API_URL}get-productos-filter-categoria/${idCategoria}`);
   }
 
-  public getProductosFilterFormPago(op:number): Observable<Producto[]> {
+  public getProductosFilterFormPago(op: number): Observable<Producto[]> {
     return this._http.get<Producto[]>(`${this.API_URL}get-productos-filter-form-pago/${op}`);
   }
 }
