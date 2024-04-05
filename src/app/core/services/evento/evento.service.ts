@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { TipoEvento } from '../../models/evento/tipo-evento';
 import { Producto } from '../../models/producto/producto';
 import { Evento } from '../../models/evento/evento';
+import { EventoPendiente } from '../../models/evento/evento-pendiente';
+import { RechazoEvento } from '../../models/evento/rechazo-evento';
+import { AceptEvento } from '../../models/evento/acept-evento';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +36,18 @@ export class EventoService {
 
   public getImage(filename: string): Observable<Blob> {
     return this._http.get(`${this.API_URL}eventos-img/${filename}`, { responseType: 'blob' });
+  }
+
+  public getEventosPendientes(): Observable<EventoPendiente[]> {
+    return this._http.get<EventoPendiente[]>(`${this.API_URL}eventos-pendientes`);
+  }
+
+  public rechazarEvento(rechazado: RechazoEvento): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}rechazo-evento`, rechazado)
+  }
+
+  public aceptarEvento(acept: AceptEvento): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}acept-evento`, acept)
   }
 
 
