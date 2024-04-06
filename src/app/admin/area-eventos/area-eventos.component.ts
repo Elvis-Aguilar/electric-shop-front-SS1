@@ -4,6 +4,7 @@ import { EventoService } from '../../core/services/evento/evento.service';
 import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../core/models/usuario';
+import { TipoEvento } from '../../core/models/evento/tipo-evento';
 
 @Component({
   selector: 'app-area-eventos',
@@ -18,6 +19,7 @@ export class AreaEventosComponent {
   texto = ''
   imagen!: string;
   eventosPendientes: EventoPendiente[] = []
+  tipoEventoPendientes: TipoEvento[] = []
 
 
   private readonly eventoService = inject(EventoService)
@@ -25,6 +27,7 @@ export class AreaEventosComponent {
 
   ngOnInit(): void {
     this.getEventosPendientes()
+    this.getCategoriasPendientes();
   }
 
   getEventosPendientes() {
@@ -35,6 +38,15 @@ export class AreaEventosComponent {
       error: err => {
       }
     })
+  }
+
+  getCategoriasPendientes() {
+    this.eventoService.getTipoEventoPendientes().subscribe({
+      next: value => { this.tipoEventoPendientes = value },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   mostrarDatosEvento(event: EventoPendiente) {
@@ -166,6 +178,51 @@ export class AreaEventosComponent {
         console.log(err);
       }
     })
+  }
+
+  mostrarModalTipoEvento(event: TipoEvento) {
+    Swal.fire({
+      title: '<strong><u>' + event.alias + '</u></strong>',
+      html: `
+        <p class="text-xl"> ->  ${event.descripcion}</p> <hr>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
+  }
+
+  updateCategoria(event: TipoEvento, estado: number) {
+    event.estado = estado;
+    this.eventoService.updateCategoria(event).subscribe({
+      next: value => {
+        const index = this.tipoEventoPendientes.findIndex(tipEvent => tipEvent.tipo_even_id === event.tipo_even_id)
+        if (index !== -1) {
+          this.tipoEventoPendientes.splice(index, 1)
+        }
+        this.msgUpdateCategoriaOK(estado);
+      },
+      error: err => {
+        this.msgError()
+        console.log(err);
+      }
+    })
+  }
+
+  msgUpdateCategoriaOK(estado: number) {
+    if (estado === 2) {
+      Swal.fire(
+        'Aceptado con exito',
+        'La categoria fue Aceptado con exito,  ya podra ser utilizado en el sistema',
+        'success'
+      );
+    } else {
+      Swal.fire(
+        'Rechazada con exito',
+        'La categoria fue Rechazada, esta categoria no aparecera en el sistema',
+        'info'
+      );
+    }
+
   }
 
   msgError() {

@@ -1,5 +1,6 @@
 export interface TipoEvento {
-    tipo_even_id?:number;
     alias:string;
     descripcion:string;
+    tipo_even_id?:number;
+    estado?:number;
 }

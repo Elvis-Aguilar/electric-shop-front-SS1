@@ -55,5 +55,48 @@
                 </tbody>
             </table>
         </div>
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">
+                Solicitud de Categorias (tipo de eventos)
+            </h3>
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-success">
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>Nombre de la Categoria</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (tipoEvento of tipoEventoPendientes; track $index) {
+                    <tr class="text-center">
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarModalTipoEvento(tipoEvento)">
+                                {{tipoEvento.alias}}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" (click)="updateCategoria(tipoEvento,3)">Rechazar</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="updateCategoria(tipoEvento,2)">Aceptar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </section>

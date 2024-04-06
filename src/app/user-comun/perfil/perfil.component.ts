@@ -5,6 +5,7 @@ import { Usuario } from '../../core/models/usuario';
 import Swal from 'sweetalert2';
 import { Categoria } from '../../core/models/producto/categoria';
 import { ProductoService } from '../../core/services/productos/producto.service';
+import { EventoService } from '../../core/services/evento/evento.service';
 
 @Component({
   selector: 'app-perfil',
@@ -18,6 +19,8 @@ export class PerfilComponent {
   private readonly router = inject(Router)
   private readonly authService = inject(AuthService)
   private readonly productoService = inject(ProductoService)
+  private readonly eventoService = inject(EventoService)
+
 
   imagen!: string;
   usuario: Usuario | undefined = this.authService.getUsuarioSesion()
@@ -76,11 +79,43 @@ export class PerfilComponent {
         this.msgRegistroCategoriaOK()
       },
       (error) => {
-        console.log(error);
-
         this.msgError()
       }
     );
+  }
+
+  async crearTipoEvento() {
+    await Swal.fire({
+      title: 'Nombre y Descripcion de la Categoria',
+      html: `
+        <input id="swal-input1" class="swal2-input">
+        <br>
+        <br>
+        <textarea id="swal-input2" class="form-control" aria-label="With textarea"></textarea>
+      `,
+      focusConfirm: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const alias = (<HTMLInputElement>document.getElementById('swal-input1')).value;
+        const descripcion = (<HTMLTextAreaElement>document.getElementById('swal-input2')).value;
+        if (alias !== '' && descripcion !== '') {
+          this.registerTipoEvento(alias, descripcion)
+        } else {
+          this.msgCamposIncompletos()
+        }
+      }
+    });
+
+  }
+
+  registerTipoEvento(alias: string, descripcion: string) {
+    this.eventoService.registrarTipoEvento({ alias, descripcion }).subscribe({
+      next: value => { this.msgRegistroCategoriaOK()},
+      error: err => {
+        console.log(err);
+        this.msgError()
+      }
+    });
   }
 
   msgCamposIncompletos() {
@@ -99,13 +134,20 @@ export class PerfilComponent {
     );
   }
 
-
   goPublicarProductos() {
     this.router.navigate(['personal/formulario-producto'])
   }
 
   goProductosRegistrados() {
     this.router.navigate(['personal/productos-registrados'])
+  }
+
+  goPublicarEvento() {
+    this.router.navigate(['personal/formulario-evento'])
+  }
+
+  goEventosRegistrados() {
+    this.router.navigate(['personal/eventos-registrados'])
   }
 
   createImageFromBlob(image: Blob) {

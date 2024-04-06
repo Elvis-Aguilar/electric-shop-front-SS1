@@ -2,6 +2,8 @@ import { Component, Input, inject } from '@angular/core';
 import { Evento } from '../../../core/models/evento/evento';
 import { Router } from '@angular/router';
 import { EventoService } from '../../../core/services/evento/evento.service';
+import { RechazoEvento } from '../../../core/models/evento/rechazo-evento';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-card-evento-publicado',
@@ -15,11 +17,13 @@ export class CardEventoPublicadoComponent {
   @Input() evento!: Evento;
   imagen!: string;
   estado = ''
+  rechazoActual!: RechazoEvento
+
 
   private readonly router = inject(Router)
   private readonly eventosService = inject(EventoService)
 
-  constructor(){}
+  constructor() { }
 
   ngOnInit(): void {
     if (this.evento) {
@@ -28,9 +32,9 @@ export class CardEventoPublicadoComponent {
         next: value => {
           this.createImageFromBlob(value)
         },
-        error: err => {this.imagen = ''}
+        error: err => { this.imagen = '' }
       })
-    }else{
+    } else {
       this.imagen = ''
     }
 
@@ -56,6 +60,32 @@ export class CardEventoPublicadoComponent {
     if (image) {
       reader.readAsDataURL(image);
     }
+  }
+
+  verMotivoRechazo() {
+    this.eventosService.getMotivoRechazo(this.evento.evento_id).subscribe({
+      next: value => {
+        this.rechazoActual = value
+        this.msgRechazo();
+      },
+      error: err => {
+      }
+    })
+  }
+
+  editar() {
+    //this.router.navigate(['personal/edit-producto/', `${this.producto.producto_id}-${this.producto.nombre}`])
+  }
+
+  msgRechazo() {
+    Swal.fire({
+      title: '<strong><u>' + this.rechazoActual.alis_estado + '</u></strong>',
+      html: `
+        <p class="text-xl"> ->  ${this.rechazoActual.descripcion}</p> <hr>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
   }
 
 }

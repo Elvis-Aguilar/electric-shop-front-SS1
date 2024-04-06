@@ -56,10 +56,10 @@
                         Area de Eventos
                     </h3>
                     <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg">
+                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goPublicarEvento()">
                             Publicar
                         </button>
-                        <button class="px-4 py-2 border bt2 rounded-lg">
+                        <button class="px-4 py-2 border bt2 rounded-lg" (click)="crearTipoEvento()">
                             Crear Categoria
                         </button>
                         <div class="btn-group">
@@ -68,7 +68,7 @@
                                 Mis Productos
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Registrados</a></li>
+                                <li><a class="dropdown-item" (click)="goEventosRegistrados()">Registrados</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

@@ -22,8 +22,11 @@
                 {{estado}}
             </p>
             <div class="row mt-3">
-                <button type="button" class="btn btn-link col-md-4">Editar</button>
-                <button type="button" class="btn btn-link col-md-8">ver motivo rechazo</button>
+                @if (evento.estado === 3) {
+                    <button type="button" class="btn btn-link col-md-8" (click)="verMotivoRechazo()">ver motivo rechazo</button>
+                }@else {
+                    <button type="button" class="btn btn-link col-md-4" (click)="editar()">Editar</button>
+                }
             </div>
         </div>
     </div>

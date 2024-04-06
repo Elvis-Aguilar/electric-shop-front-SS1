@@ -50,6 +50,23 @@ export class EventoService {
     return this._http.put<string>(`${this.API_URL}acept-evento`, acept)
   }
 
+  public getMotivoRechazo(id: number): Observable<RechazoEvento> {
+    return this._http.get<RechazoEvento>(`${this.API_URL}get-rechazo/${id}`)
+  }
+
+  public registrarTipoEvento(cate: TipoEvento): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}tipo-evento-save`, cate);
+  }
+
+  public getTipoEventoPendientes(): Observable<TipoEvento[]> {
+    return this._http.get<TipoEvento[]>(`${this.API_URL}tipo-evento-pendientes`)
+  }
+
+  public updateCategoria(tipoEvent: TipoEvento): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-tipo-evento/${tipoEvent.tipo_even_id}`, tipoEvent)
+  }
+
+
 
 
 }
