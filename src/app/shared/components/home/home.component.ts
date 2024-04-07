@@ -19,6 +19,6 @@ export class HomeComponent {
   }
 
   goServicios(){
-    this.router.navigate(['area-servicios/home'])
+    this.router.navigate(['area-eventos/home'])
   }
 }

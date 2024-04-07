@@ -4,7 +4,18 @@
             aria-expanded="false">
             Filtrar por Tipo
         </button>
-
+        <ul class="dropdown-menu">
+            @for (tipoEvento of tiposEvento; track $index) {
+            @if (tipoEvento.alias === 'Todos') {
+            <li><a class="dropdown-item">{{tipoEvento.alias}}</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            }@else {
+            <li><a class="dropdown-item">{{tipoEvento.alias}}</a></li>
+            }
+            }
+        </ul>
     </div>
     <div class="btn-group">
         <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
@@ -28,9 +39,15 @@
 
 <div class="container">
     <div class="page-header py-4 font-semibold text-[#03045E] text-2xl">
-        <h1 id="timeline" class="text-center">Eventos Publicados</h1>
+        <h1 class="text-center">Eventos Publicados</h1>
     </div>
-    <ul class="timeline">
-        
+    <ul>
+        @for (evento of eventos; track $index) {
+        @if (($index % 2) === 0) {
+        <app-card-evento [evento]="evento" [clase]="''"></app-card-evento>
+        }@else {
+        <app-card-evento [evento]="evento" [clase]="'timeline-inverted'"></app-card-evento>
+        }
+        }
     </ul>
 </div>

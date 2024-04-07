@@ -1,0 +1,35 @@
+<div class="timeline">
+    <li class="{{clase}}">
+        <!-- representa la bolita-->
+        <div class="timeline-badge primary"></div>
+        <div class="timeline-panel">
+            <div class="hed py-3 mb-3">
+                <h4 class="">{{evento.nombre}}</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mt-2 img-product">
+                    <img class="w-full h-full" [src]="imagen" alt="imagen-card">
+                </div>
+                <div class="col-md-8">
+                    <p class="py-1 card-text text-base text-[#0077B6] font-mono">
+                        lugar y fecha del evento
+                    </p>
+                    <p class="small text-muted font-mono">
+                        {{evento.lugar_realizacion}} : {{evento.fecha_realizacion}}
+                    </p>
+                    <p class="py-1 card-text text-sm text-[#90E0EF] font-mono">
+                        Descripcion
+                    </p>
+                    <p class="text-xs  text-muted font-mono">
+                        {{evento.descripcion}}
+                    </p>
+                    <div class="position-absolute bottom-0 end-0 mr-6 mb-2">
+                        <a type="button" class="text-ms text-[#03045E]" (click)="goEvento()">
+                            Explorar mas 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</div>

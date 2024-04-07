@@ -66,6 +66,11 @@ export class EventoService {
     return this._http.put<string>(`${this.API_URL}update-tipo-evento/${tipoEvent.tipo_even_id}`, tipoEvent)
   }
 
+  public getEventos(): Observable<Evento[]> {
+    return this._http.get<Evento[]>(`${this.API_URL}get-eventos`);
+  }
+
+
 
 
 
