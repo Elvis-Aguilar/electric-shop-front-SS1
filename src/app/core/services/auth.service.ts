@@ -60,4 +60,8 @@ export class AuthService {
     this.usuarioSesion = JSON.parse(localStorage.getItem('sesion_actual')!) || undefined;
   }
 
+  public getPublicador(id:number): Observable<Usuario> {
+    return this._http.get<Usuario>(`${this.API_URL}user/${id}`);
+  }
+
 }

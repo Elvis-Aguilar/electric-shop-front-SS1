@@ -70,6 +70,10 @@ export class EventoService {
     return this._http.get<Evento[]>(`${this.API_URL}get-eventos`);
   }
 
+  public getEventoId(id: number): Observable<Evento> {
+    return this._http.get<Evento>(`${this.API_URL}get-evento/${id}`);
+  }
+
 
 
 
