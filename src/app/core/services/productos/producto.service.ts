@@ -6,6 +6,7 @@ import { Producto } from '../../models/producto/producto';
 import { ProductoPendiente } from '../../models/producto/producto-pendiente';
 import { RechazoProducto } from '../../models/producto/rechazo-producto';
 import { AceptProducto } from '../../models/producto/acept-producto';
+import { Reporte } from '../../models/reporte';
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +96,9 @@ export class ProductoService {
 
   public getProductosFilterFormPago(op: number): Observable<Producto[]> {
     return this._http.get<Producto[]>(`${this.API_URL}get-productos-filter-form-pago/${op}`);
+  }
+
+  public saveRerporte(rep:Reporte): Observable<string>{
+    return this._http.post<string>(`${this.API_URL}save-report-producto`,rep)
   }
 }
