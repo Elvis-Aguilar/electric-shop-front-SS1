@@ -13,4 +13,5 @@ export interface Evento {
     url_foto: string;
     fecha_creacion: string;
     fecha_realizacion: string;
+    evento?:Evento;
 }

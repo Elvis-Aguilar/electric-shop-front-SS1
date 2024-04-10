@@ -4,6 +4,7 @@ import { TipoEvento } from '../../../core/models/evento/tipo-evento';
 import { EventoService } from '../../../core/services/evento/evento.service';
 import { Evento } from '../../../core/models/evento/evento';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home-evento',
@@ -19,7 +20,8 @@ export class HomeEventoComponent {
 
   tiposEvento: TipoEvento[] = []
   eventos: Evento[] = []
-
+  filter: string = 'Todos'
+  descripcion: string = ''
 
   constructor() { }
   ngOnInit(): void {
@@ -46,6 +48,47 @@ export class HomeEventoComponent {
       }
     })
   }
+
+  filtrarFormaPago(index: number) {
+    this.eventoSevice.getEventoFilterFormPago(index).subscribe({
+      next: value => { this.eventos = value},
+      error: err => {
+        this.msgError()
+      }
+    })
+  }
+
+  filtrarCategoria(tipo: TipoEvento) {
+    this.filter = tipo.alias
+    this.descripcion = tipo.descripcion
+    this.eventoSevice.getEventoFilterCategorias(tipo.tipo_even_id || 1).subscribe({
+      next: value => {
+        this.limpearEventos(value)
+      },
+      error: err => {
+        this.msgError();
+      }
+    })
+  }
+
+  private limpearEventos(result: Evento[]) {
+    const eventos: Evento[] = []
+    result.forEach(event => {
+      if (event.evento) {
+        eventos.push(event.evento)
+      }
+    })
+    this.eventos = eventos;    
+  }
+
+  msgError() {
+    Swal.fire(
+      'Ups!!',
+      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'error'
+    );
+  }
+
 
   goPublicar() {
     this.router.navigate(['personal/formulario-evento'])

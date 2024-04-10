@@ -74,7 +74,13 @@ export class EventoService {
     return this._http.get<Evento>(`${this.API_URL}get-evento/${id}`);
   }
 
+  public getEventoFilterCategorias(idTipo: number): Observable<Evento[]> {
+    return this._http.get<Evento[]>(`${this.API_URL}get-eventos-filter-tipo/${idTipo}`);
+  }
 
+  public getEventoFilterFormPago(op: number): Observable<Evento[]> {
+    return this._http.get<Evento[]>(`${this.API_URL}get-eventos-filter-form-pago/${op}`);
+  }
 
 
 

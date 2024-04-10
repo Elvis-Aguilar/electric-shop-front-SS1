@@ -7,12 +7,12 @@
         <ul class="dropdown-menu">
             @for (tipoEvento of tiposEvento; track $index) {
             @if (tipoEvento.alias === 'Todos') {
-            <li><a class="dropdown-item">{{tipoEvento.alias}}</a></li>
+            <li><a class="dropdown-item" (click)="getEventosTodos()">{{tipoEvento.alias}}</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
             }@else {
-            <li><a class="dropdown-item">{{tipoEvento.alias}}</a></li>
+            <li><a class="dropdown-item" (click)="filtrarCategoria(tipoEvento)">{{tipoEvento.alias}}</a></li>
             }
             }
         </ul>
@@ -23,18 +23,39 @@
             Filtrar por Forma de Remuneración
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Moneda del Sistema</a></li>
-            <li><a class="dropdown-item" href="#">Moneda Local (Q)</a></li>
-            <li><a class="dropdown-item" href="#">Trueque</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(1)">Moneda del Sistema</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(2)">Moneda Local (Q)</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(3)">Voluntariado</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Todos</a></li>
+            <li><a class="dropdown-item" (click)="filtrarFormaPago(4)">Todos</a></li>
         </ul>
     </div>
     <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goPublicar()">
         Publicar un Evento
     </button>
+</div>
+<!-- apartado para los cards del producto-->
+<div class="row">
+    <div class="col-md-9">
+        <h4 class="card-title text-[#03045E] text-lg font-semibold py-2 px-4">{{filter}}</h4>
+        <p class="card-text text-sm px-4">{{descripcion}}</p>
+    </div>
+    <div class="col-md-3 pt-8 pr-4">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+            </span>
+            <input type="text" class="form-control" placeholder="Buscar producto" aria-label="Username"
+                aria-describedby="basic-addon1">
+        </div>
+
+    </div>
 </div>
 
 <div class="container">
@@ -48,6 +69,10 @@
         }@else {
         <app-card-evento [evento]="evento" [clase]="'timeline-inverted'"></app-card-evento>
         }
+        }@empty {
+        <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+            Aun no hay eventos publicados
+        </h3>
         }
     </ul>
 </div>

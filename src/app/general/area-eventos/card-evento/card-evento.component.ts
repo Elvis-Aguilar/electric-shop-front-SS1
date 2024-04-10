@@ -30,8 +30,8 @@ export class CardEventoComponent {
       this.imagen = '';
       const filename: string = this.evento.url_foto.split('/').pop() || '';
       this.eventoService.getImage(filename).subscribe({
-        next: value => {this.createImageFromBlob(value)},
-        error: err => {}
+        next: value => { this.createImageFromBlob(value) },
+        error: err => { }
       });
     }
   }
