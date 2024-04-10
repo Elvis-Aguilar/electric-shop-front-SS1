@@ -94,6 +94,10 @@ export class EventoService {
     return this._http.delete<TipoEvento[]>(`${this.API_URL}delete-tipo-evento/${id}`)
   }
 
+  public updateEvento(event: Evento, id: number): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-evento/${id}`, event)
+  }
+
 
 
 }

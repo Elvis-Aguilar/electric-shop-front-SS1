@@ -4,6 +4,7 @@ import { TipoEvento } from '../../../core/models/evento/tipo-evento';
 import { EventoService } from '../../../core/services/evento/evento.service';
 import { Evento } from '../../../core/models/evento/evento';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-evento',
@@ -23,6 +24,7 @@ export class EditEventoComponent {
   controlTipoEventos: TipoEvento[] = []
 
   private readonly eventoService = inject(EventoService)
+  private readonly router = inject(Router)
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -37,6 +39,40 @@ export class EditEventoComponent {
       this.getTipoEvento()
       this.initRegisterFrom()
     }
+  }
+
+  actulizarEvento() {
+    this.registerForm.value.permite_contactar = this.registerForm.value.permite_contactar ? 1 : 0
+    this.registerForm.value.es_voluntariado = this.registerForm.value.es_voluntariado ? 1 : 0
+    if (!this.validInfo()) {
+      return
+    }
+    this.eventoService.updateEvento(this.registerForm.value, this.evento.evento_id).subscribe({
+      next: value => {
+        this.msgProductoActualizado();
+        this.router.navigate(['personal/eventos-registrados'])
+      },
+      error: err => {
+        this.msgError()
+      }
+    })
+  }
+
+  private validInfo(): boolean {
+    if (this.registerForm.value.max_participantes < 0) {
+      this.msgCantidadMaxInvalida()
+      return false
+    }
+    if (this.registerForm.value.es_voluntariado === 0) {
+      if (this.registerForm.value.remunerar_moneda_local < 0 || this.registerForm.value.remunerar_moneda_sitema < 0) {
+        this.msgValorMonedaInvalida()
+        return false
+      }
+      return true
+    }
+    this.registerForm.value.remunerar_moneda_local = 0;
+    this.registerForm.value.remunerar_moneda_sitema = 0;
+    return true
   }
 
   initRegisterFrom() {
@@ -126,8 +162,6 @@ export class EditEventoComponent {
         this.msgCategoriaEliminada()
       },
       error: err => {
-        console.log(err);
-
         this.msgError()
       }
     });
@@ -158,6 +192,28 @@ export class EditEventoComponent {
     );
   }
 
+  private msgCantidadMaxInvalida() {
+    Swal.fire(
+      'Valor Incorrecto',
+      'El numero de participantes maximos debe ser mayor o igual a 0',
+      'error'
+    );
+  }
 
+  private msgValorMonedaInvalida() {
+    Swal.fire(
+      'Valor Incorrecto',
+      'El Valor de la moneda debe ser mayor a 0',
+      'error'
+    );
+  }
+
+  private msgProductoActualizado() {
+    Swal.fire(
+      'Evento Actulizado con exito',
+      'El Evento fue actulizado con exito',
+      'success'
+    );
+  }
 
 }

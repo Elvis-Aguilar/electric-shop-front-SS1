@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { Producto } from '../../../core/models/producto/producto';
 import { Categoria } from '../../../core/models/producto/categoria';
 import { ProductoService } from '../../../core/services/productos/producto.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class EditProductoComponent {
 
 
   private readonly productoService = inject(ProductoService)
+  private readonly router = inject(Router)
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -65,6 +67,7 @@ export class EditProductoComponent {
     this.productoService.updateProducto(this.myGroup.value, this.producto.producto_id).subscribe(
       (result) => {
         this.msgProductoActualizado()
+        this.router.navigate(['personal/productos-registrados'])
       },
       (error) => {
         this.msgError()
