@@ -1,0 +1,141 @@
+<div class="container">
+    <div class="flex flex-col space-y-1.5 p-6 text-center">
+        <h3 class="font-semibold text-[#03045E]  text-2xl">
+            Formulario de Edicion de Evento
+        </h3>
+        <p class="text-sm text-muted">
+            Ingresa los datos de tu evento que deseas cambiar, llena todos los campos requeridos
+        </p>
+    </div>
+    @if (evento) {
+    <div class="border px-4 py-4 rounded-xl">
+        <form [formGroup]="registerForm" class="row g-3">
+            <span class="text-center text-xl">Informacion del Evento</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos Obligatorios</span>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Nombre del Evento</label>
+                <input type="text" class="form-control" id="inputAddress" formControlName="nombre">
+            </div>
+            <div class="col-md-8">
+                <label for="inputAddress" class="form-label">Lugar de Realizacion</label>
+                <input type="text" class="form-control" id="inputAddress"
+                    placeholder="lavadora marca whirlpool, 29kg de capacidad automatico"
+                    formControlName="lugar_realizacion">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Fecha de Realizacion (formato: 24hrs)</label>
+                <input type="datetime-local" class="form-control" id="inputAddress"
+                    placeholder="lavadora marca whirlpool, 29kg de capacidad automatico"
+                    formControlName="fecha_realizacion">
+            </div>
+            <div class="col-md-4">
+                <label for="inputAddress" class="form-label">Maximo de participantes</label>
+                <input type="number" class="form-control" id="inputAddress"
+                    placeholder="lavadora marca whirlpool, 29kg de capacidad automatico"
+                    formControlName="max_participantes">
+            </div>
+            <div class="col-md-12">
+                <label for="inputAddress" class="form-label">Descripcion</label>
+                <textarea class="form-control" aria-label="With textarea"
+                    placeholder="ingrese una descripcion del Evento, detalles, advertencias..."
+                    formControlName="descripcion"></textarea>
+            </div>
+            <span class="text-center text-xl">Informacion Sobre Remuneracion</span>
+            <span class="text-sm text-muted text-[#03505e] ">Campos para Especificar si el evento va ser 100%
+                Voluntariado o no</span>
+            <div class="col-md-4 mt-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                        formControlName="es_voluntariado">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">
+                        Voluntariado
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Precio unitario con moneda del sistema</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cash" viewBox="0 0 16 16">
+                            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                            <path
+                                d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z" />
+                        </svg>
+                    </span>
+                    <input type="number" class="form-control" id="inputCity" placeholder="0"
+                        formControlName="remunerar_moneda_sitema" [readOnly]="registerForm.value.es_voluntariado">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Precio unitario en Quetzales</label>
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                        Q
+                    </span>
+                    <input type="number" class="form-control" id="inputCity" placeholder="0"
+                        formControlName="remunerar_moneda_local" [readOnly]="registerForm.value.es_voluntariado">
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">
+                    Actualizar
+                </button>
+            </div>
+        </form>
+    </div>
+    }@else {
+    <h3 class="font-semibold text-[#03045E]  text-2xl">
+        Cargando.....
+    </h3>
+    }
+</div>
+<div class="border px-4 py-4 my-4 rounded-xl">
+    <div class="row g-3">
+        <span class="text-center text-xl">Informacion de las Categorias</span>
+        <span class="text-sm text-muted text-[#03505e] ">Puede seleccionar 1 a mas categorias</span>
+        <div class="col-md-4">
+            <label for="inputAddress" class="form-label">Selecciona una categoria para asociarla al producto</label>
+            <select class="form-select" aria-label="Default select example">
+                @for (tipo of tiposEventos; track $index) {
+                @if (tipo.alias === 'Todos') {
+                <option selected>
+                    {{tipo.alias}}
+                </option>
+                }@else {
+                <option value={{tipo.tipo_even_id}} (click)="agregarCategoriaEvento(tipo)">
+                    {{tipo.alias}}
+                </option>
+                }
+                }
+            </select>
+        </div>
+        <div class="col-md-8">
+            <p class="form-label text-center ">Categorias del producto</p>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Categoria</th>
+                        <th class="text-center">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (tipo of controlTipoEventos; track $index) {
+                    <tr class="text-center">
+                        <th scope="row">{{$index+1}}</th>
+                        <td class="text-center">
+                            <a class="btn btn-link" (click)="mostrarModaTipoEvento(tipo)">
+                                {{tipo.tipo_evento?.alias}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-primary" (click)="eliminartipoEvento(tipo)">Eliminar</button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

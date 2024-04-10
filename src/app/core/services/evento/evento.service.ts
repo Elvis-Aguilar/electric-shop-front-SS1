@@ -82,6 +82,18 @@ export class EventoService {
     return this._http.get<Evento[]>(`${this.API_URL}get-eventos-filter-form-pago/${op}`);
   }
 
+  public getTipoEventoId(id: number): Observable<TipoEvento[]> {
+    return this._http.get<TipoEvento[]>(`${this.API_URL}tipo-evento/${id}`)
+  }
+
+  public asociarCategoriaEvento(cate: TipoEvento): Observable<TipoEvento[]> {
+    return this._http.post<TipoEvento[]>(`${this.API_URL}asociar-tipo-evento/${cate.evento_id}`, cate)
+  }
+
+  public deletTipoEvento(id: number): Observable<TipoEvento[]> {
+    return this._http.delete<TipoEvento[]>(`${this.API_URL}delete-tipo-evento/${id}`)
+  }
+
 
 
 }

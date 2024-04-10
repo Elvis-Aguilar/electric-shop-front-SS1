@@ -74,7 +74,7 @@ export class CardEventoPublicadoComponent {
   }
 
   editar() {
-    //this.router.navigate(['personal/edit-producto/', `${this.producto.producto_id}-${this.producto.nombre}`])
+    this.router.navigate(['personal/edit-evento/', `${this.evento.evento_id}-${this.evento.nombre}`])
   }
 
   msgRechazo() {
