@@ -7,6 +7,7 @@ import { Evento } from '../../models/evento/evento';
 import { EventoPendiente } from '../../models/evento/evento-pendiente';
 import { RechazoEvento } from '../../models/evento/rechazo-evento';
 import { AceptEvento } from '../../models/evento/acept-evento';
+import { Reporte } from '../../models/reporte';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,7 @@ export class EventoService {
     return this._http.put<string>(`${this.API_URL}update-evento/${id}`, event)
   }
 
-
-
+  public saveRerporte(rep:Reporte): Observable<string>{
+    return this._http.post<string>(`${this.API_URL}save-report-evento`,rep)
+  }
 }

@@ -109,7 +109,6 @@ export class ProductoComponent {
         this.goBack()
       },
       error:err => {
-        console.log(err);
         this.msgError();
       }
     })
