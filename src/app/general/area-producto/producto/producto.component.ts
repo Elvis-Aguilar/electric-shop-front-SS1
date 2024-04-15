@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Reporte } from '../../../core/models/reporte';
+import { CompraProducto } from '../../../core/models/producto/compra-producto';
 
 @Component({
   selector: 'app-producto',
@@ -100,15 +101,15 @@ export class ProductoComponent {
     }
   }
 
-  private saveReporte(descripcion:string){
+  private saveReporte(descripcion: string) {
     const producto_id = this.producto.producto_id
-    const reporte: Reporte = {producto_id,descripcion}
+    const reporte: Reporte = { producto_id, descripcion }
     this.productoService.saveRerporte(reporte).subscribe({
       next: value => {
         this.msgReporteOK();
         this.goBack()
       },
-      error:err => {
+      error: err => {
         this.msgError();
       }
     })
@@ -118,7 +119,7 @@ export class ProductoComponent {
     this.router.navigate(['area-productos/home'])
   }
 
-  private msgReporteOK(){
+  private msgReporteOK() {
     Swal.fire(
       'Accion Realizada con Exito',
       'El reporte del producto fue reportado con exito, el administrador revisara el producto, Gracias por su ayuda!!',
@@ -133,5 +134,145 @@ export class ProductoComponent {
       'error'
     );
   }
+
+  //apartado para logica de compra
+  async modalCantidadCompra(formaPago: number) {
+    const { value: text } = await Swal.fire({
+      input: "number",
+      inputLabel: "Cantidad de producto a comprar",
+      inputPlaceholder: "1",
+      inputAttributes: {
+        "aria-label": "Type your message here"
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      showLoaderOnConfirm: true,
+      preConfirm: (result) => {
+        if (result === '') {
+          Swal.showValidationMessage(
+            `Ingrese un valor valido`
+          )
+        }
+        result = parseInt(result)
+        this.verificacionCantidad(result)
+        //verificarCuentaMonetari si me alcanza para comprar esa cantidad XD
+      }
+    });
+
+    if (text) {
+      //calcular descuento en la cuenta si es que cubre
+      this.modalConfirCompra(text, formaPago);
+    }
+  }
+
+  private verificacionCantidad(cantidad: number) {
+    if (cantidad <= 0) {
+      Swal.showValidationMessage(
+        `La cantidad debe ser mayor a 0`
+      )
+    }
+    if (cantidad > this.producto.cantidad_exit) {
+      Swal.showValidationMessage(
+        `La cantidad supera a la cantidad existente`
+      )
+    }
+  }
+
+  private modalConfirCompra(cantidad: number, formaP: number) {
+    const calcluMonetario = formaP === 1 ? cantidad * this.producto.moneda_sistema : cantidad * this.producto.moneda_local
+    const tipoPago = formaP === 1 ? 'ms' : 'Q'
+    const swalWithBootstrapButtons = Swal.mixin({});
+    swalWithBootstrapButtons.fire({
+      title: "Confirmar Compra",
+      html: `Cantidad de producto a comprar: ${this.producto.cantidad_exit} <br>
+             Total a pagar: ${tipoPago} ${calcluMonetario}`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "No, cancelar!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.modalCompra();
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Compra Cancelada",
+          text: "La compra fue Cancelada",
+          icon: "error"
+        });
+      }
+    });
+  }
+
+  private realizarCompra(cantidad_comprado:number, formaP: number){
+    let compra: CompraProducto
+    if (formaP === 1) {
+      compra = {
+        usuario_comprador_id: this.authService.getUsuarioSesion()?.usuario_id || 1,
+        usuario_vendedor_id: this.producto.usuario_vendedor,
+        producto_id: this.producto.producto_id,
+        cantidad_comprado,
+        total_moneda_ms: cantidad_comprado * this.producto.moneda_sistema
+      }      
+    } else{
+      compra = {
+        usuario_comprador_id: this.authService.getUsuarioSesion()?.usuario_id || 1,
+        usuario_vendedor_id: this.producto.usuario_vendedor,
+        producto_id: this.producto.producto_id,
+        cantidad_comprado,
+        total_moneda_ms: cantidad_comprado * this.producto.moneda_local
+      }  
+    }
+    
+  }
+
+  private modalCompra() {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Compra realizada con exito!",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+
+  /**
+   *  private modalCompra() {
+    let timerInterval: any;
+    Swal.fire({
+      title: "realizando la compra!",
+      html: "realizando operaciones  <b></b> milliseconds.",
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup()?.querySelector("b");
+        if (timer) {
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        }
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Compra realizada con exito!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+  }
+   */
 
 }

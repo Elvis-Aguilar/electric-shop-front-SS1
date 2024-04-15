@@ -2,7 +2,7 @@ export interface Producto {
     producto_id:number;
     estado:number;
     nombre:string;
-    usuario_vendedor:string;
+    usuario_vendedor:number;
     fecha_reg_actuli:string;
     descripcion:string;
     especificaciones:string;

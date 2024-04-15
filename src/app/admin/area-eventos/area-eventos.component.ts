@@ -5,6 +5,8 @@ import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../core/models/usuario';
 import { TipoEvento } from '../../core/models/evento/tipo-evento';
+import { Reporte } from '../../core/models/reporte';
+import { Evento } from '../../core/models/evento/evento';
 
 @Component({
   selector: 'app-area-eventos',
@@ -20,6 +22,8 @@ export class AreaEventosComponent {
   imagen!: string;
   eventosPendientes: EventoPendiente[] = []
   tipoEventoPendientes: TipoEvento[] = []
+  reportes: Reporte[] = []
+
 
 
   private readonly eventoService = inject(EventoService)
@@ -28,6 +32,14 @@ export class AreaEventosComponent {
   ngOnInit(): void {
     this.getEventosPendientes()
     this.getCategoriasPendientes();
+    this.getReportesEventos()
+  }
+  getReportesEventos() {
+    this.eventoService.getReportesEventos().subscribe({
+      next: value => {
+        this.reportes = value
+      }
+    })
   }
 
   getEventosPendientes() {
@@ -249,4 +261,55 @@ export class AreaEventosComponent {
     );
   }
 
+
+  mostrarDesReporte(catego: Reporte) {
+    Swal.fire({
+      title: '<strong><u> Reporte </u></strong>',
+      html: `
+        <p class="text-xl"> ->  ${catego.descripcion}</p> <hr>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
+  }
+
+  mostrarDatosProductoReporte(produc: Evento | undefined) {
+    if (produc) {
+      const filename: string = produc.url_foto.split('/').pop() || '';
+      this.eventoService.getImage(filename).subscribe(
+        (result) => {
+          this.createImageFromBlobR(result, produc);
+        },
+        (error) => {
+          this.imagen = '';
+        }
+      );
+    }
+  }
+
+  private createImageFromBlobR(image: Blob, produc: Evento) {
+    let reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.imagen = reader.result as string;
+      this.mostrarModalReporte(produc);
+    }, false);
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  private mostrarModalReporte(produc: Evento) {
+    const permite_trueque = produc.es_voluntariado === 0 ? 'NO' : 'SI'
+    Swal.fire({
+      title: '<strong><u>' + produc.nombre + '</u></strong>',
+      html: `
+        <img class="h-64 w-full" src="${this.imagen}" alt="imagen-produto">
+        <p class="text-sm"> ->  ${produc.descripcion}</p> <hr>
+        ->ms:  <b>${produc.remunerar_moneda_sitema}</b>, Q:<b> ${produc.remunerar_moneda_local}</b> <br>
+        ->Es voluntariado: <b>${permite_trueque}<b>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+    });
+  }
 }

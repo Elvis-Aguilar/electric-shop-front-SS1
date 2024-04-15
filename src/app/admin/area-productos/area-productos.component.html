@@ -1,3 +1,4 @@
+@if (verGentarl) {
 <section class="container-fluid font-mono">
     <div class="row">
         <div class="my-2">
@@ -65,13 +66,13 @@
                 </thead>
                 <tbody>
                     @for (categoria of categoriasPendientes; track $index) {
-                        <tr class="text-center">
-                            <th scope="row">{{$index+1}}</th>
-                            <td><a class="btn btn-link" (click)="mostrarModalCategoria(categoria)">
+                    <tr class="text-center">
+                        <th scope="row">{{$index+1}}</th>
+                        <td><a class="btn btn-link" (click)="mostrarModalCategoria(categoria)">
                                 {{categoria.alias}}
                             </a></td>
-                            <td>
-                                <div class="btn-group">
+                        <td>
+                            <div class="btn-group">
                                 <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     Opciones
@@ -85,9 +86,9 @@
                                     <li><a class="dropdown-item" (click)="updateCategoria(categoria,2)">Aceptar</a>
                                     </li>
                                 </ul>
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
                     }
                 </tbody>
 
@@ -97,29 +98,90 @@
             <h3 class=" text-[#03045E] text-center font-semibold mb-2">
                 Productos Reportados
             </h3>
-            <table class="table table-bordered">
+            <table class="table table-bordered text-center">
                 <thead class="table-secondary">
                     <tr>
                         <th>#</th>
-                        <th>Nombre del producto</th>
-                        <th>Usuario</th>
-                        <th>Fecha registro</th>
+                        <th>producto</th>
+                        <th>Descripcion de reporte</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @for (reporte of reportes; track $index) {
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarDatosProductoReporte(reporte.producto)">
+                                {{reporte.producto?.nombre}}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarDesReporte(reporte)">
+                                ver Descripcion
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" (click)="reporteVisto(reporte)">Marcar como visto</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            (click)="verReportesProductoEspecifico(reporte.producto_id|| 0, reporte.producto)">Ver
+                                            mas reportes del producto</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                     </tr>
-
+                    }
                 </tbody>
-
             </table>
         </div>
     </div>
 </section>
+}@else {
+<section class="container-fluid font-mono">
+    <div class="row">
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Reporte de <a> {{productoRevision.nombre}}</a>
+            </h3>
+            <br>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (report of reportesProducto; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            {{report.descripcion}}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-info" (click)="verGentarl = true">Regresar</button>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"> 
+            <button class="btn btn-danger" (click)="darDeBajaProducto(productoRevision.producto_id)">Dar de Baja</button>
+        </div>
+    </div>
+</section>
+}

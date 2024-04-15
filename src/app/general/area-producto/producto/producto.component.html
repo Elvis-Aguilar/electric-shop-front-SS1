@@ -36,8 +36,8 @@
                         Pagar Con
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item {{statusMonedaSm}}" href="#">Moneda sm</a></li>
-                        <li><a class="dropdown-item {{statusMonedaQ}} " href="#">Moneda Q</a></li>
+                        <li><a class="dropdown-item {{statusMonedaSm}}" (click)="modalCantidadCompra(1)">Moneda sm</a></li>
+                        <li><a class="dropdown-item {{statusMonedaQ}} " (click)="modalCantidadCompra(2)">Moneda Q</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

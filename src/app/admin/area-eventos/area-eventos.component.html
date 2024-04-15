@@ -98,5 +98,57 @@
                 }
             </tbody>
         </table>
+        <div>
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">
+                Eventos Reportados
+            </h3>
+            <table class="table table-bordered text-center">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>#</th>
+                        <th>Evento</th>
+                        <th>Descripcion de reporte</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (reporte of reportes; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarDatosProductoReporte(reporte.evento)">
+                                {{reporte.evento?.nombre}}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarDesReporte(reporte)">
+                                ver Descripcion
+                            </a>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Marcar como visto</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item">
+                                        Ver mas reportes del producto
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>

@@ -102,4 +102,9 @@ export class EventoService {
   public saveRerporte(rep:Reporte): Observable<string>{
     return this._http.post<string>(`${this.API_URL}save-report-evento`,rep)
   }
+
+  public getReportesEventos(): Observable<Reporte[]> {
+    return this._http.get<Reporte[]>(`${this.API_URL}get-reportes-eventos`);
+  }
+
 }

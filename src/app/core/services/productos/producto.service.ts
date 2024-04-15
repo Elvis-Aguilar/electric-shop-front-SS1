@@ -101,4 +101,21 @@ export class ProductoService {
   public saveRerporte(rep:Reporte): Observable<string>{
     return this._http.post<string>(`${this.API_URL}save-report-producto`,rep)
   }
+
+  public getReportesProducto(): Observable<Reporte[]> {
+    return this._http.get<Reporte[]>(`${this.API_URL}get-reportes-productos`);
+  }
+
+  public updateReporteVisto(prod: Reporte, id: number): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-reporte-producto/${id}`, prod)
+  }
+
+  public getReportesProductoEspecifico(id:number): Observable<Reporte[]> {
+    return this._http.get<Reporte[]>(`${this.API_URL}get-reportes-producto/${id}`);
+  }
+
+  public darDeBaja(prod: Reporte, id: number): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}baja-producto/${id}`, prod)
+  }
+
 }
