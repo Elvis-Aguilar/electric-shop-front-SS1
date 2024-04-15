@@ -21,5 +21,9 @@ export class HomeAdminComponent {
     this.router.navigate(['area-admin/area-eventos'])
   }
 
+  goAreaMonetaria(){
+    this.router.navigate(['area-admin/area-monetaria'])
+  }
+
 
 }
