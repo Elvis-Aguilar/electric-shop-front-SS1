@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { HttpClient } from '@angular/common/http';
+import { CuentaMonetaria } from '../models/cuenta-monetaria';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,14 @@ export class AuthService {
 
   public getPublicador(id:number): Observable<Usuario> {
     return this._http.get<Usuario>(`${this.API_URL}user/${id}`);
+  }
+
+  public getCuentaMonetaria(id:number): Observable<CuentaMonetaria> {
+    return this._http.get<CuentaMonetaria>(`${this.API_URL}cuenta-monetaria/${id}`);
+  }
+
+  public updateCuentaMonetaria(cuenta:CuentaMonetaria): Observable<CuentaMonetaria> {
+    return this._http.put<CuentaMonetaria>(`${this.API_URL}update-cuenta-monetaria/${cuenta.cuenta_monteraia_id}`, cuenta);
   }
 
 }
