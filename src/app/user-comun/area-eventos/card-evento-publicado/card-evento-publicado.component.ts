@@ -77,6 +77,11 @@ export class CardEventoPublicadoComponent {
     this.router.navigate(['personal/edit-evento/', `${this.evento.evento_id}-${this.evento.nombre}`])
   }
 
+  goToLista(){
+    this.router.navigate(['personal/lista-evento/', `${this.evento.evento_id}-${this.evento.nombre}`])
+
+  }
+
   msgRechazo() {
     Swal.fire({
       title: '<strong><u>' + this.rechazoActual.alis_estado + '</u></strong>',

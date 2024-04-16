@@ -7,6 +7,7 @@ import { EditProductoComponent } from "./area-productos/edit-producto/edit-produ
 import { EventosPublicadosComponent } from "./area-eventos/eventos-publicados/eventos-publicados.component";
 import { EditEventoComponent } from "./area-eventos/edit-evento/edit-evento.component";
 import { CuentaMonetariaComponent } from "./cuenta-monetaria/cuenta-monetaria.component";
+import { ListaParticipantesComponent } from "./area-eventos/lista-participantes/lista-participantes.component";
 
 
 
@@ -19,5 +20,7 @@ export const AUTH_ROUTES: Routes = [
     { path: 'edit-producto/:id', component: EditProductoComponent },
     { path: 'eventos-registrados', component: EventosPublicadosComponent },
     { path: 'edit-evento/:id', component: EditEventoComponent },
-    { path: 'cuenta-monetaria', component: CuentaMonetariaComponent }
+    { path: 'cuenta-monetaria', component: CuentaMonetariaComponent },
+    { path: 'lista-evento/:id', component: ListaParticipantesComponent }
+
 ];

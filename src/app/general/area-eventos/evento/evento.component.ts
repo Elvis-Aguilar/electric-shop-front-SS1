@@ -6,6 +6,7 @@ import { EventoService } from '../../../core/services/evento/evento.service';
 import { Usuario } from '../../../core/models/usuario';
 import Swal from 'sweetalert2';
 import { Reporte } from '../../../core/models/reporte';
+import { ListaAsistencia } from '../../../core/models/evento/lista-asistencia';
 
 @Component({
   selector: 'app-evento',
@@ -116,11 +117,38 @@ export class EventoComponent {
     })
   }
 
+   agragarALista(){
+    //validar si ya esta en la lista
+    const lista: ListaAsistencia = {
+      evento_id: this.evento.evento_id,
+      usuario_id: this.authService.getUsuarioSesion()?.usuario_id || 0
+    }
+    this.eventoService.agregaALista(lista).subscribe({
+      next: value =>{
+        this.goBack();
+        this.msgAddListaOK()
+      },
+      error: err =>{
+        console.error(err);
+        this.msgError();
+      }
+    })
+
+  }
+
 
   private msgReporteOK() {
     Swal.fire(
       'Accion Realizada con Exito',
       'El reporte del producto fue reportado con exito, el administrador revisara el producto, Gracias por su ayuda!!',
+      'success'
+    );
+  }
+
+  private msgAddListaOK() {
+    Swal.fire(
+      'Accion Realizada con Exito',
+      'Usted ha sido agrega a la lista de ayuda',
       'success'
     );
   }

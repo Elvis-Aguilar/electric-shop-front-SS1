@@ -8,6 +8,7 @@ import { EventoPendiente } from '../../models/evento/evento-pendiente';
 import { RechazoEvento } from '../../models/evento/rechazo-evento';
 import { AceptEvento } from '../../models/evento/acept-evento';
 import { Reporte } from '../../models/reporte';
+import { ListaAsistencia } from '../../models/evento/lista-asistencia';
 
 @Injectable({
   providedIn: 'root'
@@ -99,12 +100,33 @@ export class EventoService {
     return this._http.put<string>(`${this.API_URL}update-evento/${id}`, event)
   }
 
-  public saveRerporte(rep:Reporte): Observable<string>{
-    return this._http.post<string>(`${this.API_URL}save-report-evento`,rep)
+  public saveRerporte(rep: Reporte): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}save-report-evento`, rep)
   }
 
   public getReportesEventos(): Observable<Reporte[]> {
     return this._http.get<Reporte[]>(`${this.API_URL}get-reportes-eventos`);
   }
+
+  public agregaALista(list: ListaAsistencia): Observable<string> {
+    return this._http.post<string>(`${this.API_URL}add-evento-list`, list)
+  }
+
+  public getLitaEventoId(id: number): Observable<ListaAsistencia[]> {
+    return this._http.get<ListaAsistencia[]>(`${this.API_URL}get-lista-eventos/${id}`);
+  }
+
+  public updateEstadoAsistenciaId(list: ListaAsistencia): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-evento-list`, list)
+  }
+
+  public updateEstadoAsistencia(list: ListaAsistencia): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}update-evento-lists`, list)
+  }
+
+  public gratificar(list: ListaAsistencia): Observable<string> {
+    return this._http.put<string>(`${this.API_URL}gratificar-evento-lists`, list)
+  }
+
 
 }
