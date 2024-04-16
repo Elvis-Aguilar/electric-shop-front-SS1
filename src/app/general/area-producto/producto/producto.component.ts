@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Reporte } from '../../../core/models/reporte';
 import { CompraProducto } from '../../../core/models/producto/compra-producto';
+import { CuentaMonetaria } from '../../../core/models/cuenta-monetaria';
 
 @Component({
   selector: 'app-producto',
@@ -43,9 +44,6 @@ export class ProductoComponent {
         this.statusMonedaQ = (this.producto.moneda_local === 0) ? 'disabled' : '';
         this.statusMonedaSm = (this.producto.moneda_sistema === 0) ? 'disabled' : '';
         this.statusTrueque = (this.producto.permite_trueque === 0) ? 'disabled' : '';
-      },
-      (error) => {
-
       }
     )
 
@@ -155,13 +153,11 @@ export class ProductoComponent {
         }
         result = parseInt(result)
         this.verificacionCantidad(result)
-        //verificarCuentaMonetari si me alcanza para comprar esa cantidad XD
       }
     });
 
     if (text) {
-      //calcular descuento en la cuenta si es que cubre
-      this.modalConfirCompra(text, formaPago);
+      this.validarCuentaMonetaria(formaPago,text)
     }
   }
 
@@ -178,22 +174,23 @@ export class ProductoComponent {
     }
   }
 
-  private modalConfirCompra(cantidad: number, formaP: number) {
+  private modalConfirCompra(cantidad: number, formaP: number, cuentaMoentari:CuentaMonetaria) {
     const calcluMonetario = formaP === 1 ? cantidad * this.producto.moneda_sistema : cantidad * this.producto.moneda_local
     const tipoPago = formaP === 1 ? 'ms' : 'Q'
     const swalWithBootstrapButtons = Swal.mixin({});
     swalWithBootstrapButtons.fire({
       title: "Confirmar Compra",
-      html: `Cantidad de producto a comprar: ${this.producto.cantidad_exit} <br>
+      html: `Cantidad de producto a comprar: ${cantidad} <br>
              Total a pagar: ${tipoPago} ${calcluMonetario}`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Confirmar",
-      cancelButtonText: "No, cancelar!",
+      cancelButtonText: "Cancelar!",
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.modalCompra();
+        //realizar la compra
+        this.realizarCompra(cantidad, formaP,cuentaMoentari)
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -207,7 +204,7 @@ export class ProductoComponent {
     });
   }
 
-  private realizarCompra(cantidad_comprado:number, formaP: number){
+  private realizarCompra(cantidad_comprado:number, formaP: number, cuentaMoentari:CuentaMonetaria){
     let compra: CompraProducto
     if (formaP === 1) {
       compra = {
@@ -215,18 +212,31 @@ export class ProductoComponent {
         usuario_vendedor_id: this.producto.usuario_vendedor,
         producto_id: this.producto.producto_id,
         cantidad_comprado,
-        total_moneda_ms: cantidad_comprado * this.producto.moneda_sistema
-      }      
+        total_moneda_ms: cantidad_comprado * this.producto.moneda_sistema,
+        total_moneda_local: 0
+      } 
+      cuentaMoentari.moneda_ms = cuentaMoentari.moneda_ms - (compra.cantidad_comprado * this.producto.moneda_sistema)
     } else{
       compra = {
         usuario_comprador_id: this.authService.getUsuarioSesion()?.usuario_id || 1,
         usuario_vendedor_id: this.producto.usuario_vendedor,
         producto_id: this.producto.producto_id,
         cantidad_comprado,
-        total_moneda_ms: cantidad_comprado * this.producto.moneda_local
+        total_moneda_local: cantidad_comprado * this.producto.moneda_local,
+        total_moneda_ms: 0
       }  
+      cuentaMoentari.moneda_local = cuentaMoentari.moneda_local - (compra.cantidad_comprado * this.producto.moneda_local)
     }
-    
+    compra.cuenta_monetaria = cuentaMoentari; 
+    this.productoService.comprarProducto(compra).subscribe({
+      next: value =>{
+        this.goBack()        
+        this.modalCompra();
+      },
+      error: err =>{
+        this.msgError()
+      }
+    })
   }
 
   private modalCompra() {
@@ -237,6 +247,47 @@ export class ProductoComponent {
       showConfirmButton: false,
       timer: 1500
     });
+  }
+
+  /**
+   * funcion para validar si me alcanza con el dinero en mi cuenta para comprar
+   */
+  private  validarCuentaMonetaria(formaP: number, cantidad:number){
+    const id = this.authService.getUsuarioSesion()?.usuario_id || 0
+    if (id === 0) {
+      return
+    }
+    this.authService.getCuentaMonetaria(id).subscribe({
+      next: value => {
+        this.validarTotalAGastar(formaP,value, cantidad)
+      }
+    })
+  }
+
+  private validarTotalAGastar(formaP: number, cuentaMoentari:CuentaMonetaria, cantidad: number){
+    cuentaMoentari.moneda_local = parseFloat(cuentaMoentari.moneda_local+'')
+    cuentaMoentari.moneda_ms = parseFloat(cuentaMoentari.moneda_ms+'')
+    const calcluMonetario = formaP === 1 ? cantidad * this.producto.moneda_sistema : cantidad * this.producto.moneda_local
+    if (formaP === 1) {
+      if (calcluMonetario > cuentaMoentari.moneda_ms) {
+        this.msgFondoInvalidos()
+        return
+      }
+    }else{
+      if (calcluMonetario > cuentaMoentari.moneda_local) {
+        this.msgFondoInvalidos()
+        return
+      }
+    }
+    this.modalConfirCompra(cantidad, formaP, cuentaMoentari);
+  }
+
+  private msgFondoInvalidos() {
+    Swal.fire(
+      'No le Alcanza',
+      'Usted no cuenta con los fondos necesario para realizar la compra, puede ir a recargar fondos en su cuenta monetaria',
+      'info'
+    );
   }
 
 

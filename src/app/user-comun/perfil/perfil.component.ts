@@ -150,6 +150,10 @@ export class PerfilComponent {
     this.router.navigate(['personal/eventos-registrados'])
   }
 
+  goCuentaMonetaria(){
+    this.router.navigate(['personal/cuenta-monetaria']);
+  }
+
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener('load', () => {

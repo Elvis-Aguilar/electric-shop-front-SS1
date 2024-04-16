@@ -7,6 +7,7 @@ import { ProductoPendiente } from '../../models/producto/producto-pendiente';
 import { RechazoProducto } from '../../models/producto/rechazo-producto';
 import { AceptProducto } from '../../models/producto/acept-producto';
 import { Reporte } from '../../models/reporte';
+import { CompraProducto } from '../../models/producto/compra-producto';
 
 @Injectable({
   providedIn: 'root'
@@ -116,6 +117,10 @@ export class ProductoService {
 
   public darDeBaja(prod: Reporte, id: number): Observable<string> {
     return this._http.put<string>(`${this.API_URL}baja-producto/${id}`, prod)
+  }
+  
+  public comprarProducto(compra:CompraProducto): Observable<string>{
+    return this._http.post<string>(`${this.API_URL}save-compra-producto`,compra)
   }
 
 }

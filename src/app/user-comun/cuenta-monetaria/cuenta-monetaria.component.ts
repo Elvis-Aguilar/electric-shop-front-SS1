@@ -136,9 +136,7 @@ export class CuentaMonetariaComponent {
         this.opcion = 0
         this.msgSucces()
       },
-      error: err => {
-        console.log(err);
-        
+      error: err => {        
         this.msgError()
       }
     })
