@@ -290,6 +290,10 @@ export class ProductoComponent {
     );
   }
 
+  goTrueque(){
+    this.router.navigate(['personal/solicitud-trueque/',`${this.producto.producto_id}-${this.producto.nombre}`])
+  }
+
 
   /**
    *  private modalCompra() {

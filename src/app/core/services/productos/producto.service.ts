@@ -8,6 +8,7 @@ import { RechazoProducto } from '../../models/producto/rechazo-producto';
 import { AceptProducto } from '../../models/producto/acept-producto';
 import { Reporte } from '../../models/reporte';
 import { CompraProducto } from '../../models/producto/compra-producto';
+import { TruequeProducto } from '../../models/producto/trueque-producto';
 
 @Injectable({
   providedIn: 'root'
@@ -121,6 +122,10 @@ export class ProductoService {
   
   public comprarProducto(compra:CompraProducto): Observable<string>{
     return this._http.post<string>(`${this.API_URL}save-compra-producto`,compra)
+  }
+
+  public saveSoliciatudTrueque(trueque:TruequeProducto): Observable<string>{
+    return this._http.post<string>(`${this.API_URL}save-trueque-producto`,trueque)
   }
 
 }
