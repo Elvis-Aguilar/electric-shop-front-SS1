@@ -128,4 +128,16 @@ export class ProductoService {
     return this._http.post<string>(`${this.API_URL}save-trueque-producto`,trueque)
   }
 
+  public getSoliciatudTruequeResolver(id:number): Observable<TruequeProducto[]> {
+    return this._http.get<TruequeProducto[]>(`${this.API_URL}get-trueques-producto-res/${id}`);
+  }
+
+  public updateSolicitudTrueque(trueque:TruequeProducto): Observable<TruequeProducto[]> {
+    return this._http.put<TruequeProducto[]>(`${this.API_URL}update-trueque-producto`, trueque)
+  }
+
+  public getSoliciatudTrueque(id:number): Observable<TruequeProducto[]> {
+    return this._http.get<TruequeProducto[]>(`${this.API_URL}get-trueques-producto/${id}`);
+  }
+
 }

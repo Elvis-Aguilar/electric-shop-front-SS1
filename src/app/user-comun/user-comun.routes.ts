@@ -9,6 +9,7 @@ import { EditEventoComponent } from "./area-eventos/edit-evento/edit-evento.comp
 import { CuentaMonetariaComponent } from "./cuenta-monetaria/cuenta-monetaria.component";
 import { ListaParticipantesComponent } from "./area-eventos/lista-participantes/lista-participantes.component";
 import { SolicitudTruequeComponent } from "./area-productos/solicitud-trueque/solicitud-trueque.component";
+import { AreaTruequesComponent } from "./area-trueques/area-trueques.component";
 
 
 
@@ -23,5 +24,7 @@ export const AUTH_ROUTES: Routes = [
     { path: 'edit-evento/:id', component: EditEventoComponent },
     { path: 'cuenta-monetaria', component: CuentaMonetariaComponent },
     { path: 'lista-evento/:id', component: ListaParticipantesComponent },
-    { path: 'solicitud-trueque/:id', component: SolicitudTruequeComponent }
+    { path: 'solicitud-trueque/:id', component: SolicitudTruequeComponent },
+    { path: 'area-trueques', component: AreaTruequesComponent }
+
 ];
