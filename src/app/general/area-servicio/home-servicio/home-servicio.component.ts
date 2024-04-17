@@ -16,6 +16,6 @@ export class HomeServicioComponent {
   constructor() { }
 
   goPublicar() {
-    this.router.navigate(['personal/formulario-evento'])
+    this.router.navigate(['personal/formulario-servicio'])
   }
 }

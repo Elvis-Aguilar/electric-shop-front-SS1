@@ -49,7 +49,6 @@ export class FormPublicEventoComponent {
 
   register() {
     if (this.validarInfo()) {
-      console.log(this.registerForm.value);
       this.eventoService.saveImgEvento(this.formData).subscribe({
         next: value => {
           this.registerForm.value.url_foto = value.url_foto;

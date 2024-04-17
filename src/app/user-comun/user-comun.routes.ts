@@ -10,6 +10,8 @@ import { CuentaMonetariaComponent } from "./cuenta-monetaria/cuenta-monetaria.co
 import { ListaParticipantesComponent } from "./area-eventos/lista-participantes/lista-participantes.component";
 import { SolicitudTruequeComponent } from "./area-productos/solicitud-trueque/solicitud-trueque.component";
 import { AreaTruequesComponent } from "./area-trueques/area-trueques.component";
+import { FormServicioComponent } from "./area-servicios/form-servicio/form-servicio.component";
+import { ServiciosPublicadosComponent } from "./area-servicios/servicios-publicados/servicios-publicados.component";
 
 
 
@@ -25,6 +27,7 @@ export const AUTH_ROUTES: Routes = [
     { path: 'cuenta-monetaria', component: CuentaMonetariaComponent },
     { path: 'lista-evento/:id', component: ListaParticipantesComponent },
     { path: 'solicitud-trueque/:id', component: SolicitudTruequeComponent },
-    { path: 'area-trueques', component: AreaTruequesComponent }
-
+    { path: 'area-trueques', component: AreaTruequesComponent },
+    { path: 'formulario-servicio', component: FormServicioComponent },
+    { path: 'servicios-registrados', component: ServiciosPublicadosComponent }
 ];
