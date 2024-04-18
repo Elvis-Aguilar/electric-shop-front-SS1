@@ -12,6 +12,7 @@ import { SolicitudTruequeComponent } from "./area-productos/solicitud-trueque/so
 import { AreaTruequesComponent } from "./area-trueques/area-trueques.component";
 import { FormServicioComponent } from "./area-servicios/form-servicio/form-servicio.component";
 import { ServiciosPublicadosComponent } from "./area-servicios/servicios-publicados/servicios-publicados.component";
+import { OfertarComponent } from "./area-servicios/ofertar/ofertar.component";
 
 
 
@@ -29,5 +30,6 @@ export const AUTH_ROUTES: Routes = [
     { path: 'solicitud-trueque/:id', component: SolicitudTruequeComponent },
     { path: 'area-trueques', component: AreaTruequesComponent },
     { path: 'formulario-servicio', component: FormServicioComponent },
-    { path: 'servicios-registrados', component: ServiciosPublicadosComponent }
+    { path: 'servicios-registrados', component: ServiciosPublicadosComponent },
+    { path: 'ofertar-servicio/:id', component: OfertarComponent }
 ];

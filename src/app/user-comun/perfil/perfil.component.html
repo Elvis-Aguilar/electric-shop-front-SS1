@@ -18,7 +18,8 @@
                         </svg>
                     </p>
                     <button class="btn btn-info font-mono w-full my-2">editar perfil</button>
-                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goCuentaMonetaria()">Cuenta Monetaria</button>
+                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goCuentaMonetaria()">Cuenta
+                        Monetaria</button>
                 </div>
             </div>
         </div>
@@ -82,7 +83,7 @@
                         Area de Servicios
                     </h3>
                     <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg">
+                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goPublicarServicios()">
                             Publicar
                         </button>
                         <button class="px-4 py-2 border bt2 rounded-lg">
@@ -94,11 +95,11 @@
                                 Mis Productos
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Registrados</a></li>
+                                <li><a class="dropdown-item" (click)="goServiciosRegistrados()">Registrados</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#">Comprados</a></li>
+                                <li><a class="dropdown-item">Comprados</a></li>
                             </ul>
                         </div>
                     </div>

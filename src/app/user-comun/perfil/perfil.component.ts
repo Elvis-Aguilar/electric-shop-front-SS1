@@ -154,6 +154,14 @@ export class PerfilComponent {
     this.router.navigate(['personal/cuenta-monetaria']);
   }
 
+  goPublicarServicios() {
+    this.router.navigate(['personal/formulario-servicio'])
+  }
+
+  goServiciosRegistrados() {
+    this.router.navigate(['personal/servicios-registrados'])
+  }
+
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener('load', () => {

@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { ServicioService } from '../../../core/services/servicios/servicio.service';
 
 @Component({
-  selector: 'app-card-servicio-public',
+  selector: 'app-card-servicio',
   standalone: true,
   imports: [],
-  templateUrl: './card-servicio-public.component.html',
-  styleUrl: './card-servicio-public.component.css'
+  templateUrl: './card-servicio.component.html',
+  styleUrl: './card-servicio.component.css'
 })
-export class CardServicioPublicComponent {
+export class CardServicioComponent {
 
   @Input() servicio!: Servicio;
   imagen!: string;
@@ -43,4 +43,7 @@ export class CardServicioPublicComponent {
     }
   }
 
+  goEvento() {
+    this.router.navigate(['area-servicios/servicio', `${this.servicio.servicio_id}-${this.servicio.nombre}`])
+  }
 }

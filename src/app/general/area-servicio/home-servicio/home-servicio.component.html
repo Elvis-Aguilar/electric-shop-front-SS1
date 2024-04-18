@@ -25,64 +25,21 @@
         Publicar un Servicio
     </button>
 </div>
-
-<div class="container">
-    <div class="page-header py-4 font-semibold text-[#03045E] text-2xl">
-        <h1 id="timeline" class="text-center">Eventos Publicados segun el Timpo</h1>
+<section style="background-color: #ffffff">
+    <div class="container-fluid py-1">
+        <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+            Servicios Registrados
+        </h3>
+        <div class="row  py-4 g-3">
+            @for (servicio of servicios; track $index) {
+                <div class="col-md-6">
+                    <app-card-servicio [servicio]="servicio"></app-card-servicio>
+                </div>
+                }@empty {
+                <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
+                    Aun no hay productos publicados
+                </h3>
+                }
+        </div>
     </div>
-    <ul class="timeline">
-        <li>
-            <!-- representa la bolita-->
-            <div class="timeline-badge primary"></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading hed py-4 mb-3">
-                    <h4 class="">Titulo del Evento</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-4  img-product">
-                        <img class="w-full h-full" src="./.././../../../assets/Productos.png" alt="imagen-card">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="timeline-body">
-                            <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois
-                                divoltis
-                                porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros
-                                vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois
-                                paga.
-                                Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso
-                                pudia
-                                ce
-                                receita de bolis, mais bolis eu num gostis.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-badge secundary"></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading hed py-4 mb-3">
-                    <h4 class="">Titulo del Evento</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-4  img-product">
-                        <img class="w-full h-full" src="./.././../../../assets/Productos.png" alt="imagen-card">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="timeline-body">
-                            <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois
-                                divoltis
-                                porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros
-                                vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois
-                                paga.
-                                Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso
-                                pudia
-                                ce
-                                receita de bolis, mais bolis eu num gostis.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
+</section>
