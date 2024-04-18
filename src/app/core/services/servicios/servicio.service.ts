@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Servicio } from '../../models/servicios/servicio';
 import { Observable, of } from 'rxjs';
 import { Oferta } from '../../models/servicios/oferta';
+import { TruequeProductoServicio } from '../../models/evento/trueque-producto-servicio';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,17 @@ export class ServicioService {
     return this._http.put<Oferta[]>(`${this.API_URL}update-oferta`, oferta)
   }
 
+  public saveSoliciatudTrueque(trueque:TruequeProductoServicio): Observable<string>{
+    return this._http.post<string>(`${this.API_URL}save-trueque-producto`,trueque)
+  }
 
+  public getSoliciatudTruequeResolver(id:number): Observable<TruequeProductoServicio[]> {
+    return this._http.get<TruequeProductoServicio[]>(`${this.API_URL}get-trueques-producto-res/${id}`);
+  }
+
+  public updateSolicitudTrueque(trueque:TruequeProductoServicio): Observable<TruequeProductoServicio[]> {
+    return this._http.put<TruequeProductoServicio[]>(`${this.API_URL}update-trueque-producto`, trueque)
+  }
 
 
 }

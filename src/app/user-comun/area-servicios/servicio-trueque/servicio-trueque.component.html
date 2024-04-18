@@ -1,0 +1,32 @@
+<section class="container-fluid font-mono">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="border p-4 mt-16 rounded-xl shadow">
+                <form [formGroup]="registerForm" (submit)="register()" class="row g-3">
+                    <span class="text-center text-[#0077B6] ">Servicio: {{ofertaName}}</span>
+                    <span class="text-sm text-muted text-[#03505e] ">Datos Obligatorios para la solicitud de truque con
+                        el producto</span>
+                    <div class="col-md-4">
+                        <label for="inputAddress" class="form-label">Producto a intercambiar</label>
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="producto_intercambiar_id">
+                            @for (producto of productos; track $index) {
+                            <option value={{producto.producto_id}}>{{producto.nombre}}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputAddress" class="form-label">Cantidad a dar</label>
+                        <input type="number" class="form-control" id="inputAddress" placeholder="1"
+                            formControlName="cantidad_producto">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-info">solicitar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</section>

@@ -35,12 +35,17 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" (click)="updateOferta(2,oferta, 1)">Aceptar en ms</a>
                                     </li>
-                                    <li><a class="dropdown-item" (click)="updateOferta(2,oferta, 0)" >Aceptar en Q</a>
+                                    <li><a class="dropdown-item" (click)="updateOferta(2,oferta, 0)">Aceptar en Q</a>
                                     </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" (click)="updateOferta(3,oferta, 0)" > Rechazar</a>
+                                    <li><a class="dropdown-item" (click)="updateOferta(3,oferta, 0)"> Rechazar</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="goSolicitudIntecambio(oferta.usuario_ofertante_id)">Solicitar Trueque</a>
                                     </li>
                                 </ul>
                             </div>

@@ -5,6 +5,7 @@ import { ServicioService } from '../../../core/services/servicios/servicio.servi
 import { Usuario } from '../../../core/models/usuario';
 import Swal from 'sweetalert2';
 import { Oferta } from '../../../core/models/servicios/oferta';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-ofertantes',
@@ -24,6 +25,7 @@ export class ListaOfertantesComponent {
 
   private readonly authService = inject(AuthService)
   private readonly servicioService = inject(ServicioService)
+  private readonly router = inject(Router)
 
   ngOnInit(): void {
     this.ofertaName = this.productoId.split('-')[1]
@@ -120,6 +122,10 @@ export class ListaOfertantesComponent {
       'success'
     );
   }
+
+  goSolicitudIntecambio(id:number){
+    this.router.navigate(['personal/solicitud-trueque-servicio', `${this.productoId}-${id}`])
+  } 
 
 
 

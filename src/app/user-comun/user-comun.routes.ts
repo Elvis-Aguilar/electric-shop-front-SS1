@@ -14,6 +14,7 @@ import { FormServicioComponent } from "./area-servicios/form-servicio/form-servi
 import { ServiciosPublicadosComponent } from "./area-servicios/servicios-publicados/servicios-publicados.component";
 import { OfertarComponent } from "./area-servicios/ofertar/ofertar.component";
 import { ListaOfertantesComponent } from "./area-servicios/lista-ofertantes/lista-ofertantes.component";
+import { ServicioTruequeComponent } from "./area-servicios/servicio-trueque/servicio-trueque.component";
 
 
 
@@ -33,6 +34,8 @@ export const AUTH_ROUTES: Routes = [
     { path: 'formulario-servicio', component: FormServicioComponent },
     { path: 'servicios-registrados', component: ServiciosPublicadosComponent },
     { path: 'ofertar-servicio/:id', component: OfertarComponent },
-    { path: 'lista-ofertantes/:id', component: ListaOfertantesComponent }
+    { path: 'lista-ofertantes/:id', component: ListaOfertantesComponent },
+    { path: 'solicitud-trueque-servicio/:id', component: ServicioTruequeComponent },
+
 
 ];

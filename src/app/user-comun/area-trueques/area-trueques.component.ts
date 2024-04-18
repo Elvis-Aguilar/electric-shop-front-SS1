@@ -5,6 +5,8 @@ import { TruequeProducto } from '../../core/models/producto/trueque-producto';
 import { Producto } from '../../core/models/producto/producto';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../core/models/usuario';
+import { TruequeProductoServicio } from '../../core/models/evento/trueque-producto-servicio';
+import { ServicioService } from '../../core/services/servicios/servicio.service';
 
 @Component({
   selector: 'app-area-trueques',
@@ -18,9 +20,11 @@ export class AreaTruequesComponent {
 
   private readonly productoService = inject(ProductoService)
   private readonly authService = inject(AuthService)
-  
-  turequesPendientes: TruequeProducto [] = [] 
-  trueques: TruequeProducto [] = [] 
+  private readonly servicioService = inject(ServicioService)
+
+  turequesPendientes: TruequeProducto[] = []
+  trueques: TruequeProducto[] = []
+  truequesProductoServicio: TruequeProductoServicio[] = []
 
   imagen!: string;
 
@@ -28,18 +32,25 @@ export class AreaTruequesComponent {
   ngOnInit(): void {
     const id = this.authService.getUsuarioSesion()?.usuario_id || 0
     this.productoService.getSoliciatudTruequeResolver(id).subscribe({
-      next: value =>{
-        this.turequesPendientes = value        
+      next: value => {
+        this.turequesPendientes = value
       }
     })
     this.productoService.getSoliciatudTrueque(id).subscribe({
-      next: value =>{
-        this.trueques = value        
+      next: value => {
+        this.trueques = value
+      }
+    })
+    this.servicioService.getSoliciatudTruequeResolver(id).subscribe({
+      next: value => {
+        this.truequesProductoServicio = value
+        console.log(value);
+
       }
     })
   }
 
-  ajustarEstado(estod:number):string{
+  ajustarEstado(estod: number): string {
     switch (estod) {
       case 1:
         return 'Pendiente'
@@ -134,25 +145,25 @@ export class AreaTruequesComponent {
   }
 
   //logica paa aceptar o rechazar
-  updateTruequeProducto(opcion:number, trueque:TruequeProducto){
-    if (!this.validaCantidades(opcion,trueque)) {
+  updateTruequeProducto(opcion: number, trueque: TruequeProducto) {
+    if (!this.validaCantidades(opcion, trueque)) {
       this.msgCantidadinvalid()
     }
     trueque.estado = opcion
     this.productoService.updateSolicitudTrueque(trueque).subscribe({
-      next: value =>{
+      next: value => {
         this.msgUpdatRgistroTrueque(opcion)
         this.turequesPendientes = value
       },
-      error: err =>{
+      error: err => {
         this.msgError();
       }
     })
-    
-    
+
+
   }
 
-  private validaCantidades(opcion:number, trueque:TruequeProducto):boolean{
+  private validaCantidades(opcion: number, trueque: TruequeProducto): boolean {
     if (opcion === 3) {
       return true
     }
@@ -161,12 +172,12 @@ export class AreaTruequesComponent {
     }
 
     if (trueque.producto_adar?.cantidad_exit < trueque.cantidad_dar) {
-        return false
+      return false
     }
 
     if (trueque.producto_solicitado?.cantidad_exit < trueque.cantdad_solicitar) {
       return false
-  }
+    }
     return true
   }
 
@@ -186,7 +197,7 @@ export class AreaTruequesComponent {
     );
   }
 
-  private msgUpdatRgistroTrueque(opcion:number){
+  private msgUpdatRgistroTrueque(opcion: number) {
     if (opcion === 2) {
       this.msgRegistroAceptadoOK()
       return
@@ -208,6 +219,22 @@ export class AreaTruequesComponent {
       'La Solicitud de truque fue aceptado con exito',
       'info'
     );
+  }
+
+  //logica de trueque de servicio producto
+  updateTruequeProductoServicio(opcion: number, trueque: TruequeProductoServicio) {
+    trueque.estado = opcion
+    this.servicioService.updateSolicitudTrueque(trueque).subscribe({
+      next: value => {
+        this.msgUpdatRgistroTrueque(opcion)
+        this.truequesProductoServicio = value
+      },
+      error: err => {
+        this.msgError();
+      }
+    })
+
+
   }
 
 }
