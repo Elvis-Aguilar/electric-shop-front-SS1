@@ -1,3 +1,5 @@
+import { Usuario } from "../usuario"
+
 export interface Oferta {
     oferta_id:number
     estado:number
@@ -7,4 +9,5 @@ export interface Oferta {
     moneda_ms:number
     moneda_local:number
     descripcion:string
+    usuario_ofertante?:Usuario;
 }

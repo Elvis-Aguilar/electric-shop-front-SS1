@@ -1,0 +1,54 @@
+<section class="container-fluid font-mono">
+    <div class="row">
+        <div class="my-2 px-24">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Ofertas para mi servicio: {{ofertaName}}</h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Oferta</th>
+                        <th class="text-center">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @for (oferta of ofertas; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            <a class="btn btn-link"
+                                (click)="mostrarUsuario(oferta.usuario_ofertante)">{{oferta.usuario_ofertante?.nombre_completo}}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-link" (click)="msgOfeta(oferta)">
+                                Ver
+                            </a>
+                        </td>
+
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" (click)="updateOferta(2,oferta, 1)">Aceptar en ms</a>
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="updateOferta(2,oferta, 0)" >Aceptar en Q</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" (click)="updateOferta(3,oferta, 0)" > Rechazar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

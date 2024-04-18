@@ -43,4 +43,8 @@ export class CardServicioPublicComponent {
     }
   }
 
+  goListaOfetnantes(){
+    this.router.navigate(['personal/lista-ofertantes', `${this.servicio.servicio_id}-${this.servicio.nombre}`])
+  }
+
 }

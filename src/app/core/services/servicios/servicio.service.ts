@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Servicio } from '../../models/servicios/servicio';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Oferta } from '../../models/servicios/oferta';
 
 @Injectable({
@@ -42,6 +42,16 @@ export class ServicioService {
   public saveOferta(ofer: Oferta): Observable<string> {
     return this._http.post<string>(this.API_URL + 'save-oferta', ofer);
   }
-  
+
+  public getOfertasUsuario(id: number): Observable<Oferta[]> {
+    return this._http.get<Oferta[]>(`${this.API_URL}get-servicios-user/${id}`);
+  }
+
+  public updateOferta(oferta:Oferta): Observable<Oferta[]> {
+    return this._http.put<Oferta[]>(`${this.API_URL}update-oferta`, oferta)
+  }
+
+
+
 
 }

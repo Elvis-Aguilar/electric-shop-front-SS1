@@ -1,3 +1,5 @@
+import { Usuario } from "../usuario";
+
 export interface Servicio {
     servicio_id:number;
     estado:number;
