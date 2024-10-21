@@ -42,7 +42,7 @@ export class SolicitudTruequeComponent {
         this.initRegisterFrom()
       }
     )
-    this.productoService.getProductosUsuario(this.authService.getUsuarioSesion()?.usuario_id || 0).subscribe({
+    this.productoService.getProductosUsuario(this.authService.getUsuarioSesion()?.id || 0).subscribe({
       next: value =>{
         this.productos = value
       }
@@ -51,7 +51,7 @@ export class SolicitudTruequeComponent {
   }
 
   initRegisterFrom() {
-    const idSoliciatne = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const idSoliciatne = this.authService.getUsuarioSesion()?.id || 0
     const idUser = this.producto.usuario_vendedor
     this.registerForm = this.formBuilder.group({
       estado: [1, Validators.required],

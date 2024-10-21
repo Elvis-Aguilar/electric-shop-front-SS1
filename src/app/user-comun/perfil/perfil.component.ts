@@ -32,19 +32,7 @@ export class PerfilComponent {
   }
 
   ngOnInit(): void {
-    if (this.usuario) {
-      const filename: string = this.usuario.url_foto.split('/').pop() || '';
-      this.authService.getImage(filename).subscribe(
-        (result) => {
-          this.createImageFromBlob(result)
-        },
-        (error) => {
-          this.imagen = ''
-        }
-      )
-    } else {
-      this.imagen = ''
-    }
+
 
   }
 

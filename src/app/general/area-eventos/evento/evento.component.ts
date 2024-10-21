@@ -121,7 +121,7 @@ export class EventoComponent {
     //validar si ya esta en la lista
     const lista: ListaAsistencia = {
       evento_id: this.evento.evento_id,
-      usuario_id: this.authService.getUsuarioSesion()?.usuario_id || 0
+      usuario_id: this.authService.getUsuarioSesion()?.id || 0
     }
     this.eventoService.agregaALista(lista).subscribe({
       next: value =>{

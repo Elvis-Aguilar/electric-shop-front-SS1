@@ -24,7 +24,7 @@ export class ProductosPublicadosComponent {
   }
 
   ngOnInit(): void {
-    const id: number = this.authService.getUsuarioSesion()?.usuario_id || 1
+    const id: number = this.authService.getUsuarioSesion()?.id || 1
     this.productoService.getProductosUsuario(id).subscribe(
       (result) => {
         if (result) {

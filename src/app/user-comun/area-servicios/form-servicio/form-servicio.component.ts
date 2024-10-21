@@ -27,7 +27,7 @@ export class FormServicioComponent {
   }
 
   initRegisterFrom() {
-    const idUser = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const idUser = this.authService.getUsuarioSesion()?.id || 0
     this.registerForm = this.formBuilder.group({
       nombre: [null, Validators.required],
       usuario_publicador: [idUser, Validators.required],

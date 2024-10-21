@@ -1,0 +1,5 @@
+export enum PaymentMethod {
+    PAYPAL = 'PAYPAL',
+    PAYMENT_GATEWAY_A = 'PAYMENT_GATEWAY_A',
+    PAYMENT_GATEWAY_B = 'PAYMENT_GATEWAY_B'
+  }

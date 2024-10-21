@@ -43,7 +43,7 @@ export class ServicioTruequeComponent {
     this.ofertaName = this.productoId.split('-')[1]
     this.idServicio = parseInt(param1, 10)
     this.idUserOferta = parseInt(param2, 10)
-    this.productoService.getProductosUsuario(this.authService.getUsuarioSesion()?.usuario_id || 0).subscribe({
+    this.productoService.getProductosUsuario(this.authService.getUsuarioSesion()?.id || 0).subscribe({
       next: value => {
         this.productos = value
       }
@@ -53,7 +53,7 @@ export class ServicioTruequeComponent {
   }
 
   initRegisterFrom() {
-    const idSoliciatne = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const idSoliciatne = this.authService.getUsuarioSesion()?.id || 0
     this.registerForm = this.formBuilder.group({
       estado: [1, Validators.required],
       usuario_oferta_id: [this.idUserOferta, Validators.required],

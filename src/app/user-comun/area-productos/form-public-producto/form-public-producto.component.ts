@@ -101,7 +101,7 @@ export class FormPublicProductoComponent {
     if (this.authService.getUsuarioSesion()?.id) {
       this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.id
     } else {
-      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.usuario_id
+      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.id
     }
     if (this.registerForm.value.permite_trueque) {
       this.registerForm.value.permite_trueque = 1

@@ -101,7 +101,7 @@ export class FormPublicEventoComponent {
     } else {
       this.registerForm.value.tipo_evento = parseInt(this.registerForm.value.tipo_evento)
     }
-    this.registerForm.value.usuario_publicador = this.authService.getUsuarioSesion()?.usuario_id
+    this.registerForm.value.usuario_publicador = this.authService.getUsuarioSesion()?.id
     this.registerForm.value.permite_contactar = this.registerForm.value.permite_contactar ? 1 : 0
 
     return true;

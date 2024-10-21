@@ -208,7 +208,7 @@ export class ProductoComponent {
     let compra: CompraProducto
     if (formaP === 1) {
       compra = {
-        usuario_comprador_id: this.authService.getUsuarioSesion()?.usuario_id || 1,
+        usuario_comprador_id: this.authService.getUsuarioSesion()?.id || 1,
         usuario_vendedor_id: this.producto.usuario_vendedor,
         producto_id: this.producto.producto_id,
         cantidad_comprado,
@@ -218,7 +218,7 @@ export class ProductoComponent {
       cuentaMoentari.moneda_ms = cuentaMoentari.moneda_ms - (compra.cantidad_comprado * this.producto.moneda_sistema)
     } else{
       compra = {
-        usuario_comprador_id: this.authService.getUsuarioSesion()?.usuario_id || 1,
+        usuario_comprador_id: this.authService.getUsuarioSesion()?.id || 1,
         usuario_vendedor_id: this.producto.usuario_vendedor,
         producto_id: this.producto.producto_id,
         cantidad_comprado,
@@ -253,7 +253,7 @@ export class ProductoComponent {
    * funcion para validar si me alcanza con el dinero en mi cuenta para comprar
    */
   private  validarCuentaMonetaria(formaP: number, cantidad:number){
-    const id = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const id = this.authService.getUsuarioSesion()?.id || 0
     if (id === 0) {
       return
     }

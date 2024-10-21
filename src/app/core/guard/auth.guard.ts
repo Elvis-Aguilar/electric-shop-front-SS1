@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 export const userComunGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const user = authService.getUsuarioSesion()
-  if (user && user?.rol === 2) {
+  if (user && user?.role === 2) {
     return true;
   }
   Swal.fire(
@@ -34,7 +34,7 @@ export const regLogGuard: CanActivateFn = (route, state) => {
 export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const user = authService.getUsuarioSesion()
-  if (user && user?.rol === 1) {
+  if (user && user?.role === 1) {
     return true;
   }
   Swal.fire(

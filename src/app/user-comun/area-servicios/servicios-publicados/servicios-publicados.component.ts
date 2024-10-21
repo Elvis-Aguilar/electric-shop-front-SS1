@@ -21,7 +21,7 @@ export class ServiciosPublicadosComponent {
   constructor() { }
 
   ngOnInit(): void {
-    const id: number = this.authService.getUsuarioSesion()?.usuario_id || 1
+    const id: number = this.authService.getUsuarioSesion()?.id || 1
     this.servicioService.getServicosUsuario(id).subscribe({
       next: value => {
         this.servicios = value

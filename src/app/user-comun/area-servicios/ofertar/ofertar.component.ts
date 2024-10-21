@@ -42,7 +42,7 @@ export class OfertarComponent {
   }
 
   initRegisterFrom() {
-    const idSoliciatne = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const idSoliciatne = this.authService.getUsuarioSesion()?.id || 0
     const idUser = this.servicio.usuario_publicador
     this.registerForm = this.formBuilder.group({
       estado: [1, Validators.required],

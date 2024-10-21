@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { HttpClient } from '@angular/common/http';
 import { CuentaMonetaria } from '../models/cuenta-monetaria';
+import { ApiConfigService } from '../../config/api-config.service';
+import { RegisterDto } from '../../auth/models/register.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +15,22 @@ export class AuthService {
 
   private readonly _http = inject(HttpClient)
 
-  private readonly API_URL = 'http://localhost/api-ecommerce/public/api/';
+  private readonly apiConing = inject(ApiConfigService)
 
-  public registerUser(us: Usuario): Observable<Usuario> {
-    return this._http.post<Usuario>(this.API_URL + 'user-register', us);
+  public registerUser(us: RegisterDto): Observable<Usuario> {
+    return this._http.post<Usuario>(`${this.apiConing.API_AUTH}/sign-up`, us);
   }
 
   public saveImgUsuario(formData: FormData): Observable<Usuario> {
-    return this._http.post<Usuario>(this.API_URL + 'user-register-foto', formData);
+    return this._http.post<Usuario>(this.apiConing.API_AUTH + 'user-register-foto', formData);
   }
 
   public UserLogin(us: Usuario) {
-    return this._http.post<Usuario>(this.API_URL + 'user-login', us);
+    return this._http.post<Usuario>(this.apiConing.API_AUTH + 'user-login', us);
   }
 
   public getUsers(): Observable<Usuario> {
-    return this._http.get<Usuario>(this.API_URL + 'users');
+    return this._http.get<Usuario>(this.apiConing.API_AUTH + 'users');
   }
 
   public saveSesionNavigate(us: Usuario) {
@@ -38,7 +40,7 @@ export class AuthService {
   }
 
   public getImage(filename: string): Observable<Blob> {
-    return this._http.get(this.API_URL + 'user-img/' + filename, { responseType: 'blob' });
+    return this._http.get(this.apiConing.API_AUTH + 'user-img/' + filename, { responseType: 'blob' });
   }
 
   public getUsuarioSesion(): Usuario | undefined {
@@ -46,10 +48,10 @@ export class AuthService {
       this.usuarioSesion = JSON.parse(localStorage.getItem('sesion_actual')!) || undefined;
     }
     if (this.usuarioSesion) {
-      if (this.usuarioSesion.usuario_id === undefined) {
-        this.usuarioSesion.usuario_id = this.usuarioSesion.id
+      if (this.usuarioSesion.id === undefined) {
+        this.usuarioSesion.id = this.usuarioSesion.id
       } else {
-        this.usuarioSesion.id = this.usuarioSesion.usuario_id
+        this.usuarioSesion.id = this.usuarioSesion.id
       }
     }
 
@@ -62,15 +64,15 @@ export class AuthService {
   }
 
   public getPublicador(id:number): Observable<Usuario> {
-    return this._http.get<Usuario>(`${this.API_URL}user/${id}`);
+    return this._http.get<Usuario>(`${this.apiConing.API_AUTH}user/${id}`);
   }
 
   public getCuentaMonetaria(id:number): Observable<CuentaMonetaria> {
-    return this._http.get<CuentaMonetaria>(`${this.API_URL}cuenta-monetaria/${id}`);
+    return this._http.get<CuentaMonetaria>(`${this.apiConing.API_AUTH}cuenta-monetaria/${id}`);
   }
 
   public updateCuentaMonetaria(cuenta:CuentaMonetaria): Observable<CuentaMonetaria> {
-    return this._http.put<CuentaMonetaria>(`${this.API_URL}update-cuenta-monetaria/${cuenta.cuenta_monteraia_id}`, cuenta);
+    return this._http.put<CuentaMonetaria>(`${this.apiConing.API_AUTH}update-cuenta-monetaria/${cuenta.cuenta_monteraia_id}`, cuenta);
   }
 
 }

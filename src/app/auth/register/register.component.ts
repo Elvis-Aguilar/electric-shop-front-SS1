@@ -5,6 +5,7 @@ import { AuthService } from '../../core/services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { EstadoSidebarService } from '../../core/services/estado-sidebar.service';
+import { RegisterDto } from '../models/register.dto';
 //import { Location } from '@angular/common';
 
 @Component({
@@ -32,48 +33,69 @@ export class RegisterComponent {
 
   initRegisterFrom() {
     this.registerForm = this.formBuilder.group({
-      nombre_completo: [null, Validators.required],
-      nombre_usuario: [null, Validators.required],
-      contrasenia: [null, Validators.required],
-      url_foto: [null, Validators.required],
-      rol: 2,
-      correo: [''],
-      face: [''],
-      insta: [''],
-      linkedin: [''],
-      telegram: [''],
-      tel: ['']
+      name: [null, Validators.required],
+      email: [null, Validators.required],
+      password: [null, Validators.required],
+      passwordConfirm: [null, Validators.required],
+      cui: [null, Validators.required],
+      payment_method: [null, Validators.required]
     })
   }
 
-  register() {
-    //registra primero la foto devolviendo el path para guardar el usuario
-    this.authService.saveImgUsuario(this.formData).subscribe(
-      (result) => {
-        this.registerForm.value.url_foto = result.url_foto
-        this.registerInfoUser();
-      },
-      (error) => {
-        this.msgError()
-      }
-    )
+  verifiPasswor(): boolean{
+    if (this.registerForm.value.passwordConfirm !== this.registerForm.value.password ) {
+      Swal.fire(
+        'Contrasenia Incorrecta',
+        'Las contrasenias no conciden intente de nuevo',
+        'info'
+      );
+      return false;
+    }
+    return true;
   }
 
-  registerInfoUser() {
-    this.registerForm.value.contrasenia = CryptoJS.SHA256(this.registerForm.value.contrasenia).toString();
-    this.authService.registerUser(this.registerForm.value).subscribe(
-      (result) => {
-        this.authService.saveSesionNavigate(result)
+  validForm():boolean{
+    if (!this.registerForm.valid) {
+      Swal.fire(
+        'Datos incompletos',
+        'Todos los datos son obligatorios',
+        'question'
+      );
+      return false
+    }
+
+    return true
+  }
+
+  transformFormRegisterDto(): RegisterDto{
+    return {
+      name: this.registerForm.value.name,
+      email:this.registerForm.value.email,
+      cui: this.registerForm.value.cui+'',
+      password:this.registerForm.value.password,
+      payment_method: this.registerForm.value.payment_method
+    }
+  }
+
+
+  register() {
+
+    if (!this.verifiPasswor() || !this.validForm()) return
+
+    const resterDto = this.transformFormRegisterDto();
+    
+    this.authService.registerUser(resterDto).subscribe({
+      next: value =>{
+        this.authService.saveSesionNavigate(value)
         this.msgSucces()
         this.initRegisterFrom()
         this.navegarRol()
         this.sideBar.cambiarEstado(false)
-      },
-      (error) => {
-        this.msgError()
       }
-    )
+    })
   }
+
+ 
 
   onFileSelected(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -87,7 +109,7 @@ export class RegisterComponent {
   navegarRol() {
     //this.location.back();
     const usuario = this.authService.getUsuarioSesion()
-    if (usuario?.rol === 1) {
+    if (usuario?.role === 1) {
       this.router.navigate(['area-admin/home-admin'])
     } else {
       this.router.navigate([''])

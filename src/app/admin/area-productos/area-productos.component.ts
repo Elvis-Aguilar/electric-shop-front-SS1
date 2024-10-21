@@ -72,15 +72,7 @@ export class AreaProductosComponent {
   }
 
   mostrarUsuario(us: Usuario) {
-    const filename: string = us.url_foto.split('/').pop() || '';
-    this.authService.getImage(filename).subscribe(
-      (result) => {
-        this.createImageFromBlobUser(result, us);
-      },
-      (error) => {
-        this.imagen = '';
-      }
-    );
+
   }
 
   mostrarDatosProducto(produc: ProductoPendiente) {
@@ -198,10 +190,10 @@ export class AreaProductosComponent {
 
   private mostrarModalUser(us: Usuario) {
     Swal.fire({
-      title: '<strong><u>' + us.nombre_completo + '</u></strong>',
+      title: '<strong><u>' + us.name + '</u></strong>',
       html: `
         <img class="h-64 w-full" src="${this.imagen}" alt="imagen-produto">
-       <br> -> <b>${us.nombre_usuario}</b> 
+       <br> -> <b>${us.name}</b> 
 
       `,
       showCloseButton: true,

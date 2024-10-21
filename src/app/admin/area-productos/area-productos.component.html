@@ -24,7 +24,7 @@
                         </td>
                         <td>
                             <a class="btn btn-link"
-                                (click)="mostrarUsuario(producto.usuario)">{{producto.usuario.nombre_usuario}}
+                                (click)="mostrarUsuario(producto.usuario)">{{producto.usuario.name}}
                             </a>
                         </td>
                         <td class="text-center">{{producto.fecha_reg_actuli}}</td>
@@ -42,7 +42,7 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item"
-                                            (click)="aceptarProducto(producto.usuario.usuario_id, producto.producto_id)">Aceptar</a>
+                                            (click)="aceptarProducto(producto.usuario.id, producto.producto_id)">Aceptar</a>
                                     </li>
                                 </ul>
                             </div>

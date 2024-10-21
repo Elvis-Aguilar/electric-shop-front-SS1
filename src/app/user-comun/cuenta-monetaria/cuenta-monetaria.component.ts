@@ -43,7 +43,7 @@ export class CuentaMonetariaComponent {
   }
 
   private getCuentaMonetaria() {
-    const id = this.authService.getUsuarioSesion()?.usuario_id || 0
+    const id = this.authService.getUsuarioSesion()?.id || 0
     if (id === 0) {
       return
     }
