@@ -29,7 +29,7 @@ export class LoginComponent {
 
   initLoginFrom() {
     this.loginForm = this.formBuilder.group({
-      username: [null, Validators.required],
+      email: [null, Validators.required],
       password: [null, Validators.required]
     })
   }
@@ -40,24 +40,20 @@ export class LoginComponent {
 
   logger() {
     //@dminP4ss/*-
-    this.loginForm.value.password = CryptoJS.SHA256(this.loginForm.value.password).toString();
-    this.authService.UserLogin(this.loginForm.value).subscribe(
-      (result) => {
-        if (result.name) {
-          this.authService.saveSesionNavigate(result)
-          this.msgValid();
-          this.navegarRol();
-          this.sideBar.cambiarEstado(false)
-
-        } else {
-          this.msgInvalid();
-        }
+    this.authService.UserLogin(this.loginForm.value).subscribe({
+      next: value =>{
+        this.authService.saveSesionNavigate(value)
+        this.msgValid();
+        this.navegarRol();
+        this.sideBar.cambiarEstado(false)
         this.initLoginFrom()
       },
-      (errr) => {
+      error: err =>{
         this.msgError()
+
       }
-    )
+      
+    })
   }
 
   navegarRol() {
@@ -89,7 +85,7 @@ export class LoginComponent {
   msgError() {
     Swal.fire(
       'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'Las credenciales son invalidas',
       'error'
     );
   }

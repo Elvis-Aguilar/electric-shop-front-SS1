@@ -8,3 +8,8 @@ export interface RegisterDto {
     payment_method: PaymentMethod;
 }
 
+export interface LoginDto {
+    email: string;
+    password: string;
+}
+

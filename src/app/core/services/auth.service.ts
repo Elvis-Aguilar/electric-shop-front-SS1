@@ -4,7 +4,7 @@ import { Usuario } from '../models/usuario';
 import { HttpClient } from '@angular/common/http';
 import { CuentaMonetaria } from '../models/cuenta-monetaria';
 import { ApiConfigService } from '../../config/api-config.service';
-import { RegisterDto } from '../../auth/models/register.dto';
+import { LoginDto, RegisterDto } from '../../auth/models/register.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +21,13 @@ export class AuthService {
     return this._http.post<Usuario>(`${this.apiConing.API_AUTH}/sign-up`, us);
   }
 
-  public saveImgUsuario(formData: FormData): Observable<Usuario> {
-    return this._http.post<Usuario>(this.apiConing.API_AUTH + 'user-register-foto', formData);
+  public UserLogin(us: LoginDto) {
+    return this._http.post<Usuario>(`${this.apiConing.API_AUTH}/sign-in`, us);
   }
 
-  public UserLogin(us: Usuario) {
-    return this._http.post<Usuario>(this.apiConing.API_AUTH + 'user-login', us);
+
+  public saveImgUsuario(formData: FormData): Observable<Usuario> {
+    return this._http.post<Usuario>(this.apiConing.API_AUTH + 'user-register-foto', formData);
   }
 
   public getUsers(): Observable<Usuario> {
