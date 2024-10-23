@@ -20,12 +20,6 @@ import { categoriaDto } from '../models/category.dto';
 export class AreaEventosComponent {
 
 
-  texto = ''
-  imagen!: string;
-  eventosPendientes: EventoPendiente[] = []
-  tipoEventoPendientes: TipoEvento[] = []
-  reportes: Reporte[] = []
-
   categories: categoriaDto[] = []
 
   private readonly categoryService = inject(CategoryService)

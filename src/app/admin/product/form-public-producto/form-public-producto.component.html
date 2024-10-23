@@ -13,7 +13,7 @@
             <span class="text-sm text-muted text-[#03505e] ">Campos Obligatorios</span>
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Nombre del producto</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Lavadora Electrica"
+                <input type="text" class="form-control" id="inputAddress" placeholder="Apagador simple"
                     formControlName="name">
             </div>
             <div class="col-md-4">
@@ -26,8 +26,8 @@
                                 d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z" />
                         </svg>
                     </span>
-                    <input type="number" class="form-control" id="inputCity"
-                        placeholder="ingres la cantidad de unidades disponibles" formControlName="available_quantity">
+                    <input type="number" class="form-control" id="inputCity" placeholder="eje. 55"
+                        formControlName="available_quantity">
                 </div>
             </div>
             <div class="col-md-4">
@@ -38,12 +38,8 @@
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Selecciona una categoria</label>
                 <select class="form-select" aria-label="Default select example" formControlName="category_id">
-                    @for (categoria of categorias; track $index) {
-                    @if (categoria.categoria_id===11) {
-                    <option selected>{{categoria.alias}}</option>
-                    }@else {
-                    <option value={{categoria.categoria_id}}>{{categoria.alias}}</option>
-                    }
+                    @for (categoria of categories; track $index) {
+                    <option selected>{{categoria.name}}</option>
                     }
                 </select>
             </div>
@@ -53,19 +49,14 @@
                     <span class="input-group-text" id="addon-wrapping">
                         Q
                     </span>
-                    <input type="number" class="form-control" id="inputCity" placeholder="0"
-                        formControlName="price">
+                    <input type="number" class="form-control" id="inputCity" placeholder="0" formControlName="price">
                 </div>
             </div>
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Selecciona un Proveedor</label>
                 <select class="form-select" aria-label="Default select example" formControlName="supplier_id">
-                    @for (categoria of categorias; track $index) {
-                    @if (categoria.categoria_id===11) {
-                    <option selected>{{categoria.alias}}</option>
-                    }@else {
-                    <option value={{categoria.categoria_id}}>{{categoria.alias}}</option>
-                    }
+                    @for (item of suppliers; track $index) {
+                    <option selected>{{item.name}}</option>
                     }
                 </select>
             </div>

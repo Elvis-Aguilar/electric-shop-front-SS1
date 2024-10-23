@@ -6,16 +6,25 @@
                 aria-expanded="false">
                 Filtrar por categoria
             </button>
+            <ul class="dropdown-menu">
+                @for (item of categories; track $index) {
+                    <li><a class="dropdown-item">{{item.name}}</a></li>
+                }
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item">Todos</a></li>
+            </ul>
         </div>
         <div class="btn-group">
             <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Filtrar por Estado
+                Filtrar por Proveedor
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Moneda del Sistema</a></li>
-                <li><a class="dropdown-item">Moneda Local (Q)</a></li>
-                <li><a class="dropdown-item">Trueque</a></li>
+                @for (item of suppliers; track $index) {
+                    <li><a class="dropdown-item">{{item.name}}</a></li>
+                }
                 <li>
                     <hr class="dropdown-divider">
                 </li>

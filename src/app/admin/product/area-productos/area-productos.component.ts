@@ -10,6 +10,10 @@ import { Categoria } from '../../../core/models/producto/categoria';
 import { Reporte } from '../../../core/models/reporte';
 import { Producto } from '../../../core/models/producto/producto';
 import { Router } from '@angular/router';
+import { categoriaDto } from '../../area-categorias/models/category.dto';
+import { CategoryService } from '../../area-categorias/services/category.service';
+import { SupplierService } from '../../area-provedores/services/supplier.service';
+import { supplier } from '../../area-provedores/models/supplir.dto';
 
 @Component({
   selector: 'app-area-productos',
@@ -19,6 +23,52 @@ import { Router } from '@angular/router';
   styleUrl: './area-productos.component.css'
 })
 export class AreaProductosComponent {
+
+
+  categories: categoriaDto[] = []
+  suppliers: supplier[] = []
+
+  private readonly categoryService = inject(CategoryService)
+  private readonly suppliersServices = inject(SupplierService)
+
+
+  ngOnInit(): void {
+   /**
+    *  this.getProductosPendientes()
+    this.getCategoriasPendientes()
+    this.getReportesProducto()
+    */
+
+    this.getAllCategories()
+    this.getAllSupliers()
+
+  }
+
+
+  getAllCategories() {
+    this.categoryService.getAll().subscribe({
+      next: value => {
+        this.categories = value
+      }
+    })
+  }
+
+  getAllSupliers() {
+    this.suppliersServices.getAllSupplier().subscribe({
+      next: value =>{
+        this.suppliers = value
+      }
+    })
+  }
+
+
+
+
+
+
+  /***
+   * revisara si siven la funcionalidades, sino, eliminiar
+   */
 
 
   productosPendientes: ProductoPendiente[] = []
@@ -37,11 +87,6 @@ export class AreaProductosComponent {
   private readonly route = inject(Router)
 
 
-  ngOnInit(): void {
-    this.getProductosPendientes()
-    this.getCategoriasPendientes()
-    this.getReportesProducto()
-  }
 
 
 

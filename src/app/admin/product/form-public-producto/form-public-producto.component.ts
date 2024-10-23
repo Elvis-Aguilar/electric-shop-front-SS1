@@ -5,6 +5,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../core/services/auth.service';
+import { categoriaDto } from '../../area-categorias/models/category.dto';
+import { supplier } from '../../area-provedores/models/supplir.dto';
+import { CategoryService } from '../../area-categorias/services/category.service';
+import { SupplierService } from '../../area-provedores/services/supplier.service';
 
 @Component({
   selector: 'app-form-public-producto',
@@ -16,6 +20,49 @@ import { AuthService } from '../../../core/services/auth.service';
 export class FormPublicProductoComponent {
 
 
+  categories: categoriaDto[] = []
+  suppliers: supplier[] = []
+
+  private readonly categoryService = inject(CategoryService)
+  private readonly suppliersServices = inject(SupplierService)
+  private readonly router = inject(Router);
+
+
+  constructor(private formBuilder: FormBuilder) {
+    this.getCategorias();
+    this.initRegisterFrom()
+    this.getAllCategories()
+    this.getAllSupliers()
+
+  }
+
+
+  getAllCategories() {
+    this.categoryService.getAll().subscribe({
+      next: value => {
+        this.categories = value
+      }
+    })
+  }
+
+  getAllSupliers() {
+    this.suppliersServices.getAllSupplier().subscribe({
+      next: value =>{
+        this.suppliers = value
+      }
+    })
+  }
+
+
+
+
+
+
+
+  /***
+   * Revisar funciones si son funcionales
+   */
+
   categorias: Categoria[] = []
   registerForm!: FormGroup;
   file!: File
@@ -23,13 +70,7 @@ export class FormPublicProductoComponent {
 
   private readonly productoService = inject(ProductoService);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
 
-
-  constructor(private formBuilder: FormBuilder) {
-    this.getCategorias();
-    this.initRegisterFrom()
-  }
 
   initRegisterFrom() {
     this.registerForm = this.formBuilder.group({
