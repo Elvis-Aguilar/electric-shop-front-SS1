@@ -1,14 +1,13 @@
 import { Component, Inject, inject } from '@angular/core';
-import { ProductoService } from '../../../core/services/productos/producto.service';
-import { Categoria } from '../../../core/models/producto/categoria';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../../core/services/auth.service';
 import { categoriaDto } from '../../area-categorias/models/category.dto';
 import { supplier } from '../../area-provedores/models/supplir.dto';
 import { CategoryService } from '../../area-categorias/services/category.service';
 import { SupplierService } from '../../area-provedores/services/supplier.service';
+import { ProductService } from '../services/product.service';
+import { UploadImgService } from '../../../config/upload-img.service';
 
 @Component({
   selector: 'app-form-public-producto',
@@ -20,21 +19,40 @@ import { SupplierService } from '../../area-provedores/services/supplier.service
 export class FormPublicProductoComponent {
 
 
+  registerForm!: FormGroup;
+  file!: File
+  formData!: FormData
+
   categories: categoriaDto[] = []
   suppliers: supplier[] = []
 
   private readonly categoryService = inject(CategoryService)
   private readonly suppliersServices = inject(SupplierService)
+  private readonly productServcie = inject(ProductService)
   private readonly router = inject(Router);
+  private readonly uploadService = inject(UploadImgService)
 
 
   constructor(private formBuilder: FormBuilder) {
-    this.getCategorias();
     this.initRegisterFrom()
     this.getAllCategories()
     this.getAllSupliers()
 
   }
+
+
+  initRegisterFrom() {
+    this.registerForm = this.formBuilder.group({
+      name: [null, Validators.required],
+      description: [null, Validators.required],
+      price: [null, Validators.required],
+      stock: [null, Validators.required],
+      supplier: [null, Validators.required],
+      category: [null, Validators.required],
+      image: [null, Validators.required]
+    })
+  }
+
 
 
   getAllCategories() {
@@ -47,145 +65,62 @@ export class FormPublicProductoComponent {
 
   getAllSupliers() {
     this.suppliersServices.getAllSupplier().subscribe({
-      next: value =>{
+      next: value => {
         this.suppliers = value
       }
     })
   }
 
-
-
-
-
-
-
-  /***
-   * Revisar funciones si son funcionales
-   */
-
-  categorias: Categoria[] = []
-  registerForm!: FormGroup;
-  file!: File
-  formData!: FormData
-
-  private readonly productoService = inject(ProductoService);
-  private readonly authService = inject(AuthService);
-
-
-  initRegisterFrom() {
-    this.registerForm = this.formBuilder.group({
-      name: [null, Validators.required],
-      description: [null, Validators.required],
-      price: [null, Validators.required],
-      available_quantity: [null, Validators.required],
-      supplier_id: 0,
-      category_id: 0,
-      image_url: ''
-    })
-  }
-
-
-
-  
   onFileSelected(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
       this.file = inputElement.files[0];
       this.formData = new FormData();
-      this.formData.append('imagen', this.file, this.file.name);
+      this.formData.append('file', this.file, this.file.name);
+    }
+  }
+
+  private async uplogadImag(): Promise<void> {
+    if (this.formData) {
+      try {
+        const value = await this.uploadService.saveImg(this.formData).toPromise(); // Convertimos a Promesa
+        this.registerForm.value.image = value.url;
+      } catch (err) {
+        console.error('Error al subir la imagen: ', err);
+        // TODO: manejar errores, por ejemplo, mostrar un mensaje de "intente de nuevo"
+      }
     }
   }
 
 
+  async register() {
 
+    this.registerForm.value.category = Number(this.registerForm.value.category)
+    this.registerForm.value.supplier = Number(this.registerForm.value.supplier)
 
+    await this.uplogadImag()
 
+    this.productServcie.createProduct(this.registerForm.value).subscribe({
+      next: value => {
 
+        this.msgSucces()
+        this.router.navigate(['area-admin/area-productos'])
 
-  /**REvisar XD*/
-
-  register() {
-    if (this.validarInfo()) {
-      this.productoService.saveImgProducto(this.formData).subscribe(
-        (result) => {
-          this.registerForm.value.url_foto = result.url_foto
-          this.registrarInfoProducto();
-        },
-        (error) => {
-          this.msgError()
-          console.log(error)
-        }
-      )
-    }
-  }
-
-  registrarInfoProducto() {
-    this.productoService.saveProducto(this.registerForm.value).subscribe(
-      (result) => {
-        //console.log(result)
-        this.msgSucces();
-        this.router.navigate(['personal/productos-registrados'])
       },
-      (error) => {
+      error: err => {
+
+        console.log(err);
         this.msgError()
       }
-    );
-  }
-
-  validarInfo(): boolean {
-    if (this.registerForm.value.cantidad_exit <= 0) {
-      Swal.fire(
-        'Datos Incorrectos!',
-        'La cantidad existente debe ser mayor a 0',
-        'info'
-      );
-      return false
-    }
-    if (this.registerForm.value.moneda_local <= 0 || this.registerForm.value.moneda_sistema <= 0) {
-      Swal.fire(
-        'Datos Incorrectos!',
-        'El precio debe ser mayor a 0',
-        'info'
-      );
-      return false
-    }
-    if (this.registerForm.value.categoria === 'Todos') {
-      this.registerForm.value.categoria = this.categorias.find(cate => cate.alias === this.registerForm.value.categoria)?.categoria_id
-    } else {
-      this.registerForm.value.categoria = parseInt(this.registerForm.value.categoria)
-    }
-    if (this.authService.getUsuarioSesion()?.id) {
-      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.id
-    } else {
-      this.registerForm.value.usuario_vendedor = this.authService.getUsuarioSesion()?.id
-    }
-    if (this.registerForm.value.permite_trueque) {
-      this.registerForm.value.permite_trueque = 1
-    } else {
-      this.registerForm.value.permite_trueque = 0
-    }
-    if (this.registerForm.value.permite_contactar) {
-      this.registerForm.value.permite_contactar = 1
-      return true;
-    }
-    this.registerForm.value.permite_contactar = 0;
-    return true;
-  }
+    })
 
 
-
-  getCategorias() {
-    this.productoService.getCategories().subscribe(
-      (result) => {
-        this.categorias = result
-      }
-    );
   }
 
   msgError() {
     Swal.fire(
       'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'Ocurrio un erro al intetar registrar el producto',
       'error'
     );
   }
@@ -193,7 +128,7 @@ export class FormPublicProductoComponent {
   msgSucces() {
     Swal.fire(
       'Registro Exitoso',
-      'Su registro al sistema ha sido exitoso, Debe esperar que el Administrador autorize su Publicacion',
+      'Su registro del producto al sistema ha sido exitoso!',
       'success'
     );
   }

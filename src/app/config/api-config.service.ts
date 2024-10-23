@@ -16,6 +16,9 @@ export class ApiConfigService {
     API_PRODUCT = `${this.API_BASE}/products`
     API_CATEGORY = `${this.API_BASE}/categories`
     API_SUPPLIER = `${this.API_BASE}/suppliers`
+
+    //updload file
+    API_UPLOAD = `${this.API_BASE}/upload`
     
     //report
     API_REPORT = `${this.API_BASE}/reports`

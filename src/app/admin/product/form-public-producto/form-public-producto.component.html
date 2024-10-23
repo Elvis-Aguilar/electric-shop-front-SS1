@@ -27,19 +27,19 @@
                         </svg>
                     </span>
                     <input type="number" class="form-control" id="inputCity" placeholder="eje. 55"
-                        formControlName="available_quantity">
+                        formControlName="stock">
                 </div>
             </div>
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Imagen del Producto</label>
                 <input type="file" accept="image/*" class="form-control" id="inputAddress"
-                    placeholder="Nombre de Usuario" formControlName="image_url" (change)="onFileSelected($event)">
+                    placeholder="Nombre de Usuario" formControlName="image" (change)="onFileSelected($event)">
             </div>
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Selecciona una categoria</label>
-                <select class="form-select" aria-label="Default select example" formControlName="category_id">
+                <select class="form-select" aria-label="Default select example" formControlName="category">
                     @for (categoria of categories; track $index) {
-                    <option selected>{{categoria.name}}</option>
+                    <option value={{categoria.id}}>{{categoria.name}}</option>
                     }
                 </select>
             </div>
@@ -54,9 +54,9 @@
             </div>
             <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Selecciona un Proveedor</label>
-                <select class="form-select" aria-label="Default select example" formControlName="supplier_id">
+                <select class="form-select" aria-label="Default select example" formControlName="supplier">
                     @for (item of suppliers; track $index) {
-                    <option selected>{{item.name}}</option>
+                    <option value={{item.id}}>{{item.name}}</option>
                     }
                 </select>
             </div>
