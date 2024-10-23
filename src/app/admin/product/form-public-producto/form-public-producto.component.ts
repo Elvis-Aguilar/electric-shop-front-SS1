@@ -33,20 +33,35 @@ export class FormPublicProductoComponent {
 
   initRegisterFrom() {
     this.registerForm = this.formBuilder.group({
-      nombre: [null, Validators.required],
-      descripcion: [null, Validators.required],
-      especificaciones: [null, Validators.required],
-      cantidad_exit: [null, Validators.required],
-      url_foto: [null, Validators.required],
-      permite_trueque: 0,
-      usuario_vendedor: '',
-      fecha_reg_actuli: false,
-      permite_contactar: 0,
-      moneda_local: 0,
-      moneda_sistema: 0,
-      categoria: 'Todos'
+      name: [null, Validators.required],
+      description: [null, Validators.required],
+      price: [null, Validators.required],
+      available_quantity: [null, Validators.required],
+      supplier_id: 0,
+      category_id: 0,
+      image_url: ''
     })
   }
+
+
+
+  
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
+      this.file = inputElement.files[0];
+      this.formData = new FormData();
+      this.formData.append('imagen', this.file, this.file.name);
+    }
+  }
+
+
+
+
+
+
+
+  /**REvisar XD*/
 
   register() {
     if (this.validarInfo()) {
@@ -116,14 +131,7 @@ export class FormPublicProductoComponent {
     return true;
   }
 
-  onFileSelected(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
-      this.file = inputElement.files[0];
-      this.formData = new FormData();
-      this.formData.append('imagen', this.file, this.file.name);
-    }
-  }
+
 
   getCategorias() {
     this.productoService.getCategories().subscribe(

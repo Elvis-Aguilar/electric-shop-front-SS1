@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { ProductoService } from '../../core/services/productos/producto.service';
-import { ProductoPendiente } from '../../core/models/producto/producto-pendiente';
+import { ProductoService } from '../../../core/services/productos/producto.service';
+import { ProductoPendiente } from '../../../core/models/producto/producto-pendiente';
 import Swal from 'sweetalert2';
-import { Usuario } from '../../core/models/usuario';
-import { AuthService } from '../../core/services/auth.service';
-import { RechazoProducto } from '../../core/models/producto/rechazo-producto';
-import { AceptProducto } from '../../core/models/producto/acept-producto';
-import { Categoria } from '../../core/models/producto/categoria';
-import { Reporte } from '../../core/models/reporte';
-import { Producto } from '../../core/models/producto/producto';
+import { Usuario } from '../../../core/models/usuario';
+import { AuthService } from '../../../core/services/auth.service';
+import { RechazoProducto } from '../../../core/models/producto/rechazo-producto';
+import { AceptProducto } from '../../../core/models/producto/acept-producto';
+import { Categoria } from '../../../core/models/producto/categoria';
+import { Reporte } from '../../../core/models/reporte';
+import { Producto } from '../../../core/models/producto/producto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-area-productos',
@@ -33,6 +34,7 @@ export class AreaProductosComponent {
 
   private readonly productoService = inject(ProductoService)
   private readonly authService = inject(AuthService)
+  private readonly route = inject(Router)
 
 
   ngOnInit(): void {
@@ -40,6 +42,16 @@ export class AreaProductosComponent {
     this.getCategoriasPendientes()
     this.getReportesProducto()
   }
+
+
+
+  goFormCrearProducto() {
+    this.route.navigate(['area-admin/formulario-producto'])
+  }
+
+
+
+  /**revisar XD */
 
   getProductosPendientes() {
     this.productoService.getProdcutosPendientes().subscribe(
@@ -328,7 +340,7 @@ export class AreaProductosComponent {
 
   }
 
-  verReportesProductoEspecifico(id: number, producto?: Producto){
+  verReportesProductoEspecifico(id: number, producto?: Producto) {
     if (id === 0 || !producto) {
       return
     }
@@ -338,17 +350,17 @@ export class AreaProductosComponent {
         this.reportesProducto = value
         this.verGentarl = false
       },
-      error: err =>{
+      error: err => {
         this.msgError()
       }
     })
   }
 
-  darDeBajaProducto(id?:number){
+  darDeBajaProducto(id?: number) {
     if (!id) {
       return
     }
-    this.productoService.darDeBaja({descripcion:'', estado: 4},id).subscribe({
+    this.productoService.darDeBaja({ descripcion: '', estado: 4 }, id).subscribe({
       next: valuer => {
         Swal.fire(
           'Proceso Realizado con exito',
@@ -357,7 +369,7 @@ export class AreaProductosComponent {
         );
         this.verGentarl = true
       },
-      error: err =>{
+      error: err => {
         console.log(err);
         this.msgError()
       }

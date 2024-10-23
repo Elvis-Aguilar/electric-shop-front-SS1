@@ -1,0 +1,78 @@
+@if (verGentarl) {
+<section class="container-fluid font-mono">
+    <div class="flex justify-between  p-3 border rounded-lg">
+        <div class="btn-group">
+            <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Filtrar por categoria
+            </button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Filtrar por Estado
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item">Moneda del Sistema</a></li>
+                <li><a class="dropdown-item">Moneda Local (Q)</a></li>
+                <li><a class="dropdown-item">Trueque</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item">Todos</a></li>
+            </ul>
+        </div>
+        <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goFormCrearProducto()">
+            Crear Producto
+        </button>
+    </div>
+    <div class="row">
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Productos Registrados</h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Nombre del producto</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Fecha de registro</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (producto of productosPendientes; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarDatosProducto(producto)">
+                                {{producto.nombre}}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-link" (click)="mostrarUsuario(producto.usuario)">{{producto.usuario.name}}
+                            </a>
+                        </td>
+                        <td class="text-center">{{producto.fecha_reg_actuli}}</td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                            (click)="modalDescripcionRechazo(producto.producto_id)"> Editar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+}

@@ -1,4 +1,4 @@
-@if (authService.getUsuarioSesion() && authService.getUsuarioSesion()?.id === 1) {
+@if (authService.getUsuarioSesion() && authService.getUsuarioSesion()?.role === 1) {
 <!-- navbar para el usuario administrdor-->
 <div class=" w-[220px] border-r lg:block fixed">
     <nav class="flex-1 py-24">
@@ -9,7 +9,7 @@
         </div>
         <div class="grid gap-1.5 px-3 mt-4 text-sm">
             <a class="flex items-center gap-3 rounded-lg px-3 py-1 text-lg font-semibold" rel="ugc">
-                <span class="">Solicitudes</span>
+                <span class="">Administrar</span>
             </a>
             <hr>
             <a class="flex items-center gap-3 rounded-lg px-3 py-2  dark:hover:text-[#ffffff] dark:hover:bg-[#03045E]"
@@ -22,31 +22,31 @@
                 Productos
             </a>
             <a class="flex items-center gap-3 rounded-lg px-3 py-2  dark:hover:text-[#ffffff] dark:hover:bg-[#0077B6]"
-                routerLink="area-admin/area-eventos">
+                routerLink="area-admin/area-categoria">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-calendar4-event" viewBox="0 0 16 16">
                     <path
                         d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
                     <path d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
                 </svg>
-                Eventos
+                Categorias
             </a>
             <a class="flex items-center gap-3 rounded-lg px-3 py-2  dark:hover:text-[#ffffff] dark:hover:bg-[#03045E]"
-                href="#">
+                routerLink="area-admin/area-proveedores">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-person-workspace" viewBox="0 0 16 16">
                     <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
                     <path
                         d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.4 5.4 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2z" />
                 </svg>
-                Servicios
+                Proveedores
             </a>
             <hr>
             <a class="flex items-center gap-3 rounded-lg px-5 py-1 text-base font-semibold" rel="ugc">
                 <span class="">Sistema</span>
             </a>
             <a class="flex items-center gap-3 rounded-lg px-3 py-2  dark:hover:text-[#ffffff] dark:hover:bg-[#0077B6]"
-                routerLink="area-admin/area-monetaria">
+                routerLink="area-admin/area-proveedores">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-piggy-bank-fill" viewBox="0 0 16 16">
                     <path

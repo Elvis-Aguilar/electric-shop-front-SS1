@@ -1,0 +1,14 @@
+a {
+    cursor: pointer;
+}
+
+
+.delete {
+    color: red;
+    /* Texto morado */
+}
+
+.delete:hover {
+    color: rgb(0, 87, 128);
+    /* Texto rojo al pasar el cursor */
+}

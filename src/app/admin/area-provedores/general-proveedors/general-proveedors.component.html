@@ -1,0 +1,63 @@
+<section class="container-fluid font-mono">
+    <div class="flex justify-end  p-3 border rounded-lg">
+        <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goToCreateProvedor()">
+            Registrar Proveedor
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Proveedores Registrados</h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Nombre Proveedor</th>
+                        <th class="text-center">Direccion</th>
+                        <th class="text-center">Descripcion</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (supplier of suppliers; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td>
+                            {{supplier.name}}
+                        </td>
+                        <td>
+                            {{supplier.address}}
+                        </td>
+                        <td>
+                            {{supplier.description}}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item">
+                                            Editar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item delete">
+                                            Eliminar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

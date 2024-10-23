@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CardProductPublicComponent } from '../card-product-public/card-product-public.component';
+import { CardProductPublicComponent } from '../../../admin/product/card-product-public/card-product-public.component';
 import { Producto } from '../../../core/models/producto/producto';
 import { ProductoService } from '../../../core/services/productos/producto.service';
 import { AuthService } from '../../../core/services/auth.service';
