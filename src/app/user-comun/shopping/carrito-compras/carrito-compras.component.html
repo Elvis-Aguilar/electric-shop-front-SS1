@@ -1,0 +1,81 @@
+<section class="container-fluid py-4" style="background-color: #ffffff">
+    <div class="card py-4 px-4">
+        <h3 class="mb-5 text-uppercase text-center">
+            Carrito de compras
+        </h3>
+        <div class="row">
+            <div class="col-md-8">
+                Checkout
+                <div>
+                    <table class="table  table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cant.</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">P/U</th>
+                                <th scope="col">Sub Total</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(item of itemsCart; track $index){
+                            <tr>
+                                <th scope="row">
+                                    <input type="number" max="99" class="form-control" style="width: 70px;"
+                                        [value]="item.quantity">
+                                </th>
+                                <td>{{item.product.name}} </td>
+                                <td class="text-center">Q {{(item.product.price)}}</td>
+                                <td class="text-center">Q {{item.subToto}}</td>
+                                <td class="text-center" (click)="removeLibroPedido($index)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-x" viewBox="0 0 16 16">
+                                        <path
+                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                    </svg>
+
+                                </td>
+                            </tr>
+                            }
+                            <tr>
+                                <td class="text-end fw-bold" colspan="3">Total: </td>
+                                <td class="text-center fw-bold">Q {{ getTotalSum() }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end pt-3">
+                    <button type="button" class="btn btn-light " (click)="deleteShopping()">
+                        Borrar Carrito
+                    </button>
+                    <button type="button" class="btn btn-info ms-2" (click)="confirmPedido()">
+                        Confirmar pedido
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 shadow">
+                    <h6 class="text-center mb-4">Tu informacion para la compra</h6>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Forma de pago</label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="paymentMethod">
+                            <option value="PAYPAL">PayPal</option>
+                            <option value="PAYMENT_GATEWAY_A">PasSeguro</option>
+                            <option value="PAYMENT_GATEWAY_B">PasLibre</option>
+                        </select>
+                        <br>
+                        @if (paymentMethod ==='PAYMENT_GATEWAY_A' || paymentMethod ==='PAYMENT_GATEWAY_B') {
+                        <label for="formGroupExampleInput2" class="form-label">Elija Banco</label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="banco">
+                            <option value="CREDITO">Banco de Credito</option>
+                            <option value="DEBITO">Banco de Debito</option>
+                        </select>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

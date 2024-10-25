@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductoService } from '../../../core/services/productos/producto.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Producto } from '../../../core/models/producto/producto';
 import { CardProductoComponent } from '../card-producto/card-producto.component';
-import { Categoria } from '../../../core/models/producto/categoria';
 import Swal from 'sweetalert2';
+import { ProductService } from '../../../admin/product/services/product.service';
+import { productDto } from '../../../admin/product/models/product.dto';
+import { CategoryService } from '../../../admin/area-categorias/services/category.service';
+import { categoriaDto } from '../../../admin/area-categorias/models/category.dto';
 
 @Component({
   selector: 'app-home-producto',
@@ -16,14 +16,14 @@ import Swal from 'sweetalert2';
 })
 export class HomeProductoComponent {
 
-  productos: Producto[] = []
-  categorias: Categoria[] = []
+  productos: productDto[] = []
+  categorias: categoriaDto[] = []
   filter: string = 'Todos'
   descripcion: string = ''
 
   private readonly router = inject(Router);
-  private readonly productoService = inject(ProductoService)
-  private readonly authService = inject(AuthService)
+  private readonly productoService = inject(ProductService)
+  private readonly categoryService = inject(CategoryService)
 
   constructor() {
     this.getCategorias();
@@ -36,14 +36,11 @@ export class HomeProductoComponent {
   getProductoTodos() {
     this.filter = 'Todos'
     this.descripcion = ''
-    this.productoService.getProductos().subscribe(
-      (result) => {
-        if (result) {
-          this.productos = result
-        }
-      },
-      (error) => {
-      });
+    this.productoService.getAllProduct().subscribe({ 
+      next: value =>{
+        this.productos = value
+      }
+    })
   }
 
   goFormPublicar() {
@@ -51,52 +48,19 @@ export class HomeProductoComponent {
   }
 
   getCategorias() {
-    this.productoService.getCategories().subscribe(
-      (result) => {
-        this.categorias = result
-      }
-    );
-  }
-
-  filtrarCategoria(categ: Categoria) {
-    this.filter = categ.alias
-    this.descripcion = categ.descripcion
-    this.productoService.getProdcutosFilterCategorias(categ.categoria_id || 1).subscribe(
-      (result) => {
-        this.limpearProductos(result);
-      },
-      (error) => {
-        this.msgError();
-      }
-    )
-  }
-
-  filtrarFormaPago(index: number) {
-    if (index >= 4) {
-      this.getProductoTodos()
-      return
+   this.categoryService.getAll().subscribe({
+    next: value =>{
+      this.categorias = value
     }
-    this.productoService.getProductosFilterFormPago(index).subscribe(
-      (result) => {
-        this.productos = result;
-      },
-      (error) => {
-        this.msgError();
-      }
-    )
+   })
   }
 
-
-
-  private limpearProductos(result: Producto[]) {
-    const productos: Producto[] = []
-    result.forEach(produ => {
-      if (produ.producto) {
-        productos.push(produ.producto)
-      }
-    })
-    this.productos = productos;
+  filtrarCategoria(categ: categoriaDto) {
+    this.filter = categ.name
+    this.descripcion = categ.description
+    //TODO: filtarar por categoria XD
   }
+
 
   msgError() {
     Swal.fire(

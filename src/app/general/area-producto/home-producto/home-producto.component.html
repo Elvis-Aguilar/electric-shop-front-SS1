@@ -6,43 +6,15 @@
         </button>
         <ul class="dropdown-menu">
             @for (categoria of categorias; track $index) {
-            @if (categoria.alias === 'Todos') {
+            @if (categoria.name === 'Todos') {
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" (click)="getProductoTodos()">{{categoria.alias}}</a></li>
+            <li><a class="dropdown-item">{{categoria.name}}</a></li>
             }@else {
-            <li><a class="dropdown-item" (click)="filtrarCategoria(categoria)">{{categoria.alias}}</a></li>
+            <li><a class="dropdown-item">{{categoria.name}}</a></li>
             }
             }
-        </ul>
-    </div>
-    <div class="btn-group">
-        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Filtrar por Forma de pago
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" (click)="filtrarFormaPago(1)">Moneda del Sistema</a></li>
-            <li><a class="dropdown-item" (click)="filtrarFormaPago(2)">Moneda Local (Q)</a></li>
-            <li><a class="dropdown-item" (click)="filtrarFormaPago(3)">Trueque</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" (click)="filtrarFormaPago(4)">Todos</a></li>
-        </ul>
-    </div>
-    <button class="px-4 py-2 border text-black rounded-lg mr-2" (click)="goFormPublicar()">
-        Publicar Producto
-    </button>
-    <div class="btn-group">
-        <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Busquedas
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Publicar una busqueda</a></li>
-            <li><a class="dropdown-item" href="#">Ver las Busuedas</a></li>
         </ul>
     </div>
 </div>

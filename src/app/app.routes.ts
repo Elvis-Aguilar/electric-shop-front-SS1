@@ -23,11 +23,11 @@ export const routes: Routes = [
         loadChildren: () => import('./general/area-producto/producto.routes').then(m => m.AUTH_ROUTES)
     },
     {
-        path: 'area-servicios',
+        path: 'area-proveedores',
         loadChildren: () => import('./general/area-servicio/area-servicio.routes').then(m => m.AUTH_ROUTES)
     },
     {
-        path: 'area-eventos',
+        path: 'area-categorias',
         loadChildren: () => import('./general/area-eventos/area-evento.routes').then(m => m.AUTH_ROUTES)
     },
     {

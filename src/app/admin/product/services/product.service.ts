@@ -23,6 +23,10 @@ export class ProductService {
     return this._http.get<productDto[]>(`${this.apiConfig.API_PRODUCT}`)
   }
 
+  getById(id:number): Observable<productDto> {
+    return this._http.get<productDto>(`${this.apiConfig.API_PRODUCT}/${id}`)
+  }
+
 
 
 }

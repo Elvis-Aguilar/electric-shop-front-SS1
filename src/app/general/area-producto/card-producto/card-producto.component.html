@@ -1,20 +1,20 @@
 <div class="card blue-hover">
-  <img class="card-img-top img-fluid" [src]="imagen" alt="Card image cap">
+  <img class="card-img-top img-fluid" src={{producto.image}} alt="Card image cap">
   <div class="card-body">
     <div class="row">
       <p class="small  mb-1 text-muted  col-md-6">
-        Precio U: Q {{producto.moneda_local}}
+        Precio U: Q {{producto.price}}
       </p>
       <p class="small mb-1 text-muted  col-md-6">
-        Precio U: ms {{producto.moneda_sistema}}
+        Precio U: ms {{producto.price}}
       </p>
     </div>
-    <h4 class="card-title text-[#03045E] text-lg font-semibold">{{producto.nombre}}</h4>
+    <h4 class="card-title text-[#03045E] text-lg font-semibold">{{producto.name}}</h4>
     <p class="small  mb-1 text-muted  col-md-6">
-      catidad en existencia: {{producto.cantidad_exit}}
+      catidad en existencia: {{producto.stock}}
     </p>
     <p class="card-text text-sm">
-      {{producto.especificaciones}}
+      {{producto.description}}
     </p>
     <div class="row py-2">
       <a type="button" class="text-ms text-[#03045E] col-md-6" (click)="goProducto()">
