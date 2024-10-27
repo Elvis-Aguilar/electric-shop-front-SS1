@@ -58,20 +58,13 @@
                 <div class="card p-3 shadow">
                     <h6 class="text-center mb-4">Tu informacion para la compra</h6>
                     <div class="mb-3">
-                        <label for="formGroupExampleInput2" class="form-label">Forma de pago</label>
+                        <label for="formGroupExampleInput2" class="form-label">Elije tu pasarela de pago</label>
                         <select class="form-select" aria-label="Default select example" [(ngModel)]="paymentMethod">
                             <option value="PAYPAL">PayPal</option>
                             <option value="PAYMENT_GATEWAY_A">PasSeguro</option>
                             <option value="PAYMENT_GATEWAY_B">PasLibre</option>
                         </select>
-                        <br>
-                        @if (paymentMethod ==='PAYMENT_GATEWAY_A' || paymentMethod ==='PAYMENT_GATEWAY_B') {
-                        <label for="formGroupExampleInput2" class="form-label">Elija Banco</label>
-                        <select class="form-select" aria-label="Default select example" [(ngModel)]="banco">
-                            <option value="CREDITO">Banco de Credito</option>
-                            <option value="DEBITO">Banco de Debito</option>
-                        </select>
-                        }
+                        <p class="py-2">Recuerda que tienes que tener una cuenta activa y con fondos necesario</p>
                     </div>
                 </div>
             </div>

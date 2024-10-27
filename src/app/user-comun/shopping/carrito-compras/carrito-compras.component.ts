@@ -27,7 +27,6 @@ export class CarritoComprasComponent {
   direccion: string = ''
   _id: string = '';
   paymentMethod: string = 'PAYPAL'
-  banco: string = 'CREDITO'
   itemsCartCreat: CartItemCreateDto[] = []
   total: number = 0
 
@@ -37,6 +36,7 @@ export class CarritoComprasComponent {
   ngOnInit(): void {
 
   }
+
 
   validatePositive(libroPedido: productDto): void {
     if (libroPedido.stock < 1) {
@@ -79,44 +79,79 @@ export class CarritoComprasComponent {
     return this.total;
   }
 
+  private dataResumen() {
+    this.deleteShopping()
+    this.router.navigate(['personal/shopping/resum-shopping'])
+  }
 
-  getTotalCantidada(): number {
-    return 0
+  traducirPayMethod(): string {
+    switch (this.paymentMethod) {
+      case 'PAYPAL':
+        return 'Paypal'
+      case 'PAYMENT_GATEWAY_A':
+        return 'PasSeguro'
+      case 'PAYMENT_GATEWAY_B':
+        return 'PasLibre'
+      default:
+        return 'Paypal'
+    }
+  }
+
+
+  saveCart(cart: CartCreateDto) {
+    this.shoppingService.registerCart(cart).subscribe({
+      next: value => {
+        this.shoppingService.idResumen = value.id
+        this.okShopping()
+        this.dataResumen()
+      },
+      error: err => {
+        //manejar el error
+        this.dataResumen()
+        console.log(err);
+      }
+    })
   }
 
 
   async modalCantidadCompra() {
-    const { value: text } = await Swal.fire({
-      input: "password",
-      inputLabel: "Ingrese su contrasenia del portal de pagos",
-      inputPlaceholder: "*******",
-      inputAttributes: {
-        "aria-label": "Type your message here"
-      },
+    const email = this.authService.getUsuarioSesion()?.email || '';
+
+    const { value } = await Swal.fire({
+      title: 'Ingrese sus datos del portal de pagos que eligió: ' + this.traducirPayMethod(),
+      html:
+        `<input type="email" id="email" class="swal2-input" value="${email}" disabled placeholder="Correo electrónico" aria-label="Correo electrónico">
+         <input type="password" id="password" class="swal2-input" placeholder="Contraseña" aria-label="Contraseña">`,
+      focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
       showLoaderOnConfirm: true,
-      preConfirm: (result) => {
-        if (result === '') {
-          Swal.showValidationMessage(
-            `Ingrese un valor valido`
-          )
-        }
-        this.limpiarItems()
-        const cart: CartCreateDto = {
-          total: this.total,
-          banco: this.banco,
-          user_id: this.authService.getUsuarioSesion()?.id || 1,
-          items: this.itemsCartCreat,
-          payment_method: this.paymentMethod,
-          password: result
-        }
-        //enviar todo
-        console.log(cart);
+      preConfirm: () => {
+        const password = (document.getElementById('password') as HTMLInputElement).value;
 
+        if (!password) {
+          Swal.showValidationMessage('Por favor, ingrese una contraseña válida');
+          return false;
+        }
+
+        return { email, password };
       }
     });
+
+    if (value) {
+      this.limpiarItems();
+      const cart: CartCreateDto = {
+        total: this.total,
+        user_id: this.authService.getUsuarioSesion()?.id || 1,
+        items: this.itemsCartCreat,
+        payment_method: this.paymentMethod,
+        password: value.password
+      };
+      this.saveCart(cart)
+    }
   }
+
+
 
   limpiarItems() {
     this.itemsCart.forEach(item => {
@@ -129,34 +164,29 @@ export class CarritoComprasComponent {
   }
 
   confirmPedido() {
-    if (this.itemsCart.length === 0) return
+    if (this.itemsCart.length === 0) {
+      Swal.fire({
+        title: "Upss!",
+        text: "El carrito tiene que tener productos",
+        icon: "info"
+      });
+      return
+    }
     this.modalCantidadCompra()
 
   }
 
-  private savePedido() {
-
+  okShopping() {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Compra Realizada con exit!",
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
 
-  private validListBooks(): boolean {
-    return true
-  }
 
-  private validDireecion(): boolean {
-    if (this.direccion === '') {
-      Swal.fire({
-        title: "Direccion no valida",
-        text: "Ingrese una direccion valida para el envio de su pedido",
-        icon: "info"
-      });
-      return true
-    }
-    return false
-  }
 
-  private dataResumen() {
-
-    this.router.navigate(['user/shopping/resum-shopping'])
-  }
 
 }

@@ -3,6 +3,7 @@ import { ProductoService } from '../../../core/services/productos/producto.servi
 import { Router } from '@angular/router';
 import { productDto } from '../../../admin/product/models/product.dto';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShoppingServie } from '../../../user-comun/shopping/services/shopping.service';
 
 @Component({
   selector: 'app-card-producto',
@@ -17,9 +18,21 @@ export class CardProductoComponent {
   imagen!: string;
 
   private readonly router = inject(Router)
+  private readonly shopingService = inject(ShoppingServie)
+
+  ngOnInit(): void {
+    if (this.producto) {
+      const produc = this.shopingService.itemsCart.find(pro => pro.product.id === this.producto.id)
+      if (produc) {
+        this.producto.stock = this.producto.stock - produc.quantity
+      }
+    }
+  }
+
 
   constructor() {
     this.imagen = ''
+
   }
 
   goProducto() {

@@ -91,6 +91,13 @@ export class RegisterComponent {
         this.initRegisterFrom()
         this.navegarRol()
         this.sideBar.cambiarEstado(false)
+      },
+      error: erro =>{
+        if (typeof erro.error.message === 'object' && Array.isArray(erro.error.message)) {
+          this.msgError(erro.error.message[0]);
+        } else {
+          this.msgError(erro.error.message);
+        }
       }
     })
   }
@@ -117,10 +124,10 @@ export class RegisterComponent {
     }
   }
 
-  msgError() {
+  msgError(msg:string) {
     Swal.fire(
       'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'Los valores que a ingresado son incorrectos, intente de nuevo: '+msg,
       'error'
     );
   }

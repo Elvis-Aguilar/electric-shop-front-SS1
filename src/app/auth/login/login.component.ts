@@ -39,20 +39,22 @@ export class LoginComponent {
   }
 
   logger() {
-    //@dminP4ss/*-
     this.authService.UserLogin(this.loginForm.value).subscribe({
-      next: value =>{
+      next: value => {
         this.authService.saveSesionNavigate(value)
         this.msgValid();
         this.navegarRol();
         this.sideBar.cambiarEstado(false)
         this.initLoginFrom()
       },
-      error: err =>{
-        this.msgError()
-
+      error: err => {
+        if (typeof err.error.message === 'object' && Array.isArray(err.error.message)) {
+          this.msgError(err.error.message[0]);
+        } else {
+          this.msgError(err.error.message);
+        }
       }
-      
+
     })
   }
 
@@ -82,10 +84,10 @@ export class LoginComponent {
     );
   }
 
-  msgError() {
+  msgError(msg: string) {
     Swal.fire(
       'Ups!!',
-      'Las credenciales son invalidas',
+      'Las credenciales son invalidas: ' + msg,
       'error'
     );
   }

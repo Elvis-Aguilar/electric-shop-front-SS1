@@ -45,19 +45,37 @@ export class ProductoComponent {
   }
 
   addCart() {
+    if (this.cantida < 1) {
+      Swal.fire(
+        'upps',
+        'No valor incorrecto',
+        'info'
+      );
+      return
+    }
+    if (this.cantida > this.producto.stock) {
+      Swal.fire(
+        'upps',
+        'No puedes comprar mas productos de los existenes',
+        'info'
+      );
+      return
+    }
     const exitProduc = this.shopingService.itemsCart.find(ca => ca.product.id === this.producto.id)
     if (exitProduc) {
       exitProduc.quantity += this.cantida
-      exitProduc.subToto +=  this.cantida * this.producto.price
+      exitProduc.subToto += this.cantida * this.producto.price
       Swal.fire(
         'Excelente',
         'Producto agregado con exit',
         'success'
       );
-      return 
+      this.producto.stock = this.producto.stock - this.cantida
+      return
     }
     const subTotal = this.producto.price * this.cantida;
     this.shopingService.itemsCart.push({ quantity: this.cantida, product: this.producto, subToto: subTotal })
+    this.producto.stock = this.producto.stock - this.cantida
     Swal.fire(
       'Excelente',
       'Producto agregado con exit',

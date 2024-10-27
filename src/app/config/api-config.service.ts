@@ -19,6 +19,11 @@ export class ApiConfigService {
 
     //updload file
     API_UPLOAD = `${this.API_BASE}/upload`
+
+    //carts
+    API_CART = `${this.API_BASE}/carts`
+
+
     
     //report
     API_REPORT = `${this.API_BASE}/reports`
