@@ -13,16 +13,16 @@ export class HomeAdminComponent {
   private readonly router = inject(Router)
 
 
-  goAreaProductos(){
+  goAreaProductos() {
     this.router.navigate(['area-admin/area-productos'])
   }
 
-  goAreaEventos(){
+  goAreaEventos() {
     this.router.navigate(['area-admin/area-eventos'])
   }
 
-  goAreaMonetaria(){
-    this.router.navigate(['area-admin/area-monetaria'])
+  goAreaMonetaria() {
+    this.router.navigate(['area-admin/area-usuarios'])
   }
 
 

@@ -16,7 +16,7 @@ export const AUTH_ROUTES: Routes = [
     { path: 'area-productos', component: AreaProductosComponent },
     { path: 'area-proveedores', component: GeneralProveedorsComponent },
     { path: 'area-categoria', component: AreaEventosComponent },
-    { path: 'area-monetaria', component: AreaMonetariaComponent },
+    { path: 'area-usuarios', component: AreaMonetariaComponent },
     { path: 'formulario-producto', component: FormPublicProductoComponent },
     { path: 'edit-producto/:id', component: EditProductoComponent },
     { path: 'formulario-proveedor', component: FormCreateComponent }

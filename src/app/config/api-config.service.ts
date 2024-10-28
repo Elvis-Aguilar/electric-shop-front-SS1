@@ -13,6 +13,7 @@ export class ApiConfigService {
     //Session module
     API_AUTH = `${this.API_BASE}/auth`
     API_USER = `${this.API_BASE}/users`
+    API_ROLE = `${this.API_BASE}/roles`
 
     //business 
     API_PRODUCT = `${this.API_BASE}/products`

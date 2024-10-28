@@ -1,10 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Divisa } from '../../core/models/divisa/divisa';
-import { DivisaService } from '../../core/services/divisa/divisa.service';
 import { AuthService } from '../../core/services/auth.service';
-import { CuentaMonetaria } from '../../core/models/cuenta-monetaria';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { ShoppingServie } from '../shopping/services/shopping.service';
 import { Usuario } from '../../core/models/usuario';
 import { Cart } from '../shopping/models/cart-reques';
@@ -13,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-cuenta-monetaria',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [],
   templateUrl: './cuenta-monetaria.component.html',
   styleUrl: './cuenta-monetaria.component.css'
 })

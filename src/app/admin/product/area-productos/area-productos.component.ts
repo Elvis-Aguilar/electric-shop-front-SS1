@@ -125,31 +125,4 @@ export class AreaProductosComponent {
 
 
 
-  /**revisar XD */
-
-  msgError() {
-    Swal.fire(
-      'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
-      'error'
-    );
-  }
-
-  msgRegistroRechazoOK() {
-    Swal.fire(
-      'Rechazado con exito',
-      'El producto fue rechazado con exito y el motivo se le hara saber al usuario',
-      'info'
-    );
-  }
-
-  msgAceptOK() {
-    Swal.fire(
-      'Aceptado con exito',
-      'El producto fue Aceptado con exito, el producto ya podra ser comercializado en el sistema',
-      'success'
-    );
-  }
-
-
 }
