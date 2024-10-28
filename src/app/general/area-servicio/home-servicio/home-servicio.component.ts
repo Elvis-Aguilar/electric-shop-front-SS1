@@ -4,6 +4,8 @@ import { Servicio } from '../../../core/models/servicios/servicio';
 import { AuthService } from '../../../core/services/auth.service';
 import { ServicioService } from '../../../core/services/servicios/servicio.service';
 import { CardServicioComponent } from '../card-servicio/card-servicio.component';
+import { SupplierService } from '../../../admin/area-provedores/services/supplier.service';
+import { supplier } from '../../../admin/area-provedores/models/supplir.dto';
 
 @Component({
   selector: 'app-home-servicio',
@@ -15,19 +17,23 @@ import { CardServicioComponent } from '../card-servicio/card-servicio.component'
 export class HomeServicioComponent {
 
 
-  servicios: Servicio[] = []
 
-  
+  suppliers: supplier[] = []
+
+
+  private readonly supplierService = inject(SupplierService)
   private readonly router = inject(Router)
-  private readonly authService = inject(AuthService)
-  private readonly servicioService = inject(ServicioService)
 
   constructor() { }
 
   ngOnInit(): void {
-    this.servicioService.getServiciosTodos().subscribe({
+    this.getAllSupliers()
+  }
+
+  getAllSupliers() {
+    this.supplierService.getAllSupplier().subscribe({
       next: value => {
-        this.servicios = value
+        this.suppliers = value
       }
     })
   }

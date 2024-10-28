@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardProductoComponent } from '../card-producto/card-producto.component';
 import Swal from 'sweetalert2';
@@ -16,6 +16,9 @@ import { categoriaDto } from '../../../admin/area-categorias/models/category.dto
 })
 export class HomeProductoComponent {
 
+  @Input('id') categoryId!: string;
+  @Input('idSupplier') idSupplier!: string;
+
   productos: productDto[] = []
   categorias: categoriaDto[] = []
   filter: string = 'Todos'
@@ -26,18 +29,28 @@ export class HomeProductoComponent {
   private readonly categoryService = inject(CategoryService)
 
   constructor() {
-    this.getCategorias();
+
   }
 
   ngOnInit(): void {
+    this.getCategorias();
+    if (this.categoryId) {
+      const id = Number(this.categoryId)
+      this.getAllByCategory(id)
+      return
+    }
+    if (this.idSupplier) {
+      const id = Number(this.idSupplier)
+      this.getAllBySupplier(id)
+    }
     this.getProductoTodos()
   }
 
   getProductoTodos() {
     this.filter = 'Todos'
     this.descripcion = ''
-    this.productoService.getAllProduct().subscribe({ 
-      next: value =>{
+    this.productoService.getAllProduct().subscribe({
+      next: value => {
         this.productos = value
       }
     })
@@ -48,11 +61,30 @@ export class HomeProductoComponent {
   }
 
   getCategorias() {
-   this.categoryService.getAll().subscribe({
-    next: value =>{
-      this.categorias = value
-    }
-   })
+    this.categoryService.getAll().subscribe({
+      next: value => {
+        this.categorias = value
+      }
+    })
+  }
+
+  getAllByCategory(id: number) {
+    const cate = this.categorias.find(cat => cat.id === id)
+    this.filter = cate?.name || ''
+    this.descripcion = cate?.description || ''
+    this.productoService.getByIdCtaegory(id).subscribe({
+      next: value => {
+        this.productos = value
+      }
+    })
+  }
+
+  getAllBySupplier(id: number) {
+    this.productoService.getByIdSupplier(id).subscribe({
+      next: value => {
+        this.productos = value
+      }
+    })
   }
 
   filtrarCategoria(categ: categoriaDto) {

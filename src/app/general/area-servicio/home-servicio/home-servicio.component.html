@@ -4,9 +4,9 @@
             Proveedores Registrados
         </h3>
         <div class="row  py-4 g-3">
-            @for (servicio of servicios; track $index) {
+            @for (supplier of suppliers; track $index) {
             <div class="col-md-6">
-                <app-card-servicio [servicio]="servicio"></app-card-servicio>
+                <app-card-servicio [supplier]="supplier"></app-card-servicio>
             </div>
             }@empty {
             <h3 class="font-semibold text-center text-[#03045E]  text-2xl">

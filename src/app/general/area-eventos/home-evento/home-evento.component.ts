@@ -5,6 +5,8 @@ import { EventoService } from '../../../core/services/evento/evento.service';
 import { Evento } from '../../../core/models/evento/evento';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
 import Swal from 'sweetalert2';
+import { CategoryService } from '../../../admin/area-categorias/services/category.service';
+import { categoriaDto } from '../../../admin/area-categorias/models/category.dto';
 
 @Component({
   selector: 'app-home-evento',
@@ -16,70 +18,26 @@ import Swal from 'sweetalert2';
 export class HomeEventoComponent {
 
   private router = inject(Router);
-  private eventoSevice = inject(EventoService)
+  private readonly categoryService = inject(CategoryService)
 
-  tiposEvento: TipoEvento[] = []
-  eventos: Evento[] = []
-  filter: string = 'Todos'
-  descripcion: string = ''
+  categorias: categoriaDto[] = []
 
-  constructor() { }
+
+  constructor() {
+  }
   ngOnInit(): void {
-    this.getTipoEventos()
-    this.getEventosTodos()
+    this.getCategorias();
   }
 
-  getTipoEventos() {
-    this.eventoSevice.getTipoEvento().subscribe({
-      next: values => {
-        this.tiposEvento = values
-      },
-      error: err => { }
+  getCategorias() {
+    this.categoryService.getAll().subscribe({
+     next: value =>{
+       this.categorias = value
+     }
     })
-  }
+   }
 
-  getEventosTodos() {
-    this.eventoSevice.getEventos().subscribe({
-      next: value => {
-        this.eventos = value
-      },
-      error: err => {
-        console.error(err);
-      }
-    })
-  }
-
-  filtrarFormaPago(index: number) {
-    this.eventoSevice.getEventoFilterFormPago(index).subscribe({
-      next: value => { this.eventos = value},
-      error: err => {
-        this.msgError()
-      }
-    })
-  }
-
-  filtrarCategoria(tipo: TipoEvento) {
-    this.filter = tipo.alias
-    this.descripcion = tipo.descripcion
-    this.eventoSevice.getEventoFilterCategorias(tipo.tipo_even_id || 1).subscribe({
-      next: value => {
-        this.limpearEventos(value)
-      },
-      error: err => {
-        this.msgError();
-      }
-    })
-  }
-
-  private limpearEventos(result: Evento[]) {
-    const eventos: Evento[] = []
-    result.forEach(event => {
-      if (event.evento) {
-        eventos.push(event.evento)
-      }
-    })
-    this.eventos = eventos;    
-  }
+ 
 
   msgError() {
     Swal.fire(

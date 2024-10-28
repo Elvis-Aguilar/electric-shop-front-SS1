@@ -2,6 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { Servicio } from '../../../core/models/servicios/servicio';
 import { Router } from '@angular/router';
 import { ServicioService } from '../../../core/services/servicios/servicio.service';
+import { supplier } from '../../../admin/area-provedores/models/supplir.dto';
 
 @Component({
   selector: 'app-card-servicio',
@@ -12,38 +13,18 @@ import { ServicioService } from '../../../core/services/servicios/servicio.servi
 })
 export class CardServicioComponent {
 
-  @Input() servicio!: Servicio;
+  @Input() supplier!: supplier;
   imagen!: string;
 
   private readonly router = inject(Router)
-  private readonly servicioServise = inject(ServicioService)
 
   constructor() { }
 
   ngOnInit(): void {
-    if (!this.servicio) {
-      return
-    }
-    const filename: string = this.servicio.url_foto.split('/').pop() || '';
-    this.servicioServise.getImage(filename).subscribe({
-      next: value => {
-        this.createImageFromBlob(value)
-      },
-      error: err => { this.imagen = '' }
-    })
-  }
-
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener('load', () => {
-      this.imagen = reader.result as string;
-    }, false);
-    if (image) {
-      reader.readAsDataURL(image);
-    }
+    
   }
 
   goEvento() {
-    this.router.navigate(['area-servicios/servicio', `${this.servicio.servicio_id}-${this.servicio.nombre}`])
+    this.router.navigate(['area-productos/home', `${this.supplier.id}`])
   }
 }

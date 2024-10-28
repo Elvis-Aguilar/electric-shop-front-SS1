@@ -21,18 +21,18 @@
 
 <div class="container">
     <div class="page-header py-4 font-semibold text-[#03045E] text-2xl">
-        <h1 class="text-center">Productos Publicados</h1>
+        <h1 class="text-center">Categorias Existentes</h1>
     </div>
     <ul>
-        @for (evento of eventos; track $index) {
+        @for (category of categorias; track $index) {
         @if (($index % 2) === 0) {
-        <app-card-evento [evento]="evento" [clase]="''"></app-card-evento>
+        <app-card-evento [category]="category" [clase]="''"></app-card-evento>
         }@else {
-        <app-card-evento [evento]="evento" [clase]="'timeline-inverted'"></app-card-evento>
+        <app-card-evento [category]="category" [clase]="'timeline-inverted'"></app-card-evento>
         }
         }@empty {
         <h3 class="font-semibold text-center text-[#03045E]  text-2xl">
-            Aun no hay Productos Publicados </h3>
+            Aun no hay Categorias </h3>
         }
     </ul>
 </div>

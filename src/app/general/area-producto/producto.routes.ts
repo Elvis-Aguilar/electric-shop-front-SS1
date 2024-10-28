@@ -7,6 +7,8 @@ import { ProductoComponent } from "./producto/producto.component";
 export const AUTH_ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeProductoComponent },
+    { path: 'home/:id', component: HomeProductoComponent },
+    { path: 'home/:idSupplier', component: HomeProductoComponent },
     { path: 'producto/:id', component: ProductoComponent },
     
 ];

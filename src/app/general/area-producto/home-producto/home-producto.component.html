@@ -10,9 +10,9 @@
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item">{{categoria.name}}</a></li>
+            <li><a class="dropdown-item" (click)="getAllByCategory(categoria.id)">{{categoria.name}}</a></li>
             }@else {
-            <li><a class="dropdown-item">{{categoria.name}}</a></li>
+            <li><a class="dropdown-item" (click)="getAllByCategory(categoria.id)">{{categoria.name}}</a></li>
             }
             }
         </ul>
