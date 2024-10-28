@@ -30,11 +30,6 @@ export class AreaProductosComponent {
 
 
   ngOnInit(): void {
-    /**
-     *  this.getProductosPendientes()
-     this.getCategoriasPendientes()
-     this.getReportesProducto()
-     */
     this.getAllPruducts()
     this.getAllCategories()
     this.getAllSupliers()
@@ -88,11 +83,44 @@ export class AreaProductosComponent {
     return date.toISOString().split('T')[0];
   }
 
-  mostrarImg(image:string, name:string){
+  mostrarImg(image: string, name: string) {
     Swal.fire({
       title: `${name}`,
       imageUrl: image
     });
+  }
+
+  goEditar(id: number) {
+    this.route.navigate(['area-admin/edit-producto', id])
+  }
+
+  async deleted(id: number) {
+    // Mostrar SweetAlert de confirmación
+    const result = await Swal.fire({
+      title: 'Confirmación de compra',
+      html: `
+        <p>Seguro que quiere eliminar el producto</p>
+      `,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Si, confirmar',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      // Si el usuario confirma, limpiar items y guardar el carrito
+      this.productService.deletedProduct(id).subscribe({
+        next: vale => {
+          this.getAllPruducts()
+          Swal.fire(
+            'Eliminado con exito',
+            'El producto se ha eliminado del inventario',
+            'warning'
+          );
+        }
+      })
+    }
+
   }
 
 

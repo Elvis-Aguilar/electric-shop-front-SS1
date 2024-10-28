@@ -1,10 +1,14 @@
 import { Component, Input, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Producto } from '../../../core/models/producto/producto';
-import { Categoria } from '../../../core/models/producto/categoria';
-import { ProductoService } from '../../../core/services/productos/producto.service';
 import { Router } from '@angular/router';
+import { categoriaDto } from '../../area-categorias/models/category.dto';
+import { supplier } from '../../area-provedores/models/supplir.dto';
+import { CategoryService } from '../../area-categorias/services/category.service';
+import { SupplierService } from '../../area-provedores/services/supplier.service';
+import { ProductService } from '../services/product.service';
+import { UploadImgService } from '../../../config/upload-img.service';
+import { productDto } from '../models/product.dto';
 
 
 @Component({
@@ -18,209 +22,128 @@ export class EditProductoComponent {
 
   @Input('id') productoId!: string;
 
-  producto!: Producto
-  imagen!: string;
-  myGroup!: FormGroup;
-
-  categorias: Categoria[] = []
-  categoriasProducto: Categoria[] = []
+  registerForm!: FormGroup;
+  file!: File
+  formData!: FormData
+  producto!: productDto
 
 
-  private readonly productoService = inject(ProductoService)
-  private readonly router = inject(Router)
+  categories: categoriaDto[] = []
+  suppliers: supplier[] = []
+
+  private readonly categoryService = inject(CategoryService)
+  private readonly suppliersServices = inject(SupplierService)
+  private readonly productServcie = inject(ProductService)
+  private readonly router = inject(Router);
+  private readonly uploadService = inject(UploadImgService)
+
 
   constructor(private formBuilder: FormBuilder) {
   }
 
-  async ngOnInit(): Promise<void> {
-    this.getCategorias()
-    const param = this.productoId.split('-')[0]
-    const id = parseInt(param, 10)
-    const result = await this.productoService.getProdcutoId(id).toPromise()
-    if (result) {
-      this.producto = result
-
-      this.getCategoriaProducto()
-      this.initRegisterFrom()
-    }
+  ngOnInit(): void {
+    this.productServcie.getById(Number(this.productoId)).subscribe({
+      next: value => {
+        this.producto = value
+        this.initRegisterFrom()
+      }
+    })
+    this.getAllCategories()
+    this.getAllSupliers()
   }
+
 
   initRegisterFrom() {
-    this.myGroup = this.formBuilder.group({
-      nombre: [this.producto?.nombre || '', Validators.required],
-      descripcion: [this.producto?.descripcion || '', Validators.required],
-      especificaciones: [this.producto?.especificaciones || '', Validators.required],
-      cantidad_exit: [this.producto?.cantidad_exit || '', Validators.required],
-      permite_trueque: [this.producto?.permite_trueque || 0],
-      permite_contactar: [this.producto?.permite_contactar || 0],
-      moneda_local: [this.producto?.moneda_local || '', Validators.required],
-      moneda_sistema: [this.producto?.moneda_sistema || '', Validators.required],
-    });
+    this.registerForm = this.formBuilder.group({
+      name: [this.producto.name, Validators.required],
+      description: [this.producto.description, Validators.required],
+      price: [this.producto.price, Validators.required],
+      stock: [this.producto.stock, Validators.required],
+      supplier: [this.producto.supplier.id, Validators.required],
+      category: [this.producto.category.id, Validators.required],
+      image: ['']
+    })
   }
 
-  actulizarProducto() {
-    this.myGroup.value.permite_contactar = this.myGroup.value.permite_contactar ? 1 : 0
-    this.myGroup.value.permite_trueque = this.myGroup.value.permite_trueque ? 1 : 0
-    if (!this.validInfo()) {
-      return
+  getAllCategories() {
+    this.categoryService.getAll().subscribe({
+      next: value => {
+        this.categories = value
+      }
+    })
+  }
+
+  getAllSupliers() {
+    this.suppliersServices.getAllSupplier().subscribe({
+      next: value => {
+        this.suppliers = value
+      }
+    })
+  }
+
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement != null && inputElement.files != null && inputElement.files.length > 0) {
+      this.file = inputElement.files[0];
+      this.formData = new FormData();
+      this.formData.append('file', this.file, this.file.name);
     }
-    this.productoService.updateProducto(this.myGroup.value, this.producto.producto_id).subscribe(
-      (result) => {
-        this.msgProductoActualizado()
-        this.router.navigate(['personal/productos-registrados'])
+  }
+
+  private async uplogadImag(): Promise<void> {
+    if (this.formData) {
+      try {
+        const value = await this.uploadService.saveImg(this.formData).toPromise(); // Convertimos a Promesa
+        this.registerForm.value.image = value.url;
+      } catch (err) {
+        console.error('Error al subir la imagen: ', err);
+        // TODO: manejar errores, por ejemplo, mostrar un mensaje de "intente de nuevo"
+      }
+    } else {
+      this.registerForm.value.image = this.producto.image
+    }
+  }
+
+
+  async register() {
+
+    this.registerForm.value.category = Number(this.registerForm.value.category)
+    this.registerForm.value.supplier = Number(this.registerForm.value.supplier)
+    this.registerForm.value.price = Number(this.registerForm.value.price)
+
+    await this.uplogadImag()
+
+    this.productServcie.updateProdcut(this.producto.id, this.registerForm.value).subscribe({
+      next: value => {
+
+        this.msgSucces()
+        this.router.navigate(['area-admin/area-productos'])
+
       },
-      (error) => {
+      error: err => {
+
+        console.log(err);
         this.msgError()
       }
-    )
-
-  }
-
-  private validInfo(): boolean {
+    })
 
 
-    if (this.myGroup.value.moneda_local < 0 || this.myGroup.value.moneda_sistema < 0) {
-      this.msgMonedaInvalida()
-      return false
-    }
-    if (this.myGroup.value.cantidad_exit < 0) {
-      this.msgCantidadInvalid()
-      return false
-    }
-    return true
-  }
-
-  msgMonedaInvalida() {
-    Swal.fire(
-      'Valor de moneda incorrecto',
-      'El valor del producto debe ser mayor o igual a 0',
-      'error'
-    );
-  }
-
-  msgProductoActualizado() {
-    Swal.fire(
-      'Producto Actulizado con exito',
-      'El producto fue actulizado con exito',
-      'success'
-    );
-  }
-
-  msgCantidadInvalid() {
-    Swal.fire(
-      'Valor de Cantidad incorrecto',
-      'La cantidad de producto existentes del producto debe ser mayor o igual a 0',
-      'error'
-    );
-  }
-
-  getCategorias() {
-    this.productoService.getCategories().subscribe(
-      (result) => {
-        this.categorias = result
-      }
-    );
-  }
-
-  getCategoriaProducto() {
-    this.productoService.getCategoriaProducto(this.producto.producto_id).subscribe(
-      (result) => {
-        this.categoriasProducto = result;
-      },
-      (error) => {
-      }
-    )
-  }
-
-  mostrarModalCategoria(catego: Categoria) {
-    Swal.fire({
-      title: '<strong><u>' + catego.categoria?.alias + '</u></strong>',
-      html: `
-        <p class="text-xl"> ->  ${catego.categoria?.descripcion}</p> <hr>
-      `,
-      showCloseButton: true,
-      focusConfirm: false,
-    });
-  }
-
-  eliminarCategoria(cate: Categoria) {
-    if (this.categoriasProducto.length === 1) {
-      this.msgCategoriasVacia()
-      return
-    }
-    this.productoService.deletCategoriaProdcuto(cate?.categoria_producto_id || 1).subscribe(
-      (result) => {
-        this.categoriasProducto = result;
-        this.msgCategoriaEliminada()
-      },
-      (error) => {
-        this.msgError()
-      }
-    )
-  }
-
-  agregarCategoriaProdcuto(categ: Categoria) {
-    const index = this.categoriasProducto.findIndex(categoria => categoria.categoria?.categoria_id === categ.categoria_id)
-    if (categ.alias === 'Todos') {
-      return
-    }
-    if (index !== -1) {
-      this.msgCategoriaYaAsociada()
-      return
-    }
-    const cate: Categoria = { alias: '', descripcion: '', estado: this.producto.producto_id, categoria_id: categ.categoria_id }
-    this.productoService.asociarCategoriaProducto(cate).subscribe(
-      (result) => {
-        this.categoriasProducto = result
-        this.msgCategoriaAsociada()
-      },
-      (error) => {
-
-        this.msgError();
-      })
-  }
-
-  msgCategoriasVacia() {
-    Swal.fire(
-      'Categoria no se puede eliminar',
-      'El producto debe de tener al menos una categoria asociada',
-      'info'
-    );
-  }
-
-  msgCategoriaAsociada() {
-    Swal.fire(
-      'Categoria Asociada',
-      'La categoria ha sido asociada con exito',
-      'success'
-    );
-  }
-
-  msgCategoriaYaAsociada() {
-    Swal.fire(
-      'Categoria ya Asociada',
-      'La categoria que intenta asociar ya esta asociada al producto',
-      'question'
-    );
-  }
-
-
-  msgCategoriaEliminada() {
-    Swal.fire(
-      'Categoria eliminar',
-      'La categoria a sido desasociado con el producto',
-      'success'
-    );
   }
 
   msgError() {
     Swal.fire(
       'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
+      'Ocurrio un erro al intetar registrar el producto',
       'error'
     );
   }
 
-
+  msgSucces() {
+    Swal.fire(
+      'Registro Exitoso',
+      'Su registro del producto al sistema ha sido exitoso!',
+      'success'
+    );
+  }
 
 }

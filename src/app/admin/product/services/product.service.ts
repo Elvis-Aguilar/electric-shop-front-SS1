@@ -19,6 +19,10 @@ export class ProductService {
     return this._http.post<productDto>(`${this.apiConfig.API_PRODUCT}`, product)
   }
 
+  updateProdcut(id:number, product: productDto): Observable<productDto> {
+    return this._http.put<productDto>(`${this.apiConfig.API_PRODUCT}/${id}`, product)
+  }
+
   getAllProduct(): Observable<productDto[]> {
     return this._http.get<productDto[]>(`${this.apiConfig.API_PRODUCT}`)
   }
@@ -33,6 +37,10 @@ export class ProductService {
 
   getByIdSupplier(id: number): Observable<productDto[]> {
     return this._http.get<productDto[]>(`${this.apiConfig.API_PRODUCT}/supplier/${id}`)
+  }
+
+  deletedProduct(id: number): Observable<productDto> {
+    return this._http.delete<productDto>(`${this.apiConfig.API_PRODUCT}/${id}`)
   }
 
 

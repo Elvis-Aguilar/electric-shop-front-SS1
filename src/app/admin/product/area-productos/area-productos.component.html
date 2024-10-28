@@ -7,7 +7,7 @@
             </button>
             <ul class="dropdown-menu">
                 @for (item of categories; track $index) {
-                    <li><a class="dropdown-item">{{item.name}}</a></li>
+                <li><a class="dropdown-item">{{item.name}}</a></li>
                 }
                 <li>
                     <hr class="dropdown-divider">
@@ -22,7 +22,7 @@
             </button>
             <ul class="dropdown-menu">
                 @for (item of suppliers; track $index) {
-                    <li><a class="dropdown-item">{{item.name}}</a></li>
+                <li><a class="dropdown-item">{{item.name}}</a></li>
                 }
                 <li>
                     <hr class="dropdown-divider">
@@ -71,8 +71,18 @@
                                     Opciones
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item"
-                                            > Editar</a>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goEditar(product.id)">
+                                            Editar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item delete" (click)="deleted(product.id)">
+                                            Eliminar
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
