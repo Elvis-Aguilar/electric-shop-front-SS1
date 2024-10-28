@@ -1,138 +1,66 @@
-@if (divisia && cuentaMonetari) {
 <section class="container-fluid font-mono">
     <div class="row">
-        <div class="col-md-4">
-            <h3 class=" text-[#03045E] my-2">Valor de intercambio</h3>
-            <table class="table table-bordered shadow">
-                <thead>
-                    <tr>
-                        <th class="text-center">moneda Sistema</th>
-                        <th class="text-center">ms: {{divisia.moneda_sistema}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center">
-                        <th class="text-center">moneda local</th>
-                        <th class="text-center">Q: {{divisia.moneda_local}}</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-8">
-            <h3 class=" text-[#00B4D8] my-2">Estado de cuenta Personal</h3>
+        <div class="col-md-12">
+            <h3 class=" text-[#00B4D8] my-2">Todas mis Compras existosas</h3>
             <table class="table table-bordered shadow">
                 <thead class="table-info">
                     <tr>
-                        <th class="text-center">Moneda</th>
-                        <th class="text-center">Total</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Cant. Productos</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Total Gastado Q</th>
+                        <th class="text-center">Metodo de pago</th>
+                        <th class="text-center">opcion</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @for (item of carts; track $index) {
+                    @if (!item.description_error) {
                     <tr class="text-center">
-                        <th class="text-center">Moneda Sistema</th>
-                        <th class="text-center">ms. {{cuentaMonetari.moneda_ms}}</th>
+                        <th class="text-center">{{$index+1}}</th>
+                        <td class="text-center">{{item.cartItems.length}}</td>
+                        <td class="text-center">{{item.created_at.split('T')[0]}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                        <td class="text-center">{{traducirPayMethod(item.payment_method)}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-link" (click)="goDetalles(item.id)">ver detalles</a>
+                        </td>
                     </tr>
-                    <tr class="text-center">
-                        <th class="text-center">Moneda local</th>
-                        <th class="text-center">Q. {{cuentaMonetari.moneda_local}}</th>
-                    </tr>
+                    }
+                    }
+
                 </tbody>
             </table>
         </div>
-        <div class="col-md-3 mt-16">
-            <!-- Example single danger button -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Opciones
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" (click)="cambiarOpcion(1)">Recargas Moneda del sistema ms</a></li>
-                    <li><a class="dropdown-item" (click)="cambiarOpcion(2)">Recaragar Quetzales a mi cuenta</a></li>
-                    <li><a class="dropdown-item" (click)="cambiarOpcion(3)">Convertir Quetzales a ms</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" (click)="cambiarOpcion(0)">Solicitar Prestamo</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-9 mt-4">
-            <h3 class=" text-[#0077B6] my-2 text-center">Area para realizar las acciones</h3>
-            @switch (opcion) {
-            @case (1) {
-            <div class="border px-4 py-4 rounded-xl shadow">
-                <form [formGroup]="registerForm" (submit)="recargar()" class="row g-3">
-                    <span class="text-center text-[#0077B6] ">Informacion para Recargar moneda del sisetam</span>
-                    <span class="text-sm text-muted text-[#03505e] ">Datos Obligatorios para comprar moneda del sistema
-                        "ms"</span>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Cantidad a recargar</label>
-                        <input type="number" class="form-control" id="inputAddress" placeholder="ms"
-                            formControlName="cantidad_recarga">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Numero de tarjeta</label>
-                        <input type="number" class="form-control" id="inputAddress" placeholder="15052"
-                            formControlName="tarjeta">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Codigo de seguridad</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="alfanumérico"
-                            formControlName="codigo">
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary ml-4" [disabled]="registerForm.invalid">Recargar</button>
-                    </div>
-                </form>
-            </div>
-            }@case (2) {
-            <div class="border px-4 py-4 rounded-xl shadow">
-                <form [formGroup]="registerForm" (submit)="recargar()" class="row g-3">
-                    <span class="text-center text-[#0077B6] ">Informacion para Recargar Quetzales</span>
-                    <span class="text-sm text-muted text-[#03505e] ">Datos Obligatorios recargar Quetzales a mi
-                        cuenta</span>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Cantidad a recargar</label>
-                        <input type="number" class="form-control" id="inputAddress" placeholder="Q"
-                            formControlName="cantidad_recarga">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Numero de tarjeta</label>
-                        <input type="number" class="form-control" id="inputAddress" placeholder="15052"
-                            formControlName="tarjeta">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="inputAddress" class="form-label">Codigo de seguridad</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="alfanumérico"
-                            formControlName="codigo">
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary ml-4" [disabled]="registerForm.invalid">Recargar</button>
-                    </div>
-                </form>
-            </div>
-            }@case (3) {
-            <div class="border px-4 py-4 rounded-xl shadow">
-                <form [formGroup]="registerForm" class="row g-3">
-                    <span class="text-center text-[#0077B6] ">Informacion para Recargar MS</span>
-                    <span class="text-sm text-muted text-[#03505e] ">Ingresa el valor que deseas tener en monedas del
-                        sistema ms</span>
-                    <div class="col-md-6">
-                        <label for="inputAddress" class="form-label">Cantidad a Intercambiar</label>
-                        <input type="number" class="form-control" id="inputAddress" placeholder="ms"
-                        formControlName="cantidad_recarga">
-                    </div>
-                    <div class="col-md-4 mt-5">
-                        <button class="btn btn-primary ml-4" (click)="intercambiar()">Intercambiar</button>
-                    </div>
-                </form>
-            </div>
-            }@default {
-            Elija una opcion de recarga de monedas
-            }
-            }
+        <div class="col-md-12 my-4">
+            <h3 class=" text-[#00B4D8] my-2">Todas mis Compras Fallidas</h3>
+            <table class="table table-bordered shadow">
+                <thead class="table-info">
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Cant. Productos</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Total Gastado Q</th>
+                        <th class="text-center">Metodo de pago</th>
+                        <th class="text-center">Descripcion error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of carts; track $index) {
+                    @if (item.description_error) {
+                    <tr class="text-center">
+                        <th class="text-center">{{$index+1}}</th>
+                        <td class="text-center">{{item.cartItems.length}}</td>
+                        <td class="text-center">{{item.created_at.split('T')[0]}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                        <td class="text-center">{{traducirPayMethod(item.payment_method)}}</td>
+                        <td class="text-center">{{item.description_error}}</td>
+                    </tr>
+                    }
+                    }
+
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
-}

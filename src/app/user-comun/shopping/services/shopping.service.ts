@@ -35,6 +35,10 @@ export class ShoppingServie {
         return this._http.get<Cart>(`${this.apiConfig.API_CART}/${this.idResumen}`);
     }
 
+    public getAllCartUserById(userId:number): Observable<Cart[]> {
+        return this._http.get<Cart[]>(`${this.apiConfig.API_CART}/users/${userId}`);
+    }
+
     public loginValidUserAOrB(user: user, pay: string) {
         if (pay === 'PAYMENT_GATEWAY_A') {
             return this._http.post<userResponse>(`${this.apiConfig.API_PAY_METHOD_A}/api/usuario/public/login`, user)

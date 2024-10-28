@@ -8,6 +8,7 @@ export interface Cart {
     status: string;
     description_error: string;
     cartItems: CartItem[]
+    created_at:string
 
 }
 
