@@ -12,17 +12,17 @@ export class HomeComponent {
 
   private readonly router = inject(Router);
 
-  constructor(){}
+  constructor() { }
 
-  goProductos(){
+  goProductos() {
     this.router.navigate(['area-productos/home'])
   }
 
-  goEventos(){
-    this.router.navigate(['area-eventos/home'])
+  goEventos() {
+    this.router.navigate(['area-categorias/home'])
   }
 
-  goServicios(){
-    this.router.navigate(['area-servicios/home'])
+  goServicios() {
+    this.router.navigate(['area-proveedores/home'])
   }
 }

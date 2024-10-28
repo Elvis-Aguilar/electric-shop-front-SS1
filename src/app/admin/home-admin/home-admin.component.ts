@@ -25,5 +25,9 @@ export class HomeAdminComponent {
     this.router.navigate(['area-admin/area-usuarios'])
   }
 
+  goSalesRort(){
+    this.router.navigate(['area-admin/report-sales'])
+  }
+
 
 }

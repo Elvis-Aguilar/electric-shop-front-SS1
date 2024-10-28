@@ -1,0 +1,190 @@
+<section class="container-fluid font-mono">
+    <div class="flex justify-between  p-3 border rounded-lg">
+        <div class="btn-group">
+            <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Tipo de Reporte
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" (click)="rportProduct()">Productos Vendidos</a></li>
+                <li><a class="dropdown-item" (click)="rportProductMayorVentasDesc()">Productos Con Promedio Mayor de
+                        Ventas</a></li>
+                <li><a class="dropdown-item" (click)="reportGeneral()">General</a></li>
+                <li><a class="dropdown-item" (click)="reportComprasUsuario()">Compras Por cliente</a></li>
+                <li><a class="dropdown-item" (click)="reporClientesMasCompras()">Clientes con mas Compas</a></li>
+                <li><a class="dropdown-item" (click)="reportGeneralError()">Compras con Error</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        @if (typeRport==='productGeneral') {
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Productos Vendidos</h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Nombre del producto</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Cantidad Vendida</th>
+                        <th class="text-center">Total Vendido Q</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of itemsRport; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td class="text-center">{{item.product.name}}</td>
+                        <td class="text-center">{{item.product.price}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (typeRport==='productGeneralMayorPromedio') {
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">Productos con mayor Promedio de Ventas (Top 5)
+            </h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th class="text-center">Nombre del producto</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Cantidad Vendida</th>
+                        <th class="text-center">Total Vendido Q</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of itemsRport; track $index) {
+                    <tr>
+                        <th scope="row">{{$index+1}}</th>
+                        <td class="text-center">{{item.product.name}}</td>
+                        <td class="text-center">{{item.product.price}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (typeRport==='General') {
+        <div class="my-2">
+            <h3 class=" text-[#03045E] text-center font-semibold mb-2">General de ingresos Q
+            </h3>
+            <table class="table table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Descripcion</th>
+                        <th class="text-center">Total Q </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Totol Ingreso: </th>
+                        <td class="text-center">{{totalGeneal}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (typeRport==='errores') {
+        <div class="my-2">
+            <h3 class=" text-[#00B4D8] my-2">Todas las Compras Fallidas</h3>
+            <table class="table table-bordered shadow">
+                <thead class="table-info">
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Cant. Productos</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Total Gastado Q</th>
+                        <th class="text-center">Metodo de pago</th>
+                        <th class="text-center">Descripcion error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of carts; track $index) {
+                    @if (item.description_error) {
+                    <tr class="text-center">
+                        <th class="text-center">{{$index+1}}</th>
+                        <td class="text-center">{{item.user.name}}</td>
+                        <td class="text-center">{{item.cartItems.length}}</td>
+                        <td class="text-center">{{item.created_at.split('T')[0]}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                        <td class="text-center">{{traducirPayMethod(item.payment_method)}}</td>
+                        <td class="text-center">{{item.description_error}}</td>
+                    </tr>
+                    }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (typeRport==='users') {
+        <div class="my-2">
+            <h3 class=" text-[#00B4D8] my-2">Todas las Compras correctas por usuario</h3>
+            <table class="table table-bordered shadow">
+                <thead class="table-info">
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Usuario</th>
+                        <th class="text-center">Cant. Productos</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Total Gastado Q</th>
+                        <th class="text-center">Metodo de pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of carts; track $index) {
+                    @if (!item.description_error) {
+                    <tr class="text-center">
+                        <th class="text-center">{{$index+1}}</th>
+                        <td class="text-center">{{item.user.name}}</td>
+                        <td class="text-center">{{item.cartItems.length}}</td>
+                        <td class="text-center">{{item.created_at.split('T')[0]}}</td>
+                        <td class="text-center">{{item.total}}</td>
+                        <td class="text-center">{{traducirPayMethod(item.payment_method)}}</td>
+                    </tr>
+                    }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (typeRport==='userMore') {
+            <div class="my-2">
+                <h3 class=" text-[#00B4D8] my-2">Clientes con mas compras</h3>
+                <table class="table table-bordered shadow">
+                    <thead class="table-info">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Usuario</th>
+                            <th class="text-center">Cant. compras</th>
+                            <th class="text-center">Total Gastado Q</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of cartsReports; track $index) {
+                        @if (!item.description_error) {
+                        <tr class="text-center">
+                            <th class="text-center">{{$index+1}}</th>
+                            <td class="text-center">{{item.user.name}}</td>
+                            <td class="text-center">{{item.id}}</td>
+                            <td class="text-center">{{item.total}}</td>
+                        </tr> 
+                        }
+                        }
+    
+                    </tbody>
+                </table>
+            </div>
+            }
+    </div>
+</section>

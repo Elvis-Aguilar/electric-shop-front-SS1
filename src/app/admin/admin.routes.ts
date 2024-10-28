@@ -7,6 +7,7 @@ import { FormPublicProductoComponent } from "./product/form-public-producto/form
 import { EditProductoComponent } from "./product/edit-producto/edit-producto.component";
 import { FormCreateComponent } from "./area-provedores/form-create/form-create.component";
 import { GeneralProveedorsComponent } from "./area-provedores/general-proveedors/general-proveedors.component";
+import { ReportSalesComponent } from "./report-sales/report-sales.component";
 
 
 
@@ -19,7 +20,8 @@ export const AUTH_ROUTES: Routes = [
     { path: 'area-usuarios', component: AreaMonetariaComponent },
     { path: 'formulario-producto', component: FormPublicProductoComponent },
     { path: 'edit-producto/:id', component: EditProductoComponent },
-    { path: 'formulario-proveedor', component: FormCreateComponent }
+    { path: 'formulario-proveedor', component: FormCreateComponent },
+    { path: 'report-sales', component: ReportSalesComponent },
 
 
 ];
