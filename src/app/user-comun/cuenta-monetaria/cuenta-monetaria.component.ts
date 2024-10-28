@@ -29,8 +29,15 @@ export class CuentaMonetariaComponent {
   carts:Cart[] = []
 
   constructor() {
-
   }
+
+  ngOnInit(): void {
+    if (this.usuario) {
+      this.getAllCartsByUserId(this.usuario.id)
+    }
+    
+  }
+
 
   traducirPayMethod(paymentMethod:string): string {
     switch (paymentMethod) {
@@ -43,14 +50,6 @@ export class CuentaMonetariaComponent {
       default:
         return 'Paypal'
     }
-  }
-
-
-  ngOnInit(): void {
-    if (this.usuario) {
-      this.getAllCartsByUserId(this.usuario.id)
-    }
-    
   }
 
   getAllCartsByUserId(id:number){

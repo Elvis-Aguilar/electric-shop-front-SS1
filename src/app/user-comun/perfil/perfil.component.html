@@ -18,7 +18,7 @@
                         </svg>
                     </p>
                     <button class="btn btn-info font-mono w-full my-2">editar perfil</button>
-                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goCuentaMonetaria()">Historial de
+                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goTransacciones()">Historial de
                         Transacciones</button>
                 </div>
             </div>
@@ -30,14 +30,53 @@
                         Otras opciones
                     </h3>
                     <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg">
+                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goMisCompras()">
                             Mis Compras
                         </button>
-                        <button class="px-4 py-2 border bt2 rounded-lg">
+                        <button class="px-4 py-2 border bt2 rounded-lg" (click)="goTransacciones()">
                             Historial de Transacciones
                         </button>
                     </div>
                 </div>
+                @if (transaccion) {
+                <section class="container-fluid font-mono my-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class=" text-[#00B4D8] my-2">Todas las Transacciones</h3>
+                            <table class="table table-bordered shadow">
+                                <thead class="table-info">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Total Gastado Q</th>
+                                        <th class="text-center">Metodo de pago</th>
+                                        <th class="text-center">Estado</th>
+                                        <th class="text-center">Descripcion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (item of carts; track $index) {
+                                    <tr class="text-center">
+                                        <th class="text-center">{{$index+1}}</th>
+                                        <td class="text-center">{{item.created_at.split('T')[0]}}</td>
+                                        <td class="text-center">{{item.total}}</td>
+                                        <td class="text-center">{{traducirPayMethod(item.payment_method)}}</td>
+                                        <td class="text-center">{{traducirEstado(item.status)}}</td>
+                                        <td class="text-center">
+                                            @if (item.description_error) {
+                                            <a class="btn btn-link" (click)="verError(item.description_error)">ver</a>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                }
             </div>
         </div>
     </div>

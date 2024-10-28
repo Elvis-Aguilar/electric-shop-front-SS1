@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { Categoria } from '../../core/models/producto/categoria';
 import { ProductoService } from '../../core/services/productos/producto.service';
 import { EventoService } from '../../core/services/evento/evento.service';
+import { ShoppingServie } from '../shopping/services/shopping.service';
+import { Cart } from '../shopping/models/cart-reques';
 
 @Component({
   selector: 'app-perfil',
@@ -18,19 +20,53 @@ export class PerfilComponent {
 
   private readonly router = inject(Router)
   private readonly authService = inject(AuthService)
+  private readonly shoppingService = inject(ShoppingServie)
 
   imagen!: string;
   usuario: Usuario | undefined = this.authService.getUsuarioSesion()
   content = ''
 
 
+  carts: Cart[] = []
+
+
+  transaccion = false
+
+
   constructor() {
 
   }
 
+
   ngOnInit(): void {
+    if (this.usuario) {
+      this.getAllCartsByUserId(this.usuario.id)
+    }
 
+  }
 
+  traducirEstado(stado: string) {
+    switch (stado) {
+      case 'COMPLETED':
+        return 'COMPLETADO'
+      case 'CANCELLED_ERROR':
+        return 'FALLIDA'
+      default:
+        return 'FALLIDA'
+    }
+  }
+
+  traducirPayMethod(paymentMethod: string): string {
+    switch (paymentMethod) {
+      case 'PAYPAL':
+        return 'Paypal'
+      case 'PAYMENT_GATEWAY_A':
+        return 'PasSeguro'
+      case 'PAYMENT_GATEWAY_B':
+        return 'PasLibre'
+      default:
+        return 'Paypal'
+    }
   }
 
   async crearCateogira() {
@@ -50,19 +86,29 @@ export class PerfilComponent {
         if (alias !== '' && descripcion !== '') {
           //this.registerCategoria(alias, descripcion)
         } else {
-          this.msgCamposIncompletos()
+          //this.msgCamposIncompletos()
         }
       }
     });
 
   }
 
+  getAllCartsByUserId(id: number) {
+    this.shoppingService.getAllCartUserById(id).subscribe({
+      next: value => {
+        this.carts = value
+      }
+    })
+  }
 
-  msgCamposIncompletos() {
+
+
+
+  verError(erro: string) {
     Swal.fire(
-      'Ups!!',
-      'Debes llenar los campos',
-      'question'
+      'Descripcion del error',
+      `${erro}`,
+      'warning'
     );
   }
 
@@ -74,50 +120,14 @@ export class PerfilComponent {
     );
   }
 
-  goPublicarProductos() {
-    this.router.navigate(['personal/formulario-producto'])
+  goMisCompras() {
+    this.router.navigate(['personal/mis-compras'])
   }
 
-  goProductosRegistrados() {
-    this.router.navigate(['personal/productos-registrados'])
+  goTransacciones() {
+    this.transaccion = true
   }
 
-  goPublicarEvento() {
-    this.router.navigate(['personal/formulario-evento'])
-  }
 
-  goEventosRegistrados() {
-    this.router.navigate(['personal/eventos-registrados'])
-  }
-
-  goCuentaMonetaria(){
-    this.router.navigate(['personal/cuenta-monetaria']);
-  }
-
-  goPublicarServicios() {
-    this.router.navigate(['personal/formulario-servicio'])
-  }
-
-  goServiciosRegistrados() {
-    this.router.navigate(['personal/servicios-registrados'])
-  }
-
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener('load', () => {
-      this.imagen = reader.result as string;
-    }, false);
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
-
-  msgError() {
-    Swal.fire(
-      'Ups!!',
-      'Ocurrio un error en el servidor: comuniquese con soporte :V',
-      'error'
-    );
-  }
 
 }
