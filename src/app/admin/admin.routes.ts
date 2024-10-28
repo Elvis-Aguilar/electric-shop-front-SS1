@@ -8,20 +8,21 @@ import { EditProductoComponent } from "./product/edit-producto/edit-producto.com
 import { FormCreateComponent } from "./area-provedores/form-create/form-create.component";
 import { GeneralProveedorsComponent } from "./area-provedores/general-proveedors/general-proveedors.component";
 import { ReportSalesComponent } from "./report-sales/report-sales.component";
+import { adminGuard } from "../core/guard/auth.guard";
 
 
 
 export const AUTH_ROUTES: Routes = [
     { path: '', redirectTo: 'home-admin', pathMatch: 'full' },
-    { path: 'home-admin', component: HomeAdminComponent },
-    { path: 'area-productos', component: AreaProductosComponent },
-    { path: 'area-proveedores', component: GeneralProveedorsComponent },
-    { path: 'area-categoria', component: AreaEventosComponent },
-    { path: 'area-usuarios', component: AreaMonetariaComponent },
-    { path: 'formulario-producto', component: FormPublicProductoComponent },
-    { path: 'edit-producto/:id', component: EditProductoComponent },
-    { path: 'formulario-proveedor', component: FormCreateComponent },
-    { path: 'report-sales', component: ReportSalesComponent },
+    { path: 'home-admin', component: HomeAdminComponent, canActivate: [adminGuard] },
+    { path: 'area-productos', component: AreaProductosComponent, canActivate: [adminGuard] },
+    { path: 'area-proveedores', component: GeneralProveedorsComponent, canActivate: [adminGuard] },
+    { path: 'area-categoria', component: AreaEventosComponent, canActivate: [adminGuard] },
+    { path: 'area-usuarios', component: AreaMonetariaComponent, canActivate: [adminGuard] },
+    { path: 'formulario-producto', component: FormPublicProductoComponent, canActivate: [adminGuard] },
+    { path: 'edit-producto/:id', component: EditProductoComponent, canActivate: [adminGuard] },
+    { path: 'formulario-proveedor', component: FormCreateComponent, canActivate: [adminGuard] },
+    { path: 'report-sales', component: ReportSalesComponent, canActivate: [adminGuard] },
 
 
 ];

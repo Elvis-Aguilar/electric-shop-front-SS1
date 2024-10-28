@@ -60,11 +60,10 @@ export class LoginComponent {
 
   navegarRol() {
     const usuario = this.authService.getUsuarioSesion()
-    if (usuario?.role === 1) {
-      this.router.navigate(['area-admin/home-admin'])
-    } else {
+    if (usuario?.role === 2) {
       this.router.navigate([''])
-
+    } else {
+      this.router.navigate(['area-admin/home-admin'])
     }
   }
 
