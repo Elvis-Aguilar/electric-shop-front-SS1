@@ -21,7 +21,7 @@ export class ResumenShoppingComponent {
       }
     })
   }
-  traducirPayMethod(paymentMethod:string): string {
+  traducirPayMethod(paymentMethod: string): string {
     switch (paymentMethod) {
       case 'PAYPAL':
         return 'Paypal'

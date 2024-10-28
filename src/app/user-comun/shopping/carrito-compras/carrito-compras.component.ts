@@ -75,16 +75,33 @@ export class CarritoComprasComponent {
 
 
   saveCart(cart: CartCreateDto) {
+    Swal.fire({
+      title: 'Realizando compra...',
+      text: 'Por favor, espere mientras procesamos su solicitud',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.shoppingService.registerCart(cart).subscribe({
       next: value => {
         this.shoppingService.idResumen = value.id
-        this.okShopping()
-        this.dataResumen()
+        if (!value.description_error) {
+          Swal.close();
+          this.okShopping()
+          this.dataResumen()
+        }else{
+          Swal.close();
+          this.ErrorShopping()
+          this.dataResumen()
+        }
+
       },
       error: err => {
-        //manejar el error
+        Swal.close();
+        this.ErrorShopping()
         this.dataResumen()
-        console.log(err);
       }
     })
   }
@@ -116,18 +133,13 @@ export class CarritoComprasComponent {
     if (result.isConfirmed) {
       // Si el usuario confirma, limpiar items y guardar el carrito
       this.saveCart(cart);
-      Swal.fire({
-        title: 'Compra realizada',
-        text: 'Su compra ha sido completada con éxito.',
-        icon: 'success'
-      });
     }
   }
 
   loginPasaraleAorB(password: string, email: string) {
     // Mostrar el SweetAlert de carga antes de realizar la solicitud
     Swal.fire({
-      title: 'Realizando compra...',
+      title: 'Validado su Usuario',
       text: 'Por favor, espere mientras procesamos su solicitud',
       allowOutsideClick: false,
       didOpen: () => {
@@ -235,6 +247,16 @@ export class CarritoComprasComponent {
       title: "Compra Realizada con exit!",
       showConfirmButton: false,
       timer: 1500
+    });
+  }
+
+  ErrorShopping() {
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "La compra no se pudo concretar, error al intentar la transaccion en la pasarela de pagos!, intente mas tarde",
+      showConfirmButton: false,
+      timer: 2000
     });
   }
 
