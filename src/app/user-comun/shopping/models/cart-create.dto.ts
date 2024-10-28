@@ -5,5 +5,5 @@ export interface CartCreateDto {
     payment_method: string;
     user_id:number;
     items:CartItemCreateDto [];
-    password: string;
+    jwt: string;
 }

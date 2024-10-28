@@ -6,6 +6,7 @@ import { cartItem } from "../models/cart-item";
 import { Observable } from "rxjs";
 import { CartCreateDto } from "../models/cart-create.dto";
 import { Cart } from "../models/cart-reques";
+import { user, userResponse } from "../models/user-validation";
 
 @Injectable({
     providedIn: 'root'
@@ -34,4 +35,11 @@ export class ShoppingServie {
         return this._http.get<Cart>(`${this.apiConfig.API_CART}/${this.idResumen}`);
     }
 
+    public loginValidUserAOrB(user: user, pay: string) {
+        if (pay === 'PAYMENT_GATEWAY_A') {
+            return this._http.post<userResponse>(`${this.apiConfig.API_PAY_METHOD_A}/api/usuario/public/login`, user)
+        } else {
+            return this._http.post<userResponse>(`${this.apiConfig.API_PAY_METHOD_B}/api/usuario/public/login`, user)
+        }
+    }
 }

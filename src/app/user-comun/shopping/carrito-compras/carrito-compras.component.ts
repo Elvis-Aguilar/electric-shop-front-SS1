@@ -38,30 +38,6 @@ export class CarritoComprasComponent {
   }
 
 
-  validatePositive(libroPedido: productDto): void {
-    if (libroPedido.stock < 1) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "No Cantidad menores a cero",
-        showConfirmButton: false,
-        timer: 1200
-      });
-      libroPedido.stock = 1;
-      return
-    }
-    if (libroPedido.stock < libroPedido.stock) {
-      Swal.fire({
-        position: "top-end",
-        icon: "info",
-        title: "Valor excede al stock",
-        showConfirmButton: false,
-        timer: 1200
-      });
-      libroPedido.stock = libroPedido.stock
-    }
-  }
-
   deleteShopping() {
     this.itemsCart.splice(0, this.itemsCart.length)
   }
@@ -113,6 +89,85 @@ export class CarritoComprasComponent {
     })
   }
 
+  async constRealizarCompra(jwt: string) {
+    this.limpiarItems()
+    const cart: CartCreateDto = {
+      total: this.total,
+      user_id: this.authService.getUsuarioSesion()?.id || 1,
+      items: this.itemsCartCreat,
+      payment_method: this.paymentMethod,
+      jwt: jwt
+    };
+
+    // Mostrar SweetAlert de confirmación
+    const result = await Swal.fire({
+      title: 'Confirmación de compra',
+      html: `
+        <p>Total: Q ${cart.total.toFixed(2)}</p>
+        <p>Cantidad de artículos: ${cart.items.length}</p>
+        <p>Método de pago: ${this.traducirPayMethod()}</p>
+      `,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar compra',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (result.isConfirmed) {
+      // Si el usuario confirma, limpiar items y guardar el carrito
+      this.saveCart(cart);
+      Swal.fire({
+        title: 'Compra realizada',
+        text: 'Su compra ha sido completada con éxito.',
+        icon: 'success'
+      });
+    }
+  }
+
+  loginPasaraleAorB(password: string, email: string) {
+    // Mostrar el SweetAlert de carga antes de realizar la solicitud
+    Swal.fire({
+      title: 'Realizando compra...',
+      text: 'Por favor, espere mientras procesamos su solicitud',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  
+    this.shoppingService.loginValidUserAOrB({ email, password }, this.paymentMethod).subscribe({
+      next: async value => {
+        // Cerrar el SweetAlert de carga una vez que la solicitud fue exitosa
+        Swal.close();
+        
+        // Continuar con el flujo normal de la compra
+        this.constRealizarCompra(value.jwt);
+      },
+      error: err => {
+        // Cerrar el SweetAlert de carga en caso de error
+        Swal.close();
+        
+        // Manejo de errores
+        switch (err.status) {
+          case 400:
+            this.msg400PayapMetod();
+            break;
+          case 401:
+            this.msg401InvalidCredentials();
+            break;
+          case 404:
+            this.msg404EmailNotFound();
+            break;
+          case 500:
+            this.msg500ServerError();
+            break;
+          default:
+            this.msgUnknownError();
+        }
+      }
+    });
+  }
+  
 
   async modalCantidadCompra() {
     const email = this.authService.getUsuarioSesion()?.email || '';
@@ -133,21 +188,13 @@ export class CarritoComprasComponent {
           Swal.showValidationMessage('Por favor, ingrese una contraseña válida');
           return false;
         }
-
         return { email, password };
       }
     });
 
     if (value) {
-      this.limpiarItems();
-      const cart: CartCreateDto = {
-        total: this.total,
-        user_id: this.authService.getUsuarioSesion()?.id || 1,
-        items: this.itemsCartCreat,
-        payment_method: this.paymentMethod,
-        password: value.password
-      };
-      this.saveCart(cart)
+      //logica de login en pasarales A y B
+      this.loginPasaraleAorB(value.password, email)
     }
   }
 
@@ -172,7 +219,12 @@ export class CarritoComprasComponent {
       });
       return
     }
-    this.modalCantidadCompra()
+    if (this.paymentMethod === 'PAYMENT_GATEWAY_A' || this.paymentMethod === 'PAYMENT_GATEWAY_B') {
+      this.modalCantidadCompra()
+    } else {
+      //logica para payapl
+      this.modalCantidadCompra()
+    }
 
   }
 
@@ -183,6 +235,51 @@ export class CarritoComprasComponent {
       title: "Compra Realizada con exit!",
       showConfirmButton: false,
       timer: 1500
+    });
+  }
+
+  // Mensaje para error 400 - Solicitud incorrecta
+  msg400PayapMetod() {
+    Swal.fire({
+      title: "Ups!!",
+      text: "No se ha podido realizar la petición. Por favor, inténtelo más tarde.",
+      icon: "info"
+    });
+  }
+
+  // Mensaje para error 401 - Credenciales inválidas
+  msg401InvalidCredentials() {
+    Swal.fire({
+      title: "Credenciales inválidas",
+      text: "El correo o la contraseña son incorrectos. Verifique sus datos e intente nuevamente.",
+      icon: "warning"
+    });
+  }
+
+  // Mensaje para error 404 - Correo no encontrado
+  msg404EmailNotFound() {
+    Swal.fire({
+      title: "Correo no encontrado",
+      text: "No se encontró una cuenta con este correo electrónico. Verifique el correo e intente nuevamente.",
+      icon: "error"
+    });
+  }
+
+  // Mensaje para error 500 - Error en el servidor
+  msg500ServerError() {
+    Swal.fire({
+      title: "Error en el servidor",
+      text: "Ocurrió un problema en el servidor. Por favor, inténtelo más tarde.",
+      icon: "error"
+    });
+  }
+
+  // Mensaje para errores desconocidos
+  msgUnknownError() {
+    Swal.fire({
+      title: "Error desconocido",
+      text: "Ocurrió un error inesperado. Por favor, intente nuevamente.",
+      icon: "error"
     });
   }
 

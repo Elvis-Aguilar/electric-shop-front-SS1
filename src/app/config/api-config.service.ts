@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment';
 export class ApiConfigService {
 
     API_BASE = environment.apiUrl
+    API_PAY_METHOD_A = environment.apiPayMethodA
+    API_PAY_METHOD_B = environment.apiPayMethodB
 
     //Session module
     API_AUTH = `${this.API_BASE}/auth`
