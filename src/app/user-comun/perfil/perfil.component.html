@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="shadow p-3 border rounded-lg">
-                <img class="w-full h-full rounded-full ima" [src]="imagen" alt="Card image cap">
+                <img class="w-full h-full rounded-full ima" src="../../../assets/perfil.webp" alt="Card image cap">
                 <div class="mt-4">
                     <h4 class="my-2 text-lg font-mono  text-[#03045E]">
                         {{usuario?.name}}
                     </h4>
                     <p class="my-2 font-mono flex justify-between">
-                        {{usuario?.name}}
+                        {{usuario?.email}}
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
                             class="bi bi-chat-left-text" viewBox="0 0 16 16">
                             <path
@@ -18,8 +18,8 @@
                         </svg>
                     </p>
                     <button class="btn btn-info font-mono w-full my-2">editar perfil</button>
-                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goCuentaMonetaria()">Cuenta
-                        Monetaria</button>
+                    <button class="btn btn-primary font-mono  w-full my-2" (click)="goCuentaMonetaria()">Historial de
+                        Transacciones</button>
                 </div>
             </div>
         </div>
@@ -27,99 +27,15 @@
             <div class="shadow p-3 border rounded-lg">
                 <div class="productos">
                     <h3 class="my-3 mx-1 text-base">
-                        Area de Productos
+                        Otras opciones
                     </h3>
                     <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goPublicarProductos()">
-                            Publicar
-                        </button>
-                        <button class="px-4 py-2 border bt2 rounded-lg" (click)="crearCateogira()">
-                            Crear Categoria
-                        </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Mis Productos
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" (click)="goProductosRegistrados()"> Registrados</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Comprados</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="productos">
-                    <h3 class="my-3 mx-1 text-base">
-                        Area de Eventos
-                    </h3>
-                    <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goPublicarEvento()">
-                            Publicar
-                        </button>
-                        <button class="px-4 py-2 border bt2 rounded-lg" (click)="crearTipoEvento()">
-                            Crear Categoria
-                        </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Mis Eventos
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" (click)="goEventosRegistrados()">Registrados</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item">Ayudado</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="productos">
-                    <h3 class="my-3 mx-1 text-base">
-                        Area de Servicios
-                    </h3>
-                    <div class="flex justify-between  p-3 border rounded-lg">
-                        <button class="px-4 py-2 border bt1 rounded-lg" (click)="goPublicarServicios()">
-                            Publicar
+                        <button class="px-4 py-2 border bt1 rounded-lg">
+                            Mis Compras
                         </button>
                         <button class="px-4 py-2 border bt2 rounded-lg">
-                            Crear Categoria
+                            Historial de Transacciones
                         </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Mis Servicios
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" (click)="goServiciosRegistrados()">Registrados</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" (click)="goServiciosRegistrados()">Ofertados</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="productos">
-                    <h3 class="my-3 mx-1 text-base">
-                        Mas Acciones
-                    </h3>
-                    <div class="flex justify-between  p-3 border rounded-lg">
-
-                        <div class="btn-group">
-                            <button type="button" class="btn bt3 border dropdown-toggle" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Busquedas Publicadas
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Ver</a></li>
-                                <li><a class="dropdown-item" href="#">Publicar</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>

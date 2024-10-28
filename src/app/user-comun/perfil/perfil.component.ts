@@ -18,9 +18,6 @@ export class PerfilComponent {
 
   private readonly router = inject(Router)
   private readonly authService = inject(AuthService)
-  private readonly productoService = inject(ProductoService)
-  private readonly eventoService = inject(EventoService)
-
 
   imagen!: string;
   usuario: Usuario | undefined = this.authService.getUsuarioSesion()
@@ -51,7 +48,7 @@ export class PerfilComponent {
         const alias = (<HTMLInputElement>document.getElementById('swal-input1')).value;
         const descripcion = (<HTMLTextAreaElement>document.getElementById('swal-input2')).value;
         if (alias !== '' && descripcion !== '') {
-          this.registerCategoria(alias, descripcion)
+          //this.registerCategoria(alias, descripcion)
         } else {
           this.msgCamposIncompletos()
         }
@@ -60,51 +57,6 @@ export class PerfilComponent {
 
   }
 
-  registerCategoria(alias: string, descripcion: string) {
-    const cate: Categoria = { alias, descripcion };
-    this.productoService.registrarCategoria(cate).subscribe(
-      (result) => {
-        this.msgRegistroCategoriaOK()
-      },
-      (error) => {
-        this.msgError()
-      }
-    );
-  }
-
-  async crearTipoEvento() {
-    await Swal.fire({
-      title: 'Nombre y Descripcion de la Categoria',
-      html: `
-        <input id="swal-input1" class="swal2-input">
-        <br>
-        <br>
-        <textarea id="swal-input2" class="form-control" aria-label="With textarea"></textarea>
-      `,
-      focusConfirm: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const alias = (<HTMLInputElement>document.getElementById('swal-input1')).value;
-        const descripcion = (<HTMLTextAreaElement>document.getElementById('swal-input2')).value;
-        if (alias !== '' && descripcion !== '') {
-          this.registerTipoEvento(alias, descripcion)
-        } else {
-          this.msgCamposIncompletos()
-        }
-      }
-    });
-
-  }
-
-  registerTipoEvento(alias: string, descripcion: string) {
-    this.eventoService.registrarTipoEvento({ alias, descripcion }).subscribe({
-      next: value => { this.msgRegistroCategoriaOK()},
-      error: err => {
-        console.log(err);
-        this.msgError()
-      }
-    });
-  }
 
   msgCamposIncompletos() {
     Swal.fire(
