@@ -26,6 +26,9 @@ export class ApiConfigService {
     //carts
     API_CART = `${this.API_BASE}/carts`
 
+    //posts
+    API_POST = `${this.API_BASE}/posts`
+
 
     
     //report

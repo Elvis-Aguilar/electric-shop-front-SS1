@@ -9,6 +9,7 @@ import { FormCreateComponent } from "./area-provedores/form-create/form-create.c
 import { GeneralProveedorsComponent } from "./area-provedores/general-proveedors/general-proveedors.component";
 import { ReportSalesComponent } from "./report-sales/report-sales.component";
 import { adminGuard } from "../core/guard/auth.guard";
+import { AreaSocialComponent } from "./area-social/area-social.component";
 
 
 
@@ -23,6 +24,7 @@ export const AUTH_ROUTES: Routes = [
     { path: 'edit-producto/:id', component: EditProductoComponent, canActivate: [adminGuard] },
     { path: 'formulario-proveedor', component: FormCreateComponent, canActivate: [adminGuard] },
     { path: 'report-sales', component: ReportSalesComponent, canActivate: [adminGuard] },
+    { path: 'area-social', component: AreaSocialComponent},
 
 
 ];

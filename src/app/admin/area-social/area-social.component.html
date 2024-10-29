@@ -1,0 +1,54 @@
+<div class="social-feed">
+    <div class="flex justify-between  p-3 border rounded-lg">
+        <div class="btn-group">
+            <button type="button" class="btn bg-white border text-black dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Area Social
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" (click)="goAreaSocial('GENERAL')">GENERAL</a></li>
+                <li><a class="dropdown-item" (click)="goAreaSocial('AREA_INVENTRIOS')">AREA_INVENTRIOS</a></li>
+                <li><a class="dropdown-item" (click)="goAreaSocial('AREA_REPORTES')">AREA_REPORTES</a></li>
+                <li><a class="dropdown-item" (click)="goAreaSocial('AREA_VENTAS')">AREA_VENTAS</a></li>
+                <li><a class="dropdown-item" (click)="goAreaSocial('AREA_PERSONAL')">AREA_PERSONAL</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <!-- Encabezado de la sección -->
+    <h2 class="social-title">posts: {{areaSocial}}</h2>
+
+
+    @for (item of posts; track $index) {
+    <!-- Contenedor de las publicaciones -->
+    <div class="posts-container">
+        <!-- Publicación individual (esto se repetirá para cada publicación) -->
+        <div class="post">
+            <div class="post-header">
+                <img src="../../../assets/perfil.webp" alt="Profile Picture" class="profile-pic">
+                <div class="post-info">
+                    <span class="username">{{item.user.name}}</span>
+                    <span class="post-time">{{formatDate(item.created_at)}}</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>{{item.content}}</p>
+            </div>
+        </div>
+    </div>
+    }@empty {
+    <div class="posts-container">
+        <div class="post">
+            <div class="post-info">
+                <p>Aun nadie publica se el primero!!</p>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- Área de publicación -->
+    <div class="new-post">
+        <textarea placeholder="¿Qué estás pensando?" class="post-input" [(ngModel)]="post"></textarea>
+        <button class="post-button" (click)="createPost()">Publicar</button>
+    </div>
+</div>
