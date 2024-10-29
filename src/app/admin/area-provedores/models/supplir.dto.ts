@@ -4,3 +4,9 @@ export interface supplier {
     description: string;
     address: string;
 }
+
+export interface supplierCreate {
+    name: string;
+    description: string;
+    address: string;
+}

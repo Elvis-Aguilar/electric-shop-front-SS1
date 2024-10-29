@@ -1,4 +1,4 @@
-@if (authService.getUsuarioSesion() && authService.getUsuarioSesion()?.role === 1) {
+@if (authService.getUsuarioSesion() && authService.getUsuarioSesion()?.role !== 2) {
 <!-- navbar para el usuario administrdor-->
 <div class=" w-[220px] border-r lg:block fixed">
     <nav class="flex-1 py-24">

@@ -30,6 +30,43 @@ export class AreaEventosComponent {
     this.getAllCategories()
   }
 
+  async modaleCreate(){
+    const { value } = await Swal.fire({
+      title: 'Ingrese sus datos del proveedor',
+      html:
+        `<input type="text" id="nombre" class="swal2-input"  placeholder="Nombre" aria-label="Correo electrónico">
+         <input type="text" id="descripcion" class="swal2-input" placeholder="Descripcion" aria-label="Contraseña">`,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        const name = (document.getElementById('nombre') as HTMLInputElement).value;
+        const description = (document.getElementById('descripcion') as HTMLInputElement).value;
+        if (!name || !description) {
+          Swal.showValidationMessage('Por favor, ingrese una Datos validos');
+          return false;
+        }
+        return { name, description };
+      }
+    });
+
+    if (value) {
+      this.categoryService.createSuppliers(value).subscribe({
+        next: value =>{
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Categoria registrado cone exito",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.getAllCategories()
+        }
+      })
+    }
+  }
+
 
   getAllCategories() {
     this.categoryService.getAll().subscribe({

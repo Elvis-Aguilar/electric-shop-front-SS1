@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ApiConfigService } from '../../../config/api-config.service';
-import { categoriaDto } from '../models/category.dto';
+import { categoriaCreateDto, categoriaDto } from '../models/category.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,6 +19,10 @@ export class CategoryService {
 
   public getAll(): Observable<categoriaDto[]> {
     return this._http.get<categoriaDto[]>(`${this.apiConing.API_CATEGORY}`);
+  }
+
+  createSuppliers(suple:categoriaCreateDto): Observable<categoriaDto> {
+    return this._http.post<categoriaDto>(`${this.apiConing.API_CATEGORY}`,suple);
   }
 
 

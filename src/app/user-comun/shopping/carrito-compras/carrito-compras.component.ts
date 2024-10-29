@@ -37,6 +37,45 @@ export class CarritoComprasComponent {
 
   }
 
+  ngAfterViewInit(): void {
+    this.loadPaypalButton();
+  }
+
+  // Método para cargar el botón de PayPal si se selecciona PayPal como método de pago
+  loadPaypalButton() {
+    // Esperamos un momento para asegurarnos de que el SDK de PayPal esté disponible
+    if (this.paymentMethod === 'PAYPAL' && (window as any).paypal) {
+      // @ts-ignore
+      paypal.Buttons({
+        createOrder: (data: any, actions: any) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                currency_code: 'GTQ',
+                value: '10.00'
+              }
+            }]
+          });
+        },
+        onApprove: (data: any, actions: any) => {
+          return actions.order.capture().then((details: any) => {
+            alert('Transacción completada por ' + details.payer.name.given_name);
+          });
+        },
+        onError: (err: any) => {
+          console.error('Error en la transacción:', err);
+        }
+      }).render('#paypal-button-container');
+    }
+  }
+
+  // Método para recargar el botón de PayPal cuando cambia el método de pago
+  onPaymentMethodChange() {
+    if (this.paymentMethod === 'PAYPAL') {
+      this.loadPaypalButton();
+    }
+  }
+
 
   deleteShopping() {
     this.itemsCart.splice(0, this.itemsCart.length)
@@ -91,7 +130,7 @@ export class CarritoComprasComponent {
           Swal.close();
           this.okShopping()
           this.dataResumen()
-        }else{
+        } else {
           Swal.close();
           this.ErrorShopping()
           this.dataResumen()
@@ -146,19 +185,19 @@ export class CarritoComprasComponent {
         Swal.showLoading();
       }
     });
-  
+
     this.shoppingService.loginValidUserAOrB({ email, password }, this.paymentMethod).subscribe({
       next: async value => {
         // Cerrar el SweetAlert de carga una vez que la solicitud fue exitosa
         Swal.close();
-        
+
         // Continuar con el flujo normal de la compra
         this.constRealizarCompra(value.jwt);
       },
       error: err => {
         // Cerrar el SweetAlert de carga en caso de error
         Swal.close();
-        
+
         // Manejo de errores
         switch (err.status) {
           case 400:
@@ -179,7 +218,7 @@ export class CarritoComprasComponent {
       }
     });
   }
-  
+
 
   async modalCantidadCompra() {
     const email = this.authService.getUsuarioSesion()?.email || '';
