@@ -178,7 +178,7 @@ export class CarritoComprasComponent {
   loginPasaraleAorB(password: string, email: string) {
     // Mostrar el SweetAlert de carga antes de realizar la solicitud
     Swal.fire({
-      title: 'Validado su Usuario',
+      title: 'Validando su Usuario',
       text: 'Por favor, espere mientras procesamos su solicitud',
       allowOutsideClick: false,
       didOpen: () => {
@@ -190,6 +190,7 @@ export class CarritoComprasComponent {
       next: async value => {
         // Cerrar el SweetAlert de carga una vez que la solicitud fue exitosa
         Swal.close();
+        console.log(value.jwt);
 
         // Continuar con el flujo normal de la compra
         this.constRealizarCompra(value.jwt);
@@ -320,8 +321,8 @@ export class CarritoComprasComponent {
   // Mensaje para error 404 - Correo no encontrado
   msg404EmailNotFound() {
     Swal.fire({
-      title: "Correo no encontrado",
-      text: "No se encontró una cuenta con este correo electrónico. Verifique el correo e intente nuevamente.",
+      title: "Credenciales Invalidas",
+      text: "Credenciales invalidas, posiblemente, su correo no se encontro en la pasarela...!",
       icon: "error"
     });
   }

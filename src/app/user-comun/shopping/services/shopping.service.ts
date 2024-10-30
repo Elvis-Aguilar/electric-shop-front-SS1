@@ -44,10 +44,6 @@ export class ShoppingServie {
     }
 
     public loginValidUserAOrB(user: user, pay: string) {
-        if (pay === 'PAYMENT_GATEWAY_A') {
-            return this._http.post<userResponse>(`${this.apiConfig.API_PAY_METHOD_A}/api/usuario/public/login`, user)
-        } else {
-            return this._http.post<userResponse>(`${this.apiConfig.API_PAY_METHOD_B}/api/usuario/public/login`, user)
-        }
+        return this._http.post<userResponse>(`${this.apiConfig.API_CART}/${pay}`, user)
     }
 }
