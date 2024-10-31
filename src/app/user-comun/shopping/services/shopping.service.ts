@@ -27,15 +27,15 @@ export class ShoppingServie {
 
     constructor() { }
 
-    public registerCart(us: CartCreateDto): Observable<Cart> {
-        return this._http.post<Cart>(`${this.apiConfig.API_CART}`, us);
+    public registerCart(us: CartCreateDto): Observable<Blob | Cart> {
+        return this._http.post(`${this.apiConfig.API_CART}`, us, { responseType: 'blob' as 'json' });
     }
 
     public getCartById(): Observable<Cart> {
         return this._http.get<Cart>(`${this.apiConfig.API_CART}/${this.idResumen}`);
     }
 
-    public getAllCartUserById(userId:number): Observable<Cart[]> {
+    public getAllCartUserById(userId: number): Observable<Cart[]> {
         return this._http.get<Cart[]>(`${this.apiConfig.API_CART}/users/${userId}`);
     }
 
