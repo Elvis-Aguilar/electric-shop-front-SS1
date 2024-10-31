@@ -3,10 +3,12 @@ import { Injectable, inject } from "@angular/core";
 import { ApiConfigService } from "../../../config/api-config.service";
 import { productDto } from "../../../admin/product/models/product.dto";
 import { cartItem } from "../models/cart-item";
-import { Observable } from "rxjs";
 import { CartCreateDto } from "../models/cart-create.dto";
 import { Cart } from "../models/cart-reques";
 import { user, userResponse } from "../models/user-validation";
+import { catchError, map } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root'
@@ -27,10 +29,23 @@ export class ShoppingServie {
 
     constructor() { }
 
-    public registerCart(us: CartCreateDto): Observable<Blob | Cart> {
-        return this._http.post(`${this.apiConfig.API_CART}`, us, { responseType: 'blob' as 'json' });
-    }
 
+    registerCart(cart: CartCreateDto): Observable<Blob | null> {
+        return this._http.post(`${this.apiConfig.API_CART}`, cart, {
+            responseType: 'blob' // Maneja el PDF como Blob
+        }).pipe(
+            map((response) => {
+                const blob = new Blob([response], { type: 'application/pdf' });
+                // Verifica si el Blob tiene contenido (tamaño mayor que 0)
+                return blob.size > 0 ? blob : null;
+            }),
+            catchError((error) => {
+                console.error('Error al descargar el PDF:', error);
+                return of(null); // Retorna null si hay un error
+            })
+        );
+    }
+    
     public getCartById(): Observable<Cart> {
         return this._http.get<Cart>(`${this.apiConfig.API_CART}/${this.idResumen}`);
     }
@@ -46,4 +61,9 @@ export class ShoppingServie {
     public loginValidUserAOrB(user: user, pay: string) {
         return this._http.post<userResponse>(`${this.apiConfig.API_CART}/${pay}`, user)
     }
+
+    public findLastCartByUserid(id:number): Observable<Cart> {
+        return this._http.get<Cart>(`${this.apiConfig.API_CART}/last/${id}`);
+    }
+
 }

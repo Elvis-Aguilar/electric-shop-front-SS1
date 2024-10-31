@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartItemCreateDto } from '../models/cart-item-create.dto';
 import { AuthService } from '../../../core/services/auth.service';
 import { CartCreateDto } from '../models/cart-create.dto';
-import { Cart } from '../models/cart-reques';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -124,38 +123,30 @@ export class CarritoComprasComponent {
       }
     });
 
-    
-this.shoppingService.registerCart(cart).subscribe({
-  next: (response) => {
-      if (response instanceof Blob) {
-          // Asumimos que es el PDF
-          const blob = response;
-          const downloadURL = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = downloadURL;
-          link.download = 'comprobante.pdf';
-          link.click();
-      } else {
-          // Es un objeto Cart
-          const cart = response as Cart;
-          this.shoppingService.idResumen = cart.id;
-          if (!cart.description_error) {
-              Swal.close();
-              this.okShopping();
-              this.dataResumen();
-          } else {
-              Swal.close();
-              this.ErrorShopping();
-              this.dataResumen();
-          }
-      }
-  },
-  error: (err) => {
+    this.shoppingService.registerCart(cart).subscribe((blob) => {
       Swal.close();
-      this.ErrorShopping();
-      this.dataResumen();
-  }
-});
+      if (blob) {
+          // Descargar el archivo PDF
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'comprobante.pdf'; // Nombre del archivo descargado
+          a.click();
+          window.URL.revokeObjectURL(url); // Limpia la URL temporal
+          
+          this.okShopping();
+      } else {
+        this.ErrorShopping();
+      }
+      const id =this.authService.getUsuarioSesion()?.id || 1
+      this.shoppingService.findLastCartByUserid(id).subscribe({
+        next: value=>{
+          this.shoppingService.idResumen = value.id
+          this.dataResumen();
+        }
+      })
+  });
+  
   }
 
   async constRealizarCompra(jwt: string) {
@@ -308,7 +299,7 @@ this.shoppingService.registerCart(cart).subscribe({
       position: "top-end",
       icon: "error",
       title: "La compra no se pudo concretar, error al intentar la transaccion en la pasarela de pagos!, intente mas tarde",
-      showConfirmButton: false,
+      showConfirmButton: true,
       timer: 2000
     });
   }

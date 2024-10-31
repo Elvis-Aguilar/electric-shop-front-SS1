@@ -26,9 +26,9 @@ export class ResumenShoppingComponent {
       case 'PAYPAL':
         return 'Paypal'
       case 'PAYMENT_GATEWAY_A':
-        return 'PasSeguro'
+        return 'PayFlow'
       case 'PAYMENT_GATEWAY_B':
-        return 'PasLibre'
+        return 'SecureFlow'
       default:
         return 'Paypal'
     }
