@@ -14,6 +14,12 @@ export interface Cart {
 
 }
 
+export interface CartResponse {
+    cart: Cart | null;
+    pdfData?: Blob;
+  }
+  
+
 export interface CartItem {
     quantity: number;
     sub_total: number;
